@@ -1,13 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-</head>
-<body>
-    beuh
-</body>
-<script src="js/bootstrap.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PadiMart - Premium Experience</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/landingpage.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="#">PadiMart</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+      <div class="hero-background"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-subtitle">Premium Quality</div>
+        <h1 class="hero-title">Experience Excellence</h1>
+        <p class="hero-description">
+          Discover our curated collection of premium products designed for those
+          who appreciate the finest things in life.
+        </p>
+        <div class="hero-buttons">
+          <a href="#products" class="btn-primary-custom">Explore Collection</a>
+          <a href="#about" class="btn-secondary-custom">Learn More</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5V19M12 19L19 12M12 19L5 12"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- Placeholder for additional content -->
+    <section
+      style="
+        height: 100vh;
+        background: var(--light-gray);
+        color: var(--primary-black);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div class="container text-center">
+        <h2>Your content continues here...</h2>
+        <p>Add more sections below the hero</p>
+      </div>
+    </section>
+
+    <script src="js/bootstrap.js"></script>
+    <script src="js/landingpage.js"></script>
+  </body>
 </html>
