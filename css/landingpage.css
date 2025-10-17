@@ -218,7 +218,7 @@ body {
   padding-left: 1.5rem;
 }
 
-/* Responsive Design for Navigation */
+/* responsivny navibar */
 @media (max-width: 768px) {
   .main-nav {
     display: none;
@@ -375,7 +375,7 @@ body {
   background: var(--white);
   color: var(--primary-black);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 30px 30px rgba(0, 0, 0, 0.3);
 }
 
 .btn-secondary-custom {
@@ -451,5 +451,76 @@ body {
 @media (max-width: 480px) {
   .hero-content {
     padding: 0 1rem 1rem 1rem;
+  }
+}
+
+/* Button Container Styles */
+.button-container {
+  display: flex;
+  gap: 1rem;
+  width: 100vw;
+  margin: 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.btn-left {
+  flex: 0 0 60%;
+  background: #20BF1D;
+  color: var(--white);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-left:hover {
+  background: #1a9e18;
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(32, 191, 29, 0.3);
+}
+
+.btn-right {
+  flex: 0 0 calc(40% - 1rem);
+  background: #F37E29;
+  color: var(--white);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-right:hover {
+  background: #d96a1f;
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(243, 126, 41, 0.3);
+}
+
+/* Responsive Design for Button Container */
+@media (max-width: 768px) {
+  .button-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn-left,
+  .btn-right {
+    flex: none;
+    width: 100%;
   }
 }

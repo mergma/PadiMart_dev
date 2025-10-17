@@ -127,8 +127,6 @@
         </svg>
       </div>
     </section>
-
-    <!-- Placeholder for additional content -->
     <section
       style="
         height: 100vh;
@@ -137,11 +135,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 10vw;
       "
     >
       <div class="container text-center">
-        <h2>Your content continues here...</h2>
-        <p>Add more sections below the hero</p>
+        <div class="button-container">
+          <button
+          class="btn-left"
+          style="height: 50vh;">Left Button</button>
+          <button class="btn-right">Right Button</button>
+        </div>
       </div>
     </section>
 
@@ -154,7 +157,7 @@
       const sideMenuOverlay = document.getElementById('sideMenuOverlay');
       const closeMenuBtn = document.getElementById('closeMenuBtn');
 
-      // yang buka me
+      // yang buka menu
       hamburgerBtn.addEventListener('click', () => {
         sideMenu.classList.add('active');
         sideMenuOverlay.classList.add('active');
