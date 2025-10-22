@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PadiMart - Premium Experience</title>
+    <title>PADI MART</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,191 +17,155 @@
     <!-- Navigation -->
     <nav class="navbar">
       <div class="container">
-        <!-- Hamburger Menu Button -->
-        <button class="hamburger-menu" id="hamburgerBtn">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
+        <div class="left-group">
+          <button class="hamburger-menu" id="hamburgerBtn" aria-label="Open menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
 
-        <!-- Brand -->
-        <a class="navbar-brand" href="#">PadiMart</a>
+          <a class="navbar-brand" href="#">
+            <img src="img/PADI%20MART.png" alt="PADI MART logo" class="brand-logo" />
+            <span class="brand-text">PADI MART</span>
+          </a>
+        </div>
 
-        <!-- Main Navigation (3 items) -->
-        <div class="main-nav">
-          <a class="nav-link" href="#home">Home</a>
-          <a class="nav-link" href="#products">Products</a>
-          <a class="nav-link" href="#about">About</a>
+        <div class="right-group">
+          <div class="main-nav">
+            <a class="nav-link" href="#home">Beranda</a>
+            <a class="nav-link" href="#products">Produk</a>
+            <a class="nav-link" href="#about">Tentang</a>
+            <a class="nav-link" href="#contact">Kontak</a>
+          </div>
         </div>
       </div>
     </nav>
 
-    <!-- Side Menu Overlay -->
     <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-
-    <!-- Side Menu -->
-    <div class="side-menu" id="sideMenu">
+    <div class="side-menu" id="sideMenu" aria-hidden="true">
       <div class="side-menu-header">
-        <h3>Menu</h3>
-        <button class="close-menu" id="closeMenuBtn">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <h3>PadiMart</h3>
+        <button class="close-menu" id="closeMenuBtn" aria-label="Close menu">✕</button>
       </div>
-
       <div class="side-menu-content">
-        <div class="menu-section">
-          <h4>Main</h4>
-          <ul class="menu-list">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div>
-
-        <div class="menu-section">
-          <h4>Categories</h4>
-          <ul class="menu-list">
-            <li><a href="#electronics">Electronics</a></li>
-            <li><a href="#clothing">Clothing</a></li>
-            <li><a href="#home-garden">Home & Garden</a></li>
-            <li><a href="#sports">Sports & Outdoors</a></li>
-            <li><a href="#books">Books & Media</a></li>
-          </ul>
-        </div>
-
-        <div class="menu-section">
-          <h4>Services</h4>
-          <ul class="menu-list">
-            <li><a href="#delivery">Delivery Info</a></li>
-            <li><a href="#returns">Returns</a></li>
-            <li><a href="#support">Customer Support</a></li>
-            <li><a href="#warranty">Warranty</a></li>
-          </ul>
-        </div>
-
-        <div class="menu-section">
-          <h4>Account</h4>
-          <ul class="menu-list">
-            <li><a href="#login">Sign In</a></li>
-            <li><a href="#register">Create Account</a></li>
-            <li><a href="#wishlist">Wishlist</a></li>
-            <li><a href="#orders">My Orders</a></li>
-          </ul>
-        </div>
+        <ul class="menu-list">
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#products">Produk</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
       </div>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero-section" id="home">
       <div class="hero-background"></div>
       <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="hero-subtitle">wa</div>
-        <h1 class="hero-title">wawewa</h1>
-        <p class="hero-description">
-          wawawewa gulgulgulullugllulgulglglulgulglu   
-        </p>
-        <div class="hero-buttons">
-          <a href="#products" class="btn-primary-custom">Explore Collection</a>
-          <a href="#about" class="btn-secondary-custom">Learn More</a>
+      <div class="hero-content container">
+        <div>
+          <div class="hero-subtitle">Apa itu PADI MART?</div>
+          <h1 class="hero-title">Pemasaran Digital Meningkatkan Kesejahteraan Petani dan Pelaku Usaha Produk Turunan Agribisnis</h1>
+          <p class="hero-description">PADI MART (Pemasaran Digital Meningkatkan Kesejahteraan Petani dan Pelaku Usaha Produk Turunan Agribisnis) adalah platform digital untuk memperkenalkan dan memasarkan produk lokal — seperti beras, camilan, dan kerajinan tangan — sekaligus menjadi media branding untuk pelaku usaha agribisnis.</p>
+          <div class="hero-buttons">
+            <a href="#products" class="btn-primary-custom">Lihat Katalog</a>
+            <a href="#about" class="btn-secondary-custom">Tentang Kami</a>
+          </div>
         </div>
       </div>
-      <div class="scroll-indicator">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5V19M12 19L19 12M12 19L5 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+      <div class="scroll-indicator" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </section>
-    <section
-      style="
-        height: 100vh;
-        background: var(--light-gray);
-        color: var(--primary-black);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10vw;
-      "
-    >
-      <div class="container text-center">
-        <div class="button-container">
-          <button
-          class="btn-left"
-          style="height: 50vh;">Left Button</button>
-          <button class="btn-right">Right Button</button>
+
+    <!-- About + Video -->
+    <section id="about" class="section container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Profil Singkat</h2>
+          <p>PADI MART memfasilitasi akses pasar digital untuk produk pertanian dan produk turunan agribisnis. Fokus awal kami adalah katalog online (90%) dengan tampilan edukatif-formal dan warna brand hijau muda & oranye.</p>
+          <p>Target pengunjung: masyarakat umum, toko, dan instansi. Sistem admin untuk pengelolaan konten sedang dalam perencanaan dan akan dikembangkan lebih lanjut.</p>
+        </div>
+
+        <div class="about-video">
+          <!-- Responsive YouTube embed (replace with actual channel video id) -->
+          <div class="video-wrapper">
+            <iframe id="profileVideo" src="https://www.youtube.com/embed/MTqNC1MBX2Y" title="PADI MART Profile" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- Products -->
+    <section id="products" class="section container">
+      <div class="section-header">
+        <h2>Katalog Produk</h2>
+        <p class="muted">Temukan produk lokal — gunakan filter, cari, dan hubungi penjual langsung melalui WhatsApp.</p>
+      </div>
+
+      <div class="product-controls">
+  <input id="searchInput" type="search" placeholder="Cari produk, misal: beras, camilan" />
+        <select id="categoryFilter">
+          <option value="all">Semua Kategori</option>
+          <option value="beras">Beras</option>
+          <option value="camilan">Camilan & Olahan</option>
+          <option value="kerajinan">Kerajinan & Oleh-oleh</option>
+        </select>
+        <select id="sortSelect">
+          <option value="popular">Terpopuler</option>
+          <option value="new">Terbaru</option>
+          <option value="price_asc">Harga: Rendah ke Tinggi</option>
+          <option value="price_desc">Harga: Tinggi ke Rendah</option>
+        </select>
+      </div>
+
+      <div id="productGrid" class="product-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section container">
+      <h2>Testimoni Pelanggan</h2>
+      <div class="testimonial-slider">
+        <button class="slider-btn prev" aria-label="Sebelumnya">‹</button>
+        <div class="slider-track" id="testimonialTrack">
+          <blockquote class="testimonial">"Produk berkualitas, pengiriman cepat!" — Siti</blockquote>
+          <blockquote class="testimonial">"Banyak pilihan lokal, harga bersaing." — Budi</blockquote>
+          <blockquote class="testimonial">"Membantu pelaku usaha kami dikenal lebih luas." — Toko Makmur</blockquote>
+        </div>
+        <button class="slider-btn next" aria-label="Selanjutnya">›</button>
+      </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <footer id="contact" class="section footer container">
+      <div class="footer-grid">
+        <div>
+            <h3>PadiMart</h3>
+            <p>Alamat: Tabalong, Kalimantan Selatan (detail lokasi akan diumumkan)</p>
+            <p>Email: info@padimart.example</p>
+        </div>
+        <div>
+          <h4>Jam Operasional</h4>
+          <p>Senin - Jumat: 08:00 - 17:00</p>
+        </div>
+        <div>
+          <h4>Kontak Cepat</h4>
+          <p><a href="tel:+628123456789">+62 812-3456-789</a></p>
+          <p><a href="https://wa.me/628123456789" target="_blank" rel="noopener">Chat WhatsApp</a></p>
+        </div>
+      </div>
+      <div class="copyright">© 2025 PadiMart. All rights reserved.</div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a id="whatsappBtn" class="whatsapp-float" href="https://wa.me/628123456789" target="_blank" rel="noopener" aria-label="Chat via WhatsApp"> 
+      <!-- WhatsApp icon (filled) -->
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.52 3.48A11.9 11.9 0 0 0 12 0C5.373 0 .013 5.36.013 12c0 2.11.55 4.18 1.6 6.02L0 24l6.2-1.6A11.9 11.9 0 0 0 12 24c6.627 0 12-5.373 12-12 0-3.18-1.24-6.16-3.48-8.52z" fill="#25D366"/>
+        <path d="M17.06 14.5c-.31-.16-1.84-.9-2.12-1-.28-.1-.48-.16-.68.16-.2.31-.78 1-.96 1.2-.18.2-.36.24-.67.08-.31-.16-1.32-.49-2.52-1.56-.93-.83-1.56-1.86-1.74-2.17-.18-.3-.02-.46.13-.62.14-.14.31-.36.47-.54.16-.18.21-.31.31-.52.1-.2.05-.4-.02-.56-.07-.16-.68-1.64-.93-2.25-.24-.56-.49-.48-.68-.49l-.58-.01c-.2 0-.52.07-.8.33-.28.26-1.06 1.04-1.06 2.52 0 1.48 1.09 2.91 1.24 3.11.16.2 2.14 3.3 5.18 4.63 3.04 1.33 3.04.89 3.59.83.55-.06 1.79-.73 2.04-1.44.25-.71.25-1.32.17-1.44-.08-.12-.28-.18-.6-.34z" fill="#fff"/>
+      </svg>
+    </a>
 
     <script src="js/bootstrap.js"></script>
     <script src="js/landingpage.js"></script>
-    <script>
-    //   hal menu
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const sideMenu = document.getElementById('sideMenu');
-      const sideMenuOverlay = document.getElementById('sideMenuOverlay');
-      const closeMenuBtn = document.getElementById('closeMenuBtn');
-
-      // yang buka menu
-      hamburgerBtn.addEventListener('click', () => {
-        sideMenu.classList.add('active');
-        sideMenuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-
-      // yang nutup menu
-      function closeMenu() {
-        sideMenu.classList.remove('active');
-        sideMenuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      closeMenuBtn.addEventListener('click', closeMenu);
-      sideMenuOverlay.addEventListener('click', closeMenu);
-
-      // yang nutup menu klo klik item di menu
-      document.querySelectorAll('.side-menu a').forEach(link => {
-        link.addEventListener('click', closeMenu);
-      });
-
-      // smooth scrol
-      document.querySelectorAll('a[hrng for navigation linksef^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        });
-      });
-
-      // navbar background scroll
-      window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-          navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-        } else {
-          navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-        }
-      });
-    </script>
   </body>
 </html>
