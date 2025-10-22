@@ -1,0 +1,4 @@
+/* temporary new script - will replace original after validation */
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('temp script loaded');
+});
