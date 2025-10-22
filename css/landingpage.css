@@ -40,9 +40,9 @@ body { padding-top: var(--navbar-height); }
   top: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  background: transparent; /* default transparent over hero */
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
   padding: 0.6rem 1rem;
 }
 
@@ -52,14 +52,30 @@ body { padding-top: var(--navbar-height); }
   justify-content: space-between;
 }
 
+/* scrolled state (subtle blur, not solid white) */
+.navbar.scrolled {
+  /* keep it subtle and translucent so hero still reads through */
+  background: rgba(0,0,0,0.20);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.navbar.scrolled .nav-link { color: var(--white); }
+.navbar.scrolled .brand-text { color: var(--white); }
+.navbar.scrolled .hamburger-line { background: var(--white); }
+
 .navbar-brand { display:flex; align-items:center; gap:0.6rem; text-decoration:none; }
 .brand-logo { height:36px; width:auto; display:inline-block; }
 .brand-logo { max-height:40px; object-fit:contain; }
-.brand-text { font-weight:700; color:var(--white); font-size:1.05rem; white-space:nowrap; }
+.brand-text { font-weight:700; color:var(--white); font-size:1rem; white-space:nowrap; }
 
-.left-group { display:flex; align-items:center; gap:1rem; }
-.right-group { display:flex; align-items:center; gap:1rem; }
-.main-nav { margin-left: 1.5rem; display:flex; gap:1.25rem; }
+.left-group { display:flex; align-items:center; gap:0.6rem; margin-left:6px; }
+.right-group { display:flex; align-items:center; gap:0.8rem; }
+.main-nav { margin-left: 1.5rem; display:flex; gap:1rem; }
+
+/* Ensure nav sits on the right side and collapses gracefully */
+.right-group { margin-left: auto; display:flex; align-items:center; }
+.main-nav { display:flex; gap:1.25rem; align-items:center; }
+.main-nav .nav-link { padding: 0.4rem 0.2rem; }
 
 /* prevent nav overlapping hero on small screens */
 @media (max-width: 768px) {
@@ -96,6 +112,7 @@ body { padding-top: var(--navbar-height); }
 /* hide hamburger on desktop */
 @media (min-width: 769px) {
   .hamburger-menu { display: none; }
+  .brand-text { display: inline-block; }
 }
 
 .hamburger-line {
@@ -120,10 +137,11 @@ body { padding-top: var(--navbar-height); }
 .main-nav .nav-link {
   color: var(--white);
   text-decoration: none;
-  font-weight: 400;
-  font-size: 1rem;
-  transition: color 0.3s ease;
+  font-weight: 500;
+  font-size: 0.98rem;
+  transition: color 0.2s ease;
   position: relative;
+  display: inline-flex; align-items:center; gap:0.5rem;
 }
 
 .main-nav .nav-link:hover {
@@ -693,11 +711,76 @@ body { padding-top: var(--navbar-height); }
   .product-controls { flex-direction:column; align-items:stretch; }
 }
 
+/* FINAL OVERRIDES: enforce translucent navbar and canonical Uiverse WhatsApp styles
+   These rules are placed last to override any duplicated blocks created during iterative edits. */
+
+/* Force navbar to remain translucent/blurred (not white) */
+.navbar,
+.navbar.scrolled {
+  background: rgba(0, 0, 0, 0.18) !important; /* subtle dark translucent overlay */
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  box-shadow: none !important;
+  color: var(--white) !important;
+}
+.navbar.scrolled .nav-link,
+.navbar .nav-link { color: var(--white) !important; }
+.navbar.scrolled .brand-text,
+.navbar .brand-text { color: var(--white) !important; }
+
+/* Slightly larger logo and nudge to the far left */
+.brand-logo { height: 44px !important; max-height: 48px !important; }
+.left-group { margin-left: 4px !important; }
+.navbar .container { padding-left: 10px !important; padding-right: 10px !important; }
+
+/* Hide any legacy floating WA button definitions left in the file */
+.whatsapp-float { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+
+/* Canonical Uiverse WhatsApp button (final authoritative rules) */
+:root { --uiv-whatsapp-size: 56px; }
+.uiverse-whatsapp { position: fixed !important; right: 18px !important; bottom: 18px !important; z-index: 99999 !important; text-decoration: none !important; }
+.uiverse-whatsapp .Btn { width: var(--uiv-whatsapp-size) !important; height: var(--uiv-whatsapp-size) !important; border-radius: 999px !important; display:flex !important; align-items:center !important; gap:8px !important; padding:6px !important; background: linear-gradient(180deg, var(--padi-green) 0%, var(--padi-green-dark) 100%) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.22) !important; color:#fff !important; transition: all 0.28s ease !important; overflow: hidden !important; }
+.uiverse-whatsapp .Btn .sign { display:flex !important; align-items:center !important; justify-content:center !important; width: calc(var(--uiv-whatsapp-size) - 28px) !important; height: calc(var(--uiv-whatsapp-size) - 28px) !important; background: transparent !important; border-radius: 999px !important; flex: 0 0 auto !important; }
+.uiverse-whatsapp .socialSvg { width: 20px !important; height: 20px !important; fill: #ffffff !important; display:block !important; }
+.uiverse-whatsapp .Btn .text { display:none !important; font-weight:700 !important; font-size:0.95rem !important; white-space:nowrap !important; }
+.uiverse-whatsapp:hover .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6) !important; padding: 8px 12px !important; }
+.uiverse-whatsapp:hover .Btn .text { display:block !important; margin-left:6px !important; }
+
+/* Ensure accessibility: focus shows expanded state too */
+.uiverse-whatsapp:focus .Btn,
+.uiverse-whatsapp .Btn:focus { width: calc(var(--uiv-whatsapp-size) * 1.6) !important; }
+
+/* Mobile: keep compact; Desktop: show text on hover/focus */
+@media (min-width: 900px) {
+  .uiverse-whatsapp .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6) !important; padding: 8px 12px !important; }
+  .uiverse-whatsapp .Btn .text { display:block !important; }
+}
+
+
 /* Large desktop tweak to make hero title match screenshot scale */
 @media (min-width: 1200px) {
   .hero-title { font-size: clamp(3.2rem, 7vw, 5.2rem); }
   .hero-content { margin-left: 4rem; max-width: 900px; }
 }
+
+/* Auto-hide transform for navbar */
+.navbar.hidden { transform: translateY(-120%); transition: transform 0.28s cubic-bezier(.22,.9,.31,1); }
+
+/* Ensure WA button expands on hover and shows text (per user reference) */
+.uiverse-whatsapp { position: fixed; right: 20px; bottom: 20px; z-index: 2000; text-decoration: none; }
+.Btn { width: var(--uiv-whatsapp-size); height: var(--uiv-whatsapp-size); border-radius: 999px; display:flex; align-items:center; gap:8px; padding:6px; background: linear-gradient(180deg, var(--padi-green) 0%, var(--padi-green-dark) 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.18); color: #fff; transition: all 0.28s ease; overflow: hidden; }
+.Btn .sign { display:flex; align-items:center; justify-content:center; width: calc(var(--uiv-whatsapp-size) - 28px); height: calc(var(--uiv-whatsapp-size) - 28px); background: transparent; border-radius: 999px; flex: 0 0 auto; }
+.socialSvg { width: 20px; height: 20px; fill: #ffffff; display:block; }
+.Btn .text { display:none; font-weight:700; font-size:0.95rem; white-space:nowrap; }
+.uiverse-whatsapp:hover .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6); padding: 8px 12px; }
+.uiverse-whatsapp:hover .Btn .text { display:block; margin-left:6px; }
+
+/* Final override: ensure only Uiverse button appears and legacy .whatsapp-float doesn't override it */
+.whatsapp-float { display: none !important; }
+.uiverse-whatsapp { display: inline-block !important; position: fixed !important; right: 20px !important; bottom: 20px !important; z-index: 2000 !important; }
+.uiverse-whatsapp::after { display: block; }
+
+
 
 /* About grid */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }

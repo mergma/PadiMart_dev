@@ -7,15 +7,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const setNavbarBg = () => {
     if (!navbar) return;
     if (window.scrollY > 50) {
-      navbar.style.background = 'rgba(255,255,255,0.98)';
-      navbar.style.color = '#0a0a0a';
+      navbar.classList.add('scrolled');
     } else {
-      navbar.style.background = 'transparent';
-      navbar.style.color = '';
+      navbar.classList.remove('scrolled');
     }
   };
-  setNavbarBg();
-  window.addEventListener('scroll', setNavbarBg);
+    // Navbar auto-hide on scroll (hide when scrolling down, show when scrolling up)
+    let lastScroll = window.scrollY || 0;
+    let ticking = false;
+    const handleNavbarAutoHide = () => {
+      if (!navbar) return;
+      const current = window.scrollY || 0;
+      // small threshold to avoid jitter
+      const delta = current - lastScroll;
+      if (Math.abs(delta) < 8) return;
+      if (current > lastScroll && current > 120) {
+        navbar.classList.add('hidden');
+      } else if (current < lastScroll) {
+        navbar.classList.remove('hidden');
+      }
+      lastScroll = current;
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(handleNavbarAutoHide);
+        ticking = true;
+      }
+    }, { passive: true });
+    window.addEventListener('load', () => { lastScroll = window.scrollY || 0; });
+
+  // Ensure correct state on load (in case page opened scrolled)
+  window.addEventListener('load', setNavbarBg);
 
   // Side menu handlers
   const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -93,11 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function applyFilters(){
     const q = (searchInput?.value || '').trim().toLowerCase();
-    const cat = categoryFilter?.value || 'all';
+    const cat = (categoryFilter?.value || 'all').toLowerCase();
     const sort = sortSelect?.value || 'popular';
     let out = products.filter(p => {
-      const matchQ = !q || p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
-      const matchCat = (cat === 'all') || (p.category === cat);
+      const title = (p.title || '').toString().toLowerCase();
+      const category = (p.category || '').toString().toLowerCase();
+      const matchQ = !q || title.includes(q) || category.includes(q);
+      // match category in a tolerant way: 'all' or category includes selected value
+      const matchCat = (cat === 'all') || category.includes(cat);
       return matchQ && matchCat;
     });
     if(sort === 'popular') out.sort((a,b)=> (b.popular?1:0) - (a.popular?1:0));
