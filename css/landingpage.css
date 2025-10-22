@@ -293,7 +293,7 @@ body { padding-top: var(--navbar-height); }
 
 /* Hero Section */
 .hero-section {
-  min-height: calc(100vh - var(--navbar-height));
+  min-height: calc(85vh - var(--navbar-height));
   background: linear-gradient(
     135deg,
     var(--primary-black) 0%,
@@ -301,7 +301,7 @@ body { padding-top: var(--navbar-height); }
   );
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
   overflow: hidden;
 }
@@ -337,8 +337,8 @@ body { padding-top: var(--navbar-height); }
   height: 100%;
   background: linear-gradient(
     45deg,
-    rgba(40, 40, 40, 0.2) 0%,
-    rgba(26, 26, 26, 0.6) 100%
+    rgba(20, 20, 20, 0.12) 0%,
+    rgba(26, 26, 26, 0.5) 100%
   );
 }
 
@@ -346,9 +346,9 @@ body { padding-top: var(--navbar-height); }
   position: relative;
   z-index: 2;
   text-align: left;
-  max-width: 600px;
-  padding: 0 2rem 4rem 2rem;
-  margin-left: 2rem;
+  max-width: 820px;
+  padding: 1rem 2rem 4rem 2rem;
+  margin-left: 3rem;
   animation: fadeInUp 1.2s ease-out;
 }
 
@@ -652,6 +652,25 @@ body { padding-top: var(--navbar-height); }
   100% { transform: scale(1.6); opacity: 0; }
 }
 
+/* Uiverse-style WhatsApp button (from user reference) */
+:root {
+  --uiv-whatsapp-size: 56px;
+}
+.uiverse-whatsapp { position: fixed; right: 20px; bottom: 20px; z-index: 2000; text-decoration: none; }
+.Btn { width: var(--uiv-whatsapp-size); height: var(--uiv-whatsapp-size); border-radius: 999px; display:flex; align-items:center; gap:8px; padding:6px; background: linear-gradient(180deg, var(--padi-green) 0%, var(--padi-green-dark) 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.18); color: #fff; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.Btn:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.22); }
+.Btn .sign { display:flex; align-items:center; justify-content:center; width: calc(var(--uiv-whatsapp-size) - 28px); height: calc(var(--uiv-whatsapp-size) - 28px); background: transparent; border-radius: 999px; }
+.socialSvg { width: 20px; height: 20px; fill: #ffffff; display:block; }
+.Btn .text { display:none; font-weight:700; font-size:0.85rem; }
+
+/* make the button show text on wider screens */
+@media (min-width: 900px) {
+  .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6); padding: 8px 12px; }
+  .Btn .text { display:block; }
+  .Btn .sign { width: calc(var(--uiv-whatsapp-size) - 18px); height: calc(var(--uiv-whatsapp-size) - 18px); }
+}
+
+
 /* Subtle entrance animations */
 .hero-content { animation: fadeInUp 1.2s ease-out both; }
 .product-card { opacity: 0; transform: translateY(10px); animation: cardIn 0.6s ease forwards; }
@@ -672,6 +691,12 @@ body { padding-top: var(--navbar-height); }
 @media (max-width: 480px) {
   .product-grid { grid-template-columns: 1fr; }
   .product-controls { flex-direction:column; align-items:stretch; }
+}
+
+/* Large desktop tweak to make hero title match screenshot scale */
+@media (min-width: 1200px) {
+  .hero-title { font-size: clamp(3.2rem, 7vw, 5.2rem); }
+  .hero-content { margin-left: 4rem; max-width: 900px; }
 }
 
 /* About grid */
