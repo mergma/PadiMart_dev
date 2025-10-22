@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
     // Navbar auto-hide on scroll (hide when scrolling down, show when scrolling up)
-    let lastScroll = window.scrollY || 0;
-    let ticking = false;
-    let lastHideTs = 0;
+  // initialize lastScroll reliably
+  let lastScroll = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop || 0;
+  let ticking = false;
+  let lastHideTs = 0;
     const handleNavbarAutoHide = () => {
       if (!navbar) return;
       const current = window.scrollY || 0;
@@ -42,10 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
         ticking = true;
       }
     }, { passive: true });
-    window.addEventListener('load', () => { lastScroll = window.scrollY || 0; });
+    // On load ensure navbar state is sane: remove .hidden if at top, set lastScroll, and apply scrolled state.
+    window.addEventListener('load', () => {
+      lastScroll = window.scrollY || 0;
+      // if near top, make sure navbar visible
+      if (lastScroll < 60) {
+        navbar?.classList.remove('hidden');
+      }
+      // run setNavbarBg after small timeout to avoid layout shift races
+      setTimeout(setNavbarBg, 50);
+    });
 
-  // Ensure correct state on load (in case page opened scrolled)
-  window.addEventListener('load', setNavbarBg);
+  // Also call once immediately after DOM ready to set initial state
+  setNavbarBg();
 
   // Side menu handlers
   const hamburgerBtn = document.getElementById('hamburgerBtn');

@@ -315,7 +315,7 @@ body { background: #0b0b0b; }
 
 /* Hero Section */
 .hero-section {
-  min-height: calc(85vh - var(--navbar-height));
+  min-height: calc(75vh - var(--navbar-height)); /* reduced so hero isn't overwhelmingly tall */
   background: linear-gradient(
     135deg,
     var(--primary-black) 0%,
@@ -382,7 +382,7 @@ body { background: #0b0b0b; }
 @media (max-width: 768px) {
   .hero-section { height: auto; padding: 4rem 0 2rem; align-items: center; }
   .hero-content { margin-left: 0; text-align: center; padding: 1rem; max-width: 100%; }
-  .hero-title { font-size: clamp(2rem, 6vw, 3.2rem); }
+  .hero-title { font-size: clamp(1.6rem, 6vw, 2.6rem); }
   .hero-description { font-size: 1rem; }
   .scroll-indicator { display: none; }
 }
@@ -409,10 +409,10 @@ body { background: #0b0b0b; }
 }
 
 .hero-title {
-  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-size: clamp(1.8rem, 5vw, 3rem); /* smaller default and max */
   font-weight: 700;
-  margin-bottom: 1.5rem;
-  line-height: 1.1;
+  margin-bottom: 1rem;
+  line-height: 1.05;
   animation: fadeInUp 1.2s ease-out 0.4s both;
 }
 
@@ -728,7 +728,7 @@ body { background: #0b0b0b; }
 
 /* Large desktop tweak to make hero title match screenshot scale */
 @media (min-width: 1200px) {
-  .hero-title { font-size: clamp(3.2rem, 7vw, 5.2rem); }
+  .hero-title { font-size: clamp(2.2rem, 5.8vw, 3.4rem); }
   .hero-content { margin-left: 4rem; max-width: 900px; }
 }
 
