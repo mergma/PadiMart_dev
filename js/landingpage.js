@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
     // Navbar auto-hide on scroll (hide when scrolling down, show when scrolling up)
   // initialize lastScroll reliably
+  // initialize lastScroll reliably
   let lastScroll = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop || 0;
   let ticking = false;
   let lastHideTs = 0;
@@ -22,17 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const current = window.scrollY || 0;
       // threshold to avoid jitter
       const delta = current - lastScroll;
-      if (Math.abs(delta) < 20) return; // require more movement
+      if (Math.abs(delta) < 8) return; // small movement ignored
       const now = Date.now();
-      // hide when scrolling down past 40px, show when scrolling up
-      if (current > lastScroll && current > 40) {
-        // small debounce to avoid rapid show/hide
-        if (now - lastHideTs > 120) {
+      // If scrolling down and passed a minimal offset, hide and keep hidden while continuing to scroll down
+      if (current > lastScroll && current > 60) {
+        // ensure we don't spam toggles
+        if (!navbar.classList.contains('hidden')) {
           navbar.classList.add('hidden');
           lastHideTs = now;
         }
       } else if (current < lastScroll) {
-        navbar.classList.remove('hidden');
+        // scrolling up -> reveal navbar
+        if (navbar.classList.contains('hidden')) navbar.classList.remove('hidden');
       }
       lastScroll = current;
       ticking = false;
