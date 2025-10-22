@@ -658,41 +658,7 @@ body { padding-top: var(--navbar-height); }
 .footer { background: #f8f8f8; padding:2.5rem 0; color:var(--primary-black); }
 .footer-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:1rem; }
 
-/* WhatsApp floating button */
-.whatsapp-float { position: fixed; right: 20px; bottom: 20px; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(0,0,0,0.15); z-index:2000; background: linear-gradient(180deg,var(--padi-green) 0%, var(--padi-green-dark) 100%); color:#fff; text-decoration:none; transform-origin: center; }
-.whatsapp-float:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.18); }
-
-/* Pulsing ring animation behind the button */
-.whatsapp-float::after { content: ''; position: absolute; width: 56px; height: 56px; border-radius: 50%; left: 0; top: 0; box-shadow: 0 0 0 rgba(46, 203, 75, 0.5); animation: pulse 2.5s infinite; z-index: -1; }
-@keyframes pulse {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  70% { transform: scale(1.6); opacity: 0; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-
-/* Uiverse-style WhatsApp button (from user reference) */
-:root {
-  --uiv-whatsapp-size: 56px;
-}
-.uiverse-whatsapp { position: fixed; right: 20px; bottom: 20px; z-index: 2000; text-decoration: none; }
-.Btn { width: var(--uiv-whatsapp-size); height: var(--uiv-whatsapp-size); border-radius: 999px; display:flex; align-items:center; gap:8px; padding:6px; background: linear-gradient(180deg, var(--padi-green) 0%, var(--padi-green-dark) 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.18); color: #fff; transition: transform 0.25s ease, box-shadow 0.25s ease; }
-.Btn:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.22); }
-.Btn .sign { display:flex; align-items:center; justify-content:center; width: calc(var(--uiv-whatsapp-size) - 28px); height: calc(var(--uiv-whatsapp-size) - 28px); background: transparent; border-radius: 999px; }
-.socialSvg { width: 20px; height: 20px; fill: #ffffff; display:block; }
-.Btn .text { display:none; font-weight:700; font-size:0.85rem; }
-
-/* make the button show text on wider screens */
-@media (min-width: 900px) {
-  .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6); padding: 8px 12px; }
-  .Btn .text { display:block; }
-  .Btn .sign { width: calc(var(--uiv-whatsapp-size) - 18px); height: calc(var(--uiv-whatsapp-size) - 18px); }
-}
-
-
-/* Subtle entrance animations */
-.hero-content { animation: fadeInUp 1.2s ease-out both; }
-.product-card { opacity: 0; transform: translateY(10px); animation: cardIn 0.6s ease forwards; }
-@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+/* Removed earlier duplicate WA button blocks to avoid conflicts. Canonical Uiverse rules are in the final overrides below. */
 
 
 /* Responsive adjustments */
@@ -765,15 +731,7 @@ body { padding-top: var(--navbar-height); }
 
 /* Auto-hide transform for navbar */
 .navbar.hidden { transform: translateY(-120%); transition: transform 0.28s cubic-bezier(.22,.9,.31,1); }
-
-/* Ensure WA button expands on hover and shows text (per user reference) */
-.uiverse-whatsapp { position: fixed; right: 20px; bottom: 20px; z-index: 2000; text-decoration: none; }
-.Btn { width: var(--uiv-whatsapp-size); height: var(--uiv-whatsapp-size); border-radius: 999px; display:flex; align-items:center; gap:8px; padding:6px; background: linear-gradient(180deg, var(--padi-green) 0%, var(--padi-green-dark) 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.18); color: #fff; transition: all 0.28s ease; overflow: hidden; }
-.Btn .sign { display:flex; align-items:center; justify-content:center; width: calc(var(--uiv-whatsapp-size) - 28px); height: calc(var(--uiv-whatsapp-size) - 28px); background: transparent; border-radius: 999px; flex: 0 0 auto; }
-.socialSvg { width: 20px; height: 20px; fill: #ffffff; display:block; }
-.Btn .text { display:none; font-weight:700; font-size:0.95rem; white-space:nowrap; }
-.uiverse-whatsapp:hover .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6); padding: 8px 12px; }
-.uiverse-whatsapp:hover .Btn .text { display:block; margin-left:6px; }
+.navbar.hidden { transform: translateY(-120%); transition: transform 0.28s cubic-bezier(.22,.9,.31,1); }
 
 /* Final override: ensure only Uiverse button appears and legacy .whatsapp-float doesn't override it */
 .whatsapp-float { display: none !important; }

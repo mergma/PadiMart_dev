@@ -15,14 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navbar auto-hide on scroll (hide when scrolling down, show when scrolling up)
     let lastScroll = window.scrollY || 0;
     let ticking = false;
+    let lastHideTs = 0;
     const handleNavbarAutoHide = () => {
       if (!navbar) return;
       const current = window.scrollY || 0;
-      // small threshold to avoid jitter
+      // threshold to avoid jitter
       const delta = current - lastScroll;
-      if (Math.abs(delta) < 8) return;
-      if (current > lastScroll && current > 120) {
-        navbar.classList.add('hidden');
+      if (Math.abs(delta) < 20) return; // require more movement
+      const now = Date.now();
+      // hide when scrolling down past 40px, show when scrolling up
+      if (current > lastScroll && current > 40) {
+        // small debounce to avoid rapid show/hide
+        if (now - lastHideTs > 120) {
+          navbar.classList.add('hidden');
+          lastHideTs = now;
+        }
       } else if (current < lastScroll) {
         navbar.classList.remove('hidden');
       }
