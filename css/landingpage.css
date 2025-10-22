@@ -26,8 +26,12 @@ body {
   overflow-x: hidden;
 }
 
-/* prevent fixed navbar from overlapping content */
-body { padding-top: var(--navbar-height); }
+/* dark base to avoid white strip showing behind the fixed navbar */
+body { background: #0b0b0b; }
+
+/* Do not add global top padding — hero should sit under the fixed navbar. */
+/* Add top padding only to non-hero sections so content isn't hidden behind navbar */
+.section:not(.hero-section) { padding-top: calc(4rem + var(--navbar-height)); }
 
 /* Utility containers */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
@@ -84,7 +88,7 @@ body { padding-top: var(--navbar-height); }
   .navbar { padding: 0.5rem 0.75rem; }
   .hero-section { align-items: center; }
   :root { --navbar-height: 56px; }
-  body { padding-top: var(--navbar-height); }
+  /* don't add global padding here; non-hero sections get padding instead */
 }
 
 .nav-logo { margin-left: 1rem; }
@@ -707,7 +711,10 @@ body { padding-top: var(--navbar-height); }
 .uiverse-whatsapp { position: fixed !important; right: 18px !important; bottom: 18px !important; z-index: 99999 !important; text-decoration: none !important; }
 .uiverse-whatsapp .Btn { width: var(--uiv-whatsapp-size) !important; height: var(--uiv-whatsapp-size) !important; border-radius: 999px !important; display:flex !important; align-items:center !important; gap:8px !important; padding:6px !important; background: linear-gradient(180deg, var(--padi-green) 0%, var(--padi-green-dark) 100%) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.22) !important; color:#fff !important; transition: all 0.28s ease !important; overflow: hidden !important; }
 .uiverse-whatsapp .Btn .sign { display:flex !important; align-items:center !important; justify-content:center !important; width: calc(var(--uiv-whatsapp-size) - 28px) !important; height: calc(var(--uiv-whatsapp-size) - 28px) !important; background: transparent !important; border-radius: 999px !important; flex: 0 0 auto !important; }
-.uiverse-whatsapp .socialSvg { width: 20px !important; height: 20px !important; fill: #ffffff !important; display:block !important; }
+.uiverse-whatsapp .Btn .sign { display:flex !important; align-items:center !important; justify-content:center !important; background: transparent !important; border-radius: 999px !important; flex: 1 1 auto !important; width: auto !important; height: calc(var(--uiv-whatsapp-size) - 12px) !important; }
+.uiverse-whatsapp:hover .Btn .sign,
+.uiverse-whatsapp:focus .Btn .sign { flex: 0 0 calc(var(--uiv-whatsapp-size) - 28px) !important; width: calc(var(--uiv-whatsapp-size) - 28px) !important; }
+.uiverse-whatsapp .socialSvg { width: 20px !important; height: 20px !important; fill: #ffffff !important; display:block !important; margin: 0 auto !important; }
 .uiverse-whatsapp .Btn .text { display:none !important; font-weight:700 !important; font-size:0.95rem !important; white-space:nowrap !important; }
 .uiverse-whatsapp:hover .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6) !important; padding: 8px 12px !important; }
 .uiverse-whatsapp:hover .Btn .text { display:block !important; margin-left:6px !important; }
@@ -716,11 +723,7 @@ body { padding-top: var(--navbar-height); }
 .uiverse-whatsapp:focus .Btn,
 .uiverse-whatsapp .Btn:focus { width: calc(var(--uiv-whatsapp-size) * 1.6) !important; }
 
-/* Mobile: keep compact; Desktop: show text on hover/focus */
-@media (min-width: 900px) {
-  .uiverse-whatsapp .Btn { width: calc(var(--uiv-whatsapp-size) * 1.6) !important; padding: 8px 12px !important; }
-  .uiverse-whatsapp .Btn .text { display:block !important; }
-}
+/* Mobile: keep compact; Desktop: show text on hover/focus (handled via :hover and :focus rules) */
 
 
 /* Large desktop tweak to make hero title match screenshot scale */
@@ -737,6 +740,39 @@ body { padding-top: var(--navbar-height); }
 .whatsapp-float { display: none !important; }
 .uiverse-whatsapp { display: inline-block !important; position: fixed !important; right: 20px !important; bottom: 20px !important; z-index: 2000 !important; }
 .uiverse-whatsapp::after { display: block; }
+
+/* Authoritative final behavior: expand to fit text (avoid truncation) */
+.uiverse-whatsapp .Btn { overflow: visible !important; min-width: var(--uiv-whatsapp-size) !important; }
+.uiverse-whatsapp .Btn .text { display: none !important; }
+.uiverse-whatsapp:hover .Btn,
+.uiverse-whatsapp:focus .Btn {
+  width: auto !important;
+  min-width: calc(var(--uiv-whatsapp-size) * 2.2) !important; /* ensure enough room for the text */
+  padding: 8px 14px !important;
+}
+.uiverse-whatsapp:hover .Btn .text,
+.uiverse-whatsapp:focus .Btn .text { display: block !important; margin-left: 8px !important; }
+
+/* FINAL: force navbar to be visually transparent and remove any top white strip */
+.navbar, nav.navbar, header nav.navbar, .navbar.scrolled {
+  background-color: transparent !important;
+  background: transparent !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+}
+.navbar, .navbar * { background: transparent !important; }
+.navbar .container { background: transparent !important; padding-top: 6px !important; padding-bottom: 6px !important; }
+
+
+/* FINAL: ensure whatsapp icon is vertically centered in its sign container */
+.uiverse-whatsapp .Btn { display:flex !important; align-items:center !important; justify-content:center !important; height: var(--uiv-whatsapp-size) !important; }
+.uiverse-whatsapp:hover .Btn, .uiverse-whatsapp:focus .Btn { justify-content:flex-start !important; }
+.uiverse-whatsapp .Btn .sign { display:flex !important; align-items:center !important; justify-content:center !important; flex: 0 0 auto !important; width: calc(var(--uiv-whatsapp-size) - 12px) !important; height: calc(var(--uiv-whatsapp-size) - 12px) !important; }
+.uiverse-whatsapp .Btn .text { margin-left: 10px !important; }
+.uiverse-whatsapp .socialSvg { display:block !important; margin: 0 auto !important; }
+
 
 
 
