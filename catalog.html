@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catalog - PadiMart</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/landingpage.css" />
+    <link rel="stylesheet" href="css/catalog.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="container">
+        <!-- Hamburger Menu Button -->
+        <button class="hamburger-menu" id="hamburgerBtn">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="index.html">PadiMart</a>
+
+        <!-- Main Navigation -->
+        <div class="main-nav">
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link active" href="catalog.html">Catalog</a>
+          <a class="nav-link" href="#about">About</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Side Menu Overlay -->
+    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+      <div class="side-menu-header">
+        <h3>Menu</h3>
+        <button class="close-menu" id="closeMenuBtn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="side-menu-content">
+        <div class="menu-section">
+          <h4>Main</h4>
+          <ul class="menu-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="menu-section">
+          <h4>Categories</h4>
+          <ul class="menu-list">
+            <li><a href="#electronics">Electronics</a></li>
+            <li><a href="#clothing">Clothing</a></li>
+            <li><a href="#home-garden">Home & Garden</a></li>
+            <li><a href="#sports">Sports & Outdoors</a></li>
+            <li><a href="#books">Books & Media</a></li>
+          </ul>
+        </div>
+
+        <div class="menu-section">
+          <h4>Support</h4>
+          <ul class="menu-list">
+            <li><a href="#help">Help Center</a></li>
+            <li><a href="#shipping">Shipping Info</a></li>
+            <li><a href="#returns">Returns</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catalog Header Section -->
+    <section class="catalog-header">
+      <div class="container">
+        <div class="catalog-header-content">
+          <h1 class="catalog-title">Product Catalog</h1>
+          <p class="catalog-subtitle">Discover our premium collection of products</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters and Search Section -->
+    <section class="catalog-filters">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-4">
+            <div class="filter-sidebar">
+              <h3>Filters</h3>
+              
+              <!-- Search Filter -->
+              <div class="filter-group">
+                <label for="searchInput">Search Products</label>
+                <input type="text" id="searchInput" class="filter-input" placeholder="Search...">
+              </div>
+
+              <!-- Category Filter -->
+              <div class="filter-group">
+                <label>Categories</label>
+                <div class="filter-options">
+                  <label class="filter-option">
+                    <input type="checkbox" value="all" checked>
+                    <span>All Categories</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" value="electronics">
+                    <span>Electronics</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" value="clothing">
+                    <span>Clothing</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" value="home-garden">
+                    <span>Home & Garden</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" value="sports">
+                    <span>Sports & Outdoors</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Price Filter -->
+              <div class="filter-group">
+                <label>Price Range</label>
+                <div class="price-range">
+                  <input type="range" id="priceRange" min="0" max="1000" value="500" class="price-slider">
+                  <div class="price-display">
+                    <span>$0</span>
+                    <span id="priceValue">$500</span>
+                    <span>$1000+</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sort Filter -->
+              <div class="filter-group">
+                <label for="sortSelect">Sort By</label>
+                <select id="sortSelect" class="filter-select">
+                  <option value="featured">Featured</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="name">Name A-Z</option>
+                  <option value="newest">Newest First</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-9 col-md-8">
+            <!-- Results Header -->
+            <div class="results-header">
+              <div class="results-info">
+                <span id="resultsCount">24 products found</span>
+              </div>
+              <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+                <button class="view-btn" data-view="list">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                    <line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
+                    <line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6" stroke="currentColor" stroke-width="2"/>
+                    <line x1="3" y1="12" x2="3.01" y2="12" stroke="currentColor" stroke-width="2"/>
+                    <line x1="3" y1="18" x2="3.01" y2="18" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-container">
+              <div class="products-grid" id="productsGrid">
+                <!-- Product Card 1 -->
+                <div class="product-card" data-category="electronics" data-price="299">
+                  <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/1a5f1a/ff6b35?text=Smartphone" alt="Premium Smartphone">
+                    <div class="product-overlay">
+                      <button class="quick-view-btn">Quick View</button>
+                      <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-title">Premium Smartphone</h3>
+                    <p class="product-category">Electronics</p>
+                    <div class="product-rating">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-count">(124)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$299.99</span>
+                      <span class="original-price">$399.99</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card" data-category="clothing" data-price="89">
+                  <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/1a5f1a/ff6b35?text=Designer+Jacket" alt="Designer Jacket">
+                    <div class="product-overlay">
+                      <button class="quick-view-btn">Quick View</button>
+                      <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-title">Designer Jacket</h3>
+                    <p class="product-category">Clothing</p>
+                    <div class="product-rating">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-count">(89)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$89.99</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card" data-category="home-garden" data-price="149">
+                  <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/1a5f1a/ff6b35?text=Smart+Home+Hub" alt="Smart Home Hub">
+                    <div class="product-overlay">
+                      <button class="quick-view-btn">Quick View</button>
+                      <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-title">Smart Home Hub</h3>
+                    <p class="product-category">Home & Garden</p>
+                    <div class="product-rating">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-count">(203)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$149.99</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card" data-category="sports" data-price="199">
+                  <div class="product-image">
+                    <img src="https://via.placeholder.com/300x300/1a5f1a/ff6b35?text=Fitness+Tracker" alt="Fitness Tracker">
+                    <div class="product-overlay">
+                      <button class="quick-view-btn">Quick View</button>
+                      <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-title">Fitness Tracker Pro</h3>
+                    <p class="product-category">Sports & Outdoors</p>
+                    <div class="product-rating">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-count">(156)</span>
+                    </div>
+                    <div class="product-price">
+                      <span class="current-price">$199.99</span>
+                      <span class="original-price">$249.99</span>
+                    </div>
+                  </div>
+                </div>
