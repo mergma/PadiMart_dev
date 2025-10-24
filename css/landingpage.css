@@ -26,8 +26,6 @@ body {
   overflow-x: hidden;
 }
 
-/* dark base to avoid white strip showing behind the fixed navbar */
-body { background: #0b0b0b; }
 
 /* Do not add global top padding — hero should sit under the fixed navbar. */
 /* Add top padding only to non-hero sections so content isn't hidden behind navbar */
@@ -37,6 +35,10 @@ body { background: #0b0b0b; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
 .section { padding: 4rem 0; color: var(--primary-black); background: transparent; }
 .muted { color: rgba(0,0,0,0.6); }
+
+/* Specific section backgrounds */
+#about { background: var(--white); }
+#products { background: var(--white); }
 
 /* Navigation */
 .navbar {
@@ -315,7 +317,7 @@ body { background: #0b0b0b; }
 
 /* Hero Section */
 .hero-section {
-  min-height: calc(100vh - var(--navbar-height)); /* larger so hero fills viewport */
+  height: 100vh; /* full viewport height */
   background: linear-gradient(
     135deg,
     var(--primary-black) 0%,
@@ -380,7 +382,7 @@ body { background: #0b0b0b; }
 }
 
 @media (max-width: 768px) {
-  .hero-section { height: auto; padding: 4rem 0 2rem; align-items: center; }
+  .hero-section { height: 100vh; align-items: center; }
   .hero-content { margin-left: 0; text-align: center; padding: 1rem; max-width: 100%; }
   .hero-title { font-size: clamp(1.6rem, 6vw, 2.6rem); }
   .hero-description { font-size: 1rem; }
