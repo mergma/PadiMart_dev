@@ -1,10 +1,6 @@
 :root {
-  --primary-green: #1a5f1a;
-  --secondary-green: #2d7a2d;
-  --light-green: #4a9f4a;
-  --primary-orange: #ff6b35;
-  --secondary-orange: #ff8c42;
-  --light-orange: #ffad73;
+  --primary-black: #0a0a0a;
+  --secondary-black: #1a1a1a;
   --accent-gray: #2a2a2a;
   --light-gray: #f5f5f5;
   --white: #ffffff;
@@ -28,7 +24,6 @@ body {
   line-height: 1.6;
   color: var(--white);
   overflow-x: hidden;
-  background: var(--primary-green);
 }
 
 /* dark base to avoid white strip showing behind the fixed navbar */
@@ -49,10 +44,10 @@ body { background: #0b0b0b; }
   top: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  padding: 1rem 0;
+  background: transparent; /* default transparent over hero */
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
+  padding: 0.6rem 1rem;
 }
 
 .navbar .container {
@@ -133,7 +128,7 @@ body { background: #0b0b0b; }
 }
 
 .hamburger-menu:hover .hamburger-line {
-  background: var(--primary-orange);
+  background: var(--gold-accent);
 }
 
 /* Main Navigation */
@@ -154,7 +149,7 @@ body { background: #0b0b0b; }
 }
 
 .main-nav .nav-link:hover {
-  color: var(--primary-orange);
+  color: var(--gold-accent);
 }
 
 .main-nav .nav-link::after {
@@ -164,7 +159,7 @@ body { background: #0b0b0b; }
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--primary-orange);
+  background: var(--gold-accent);
   transition: width 0.3s ease;
 }
 
@@ -222,7 +217,7 @@ body { background: #0b0b0b; }
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--dark-gray);
+  color: var(--primary-black);
 }
 
 .close-menu {
@@ -230,12 +225,12 @@ body { background: #0b0b0b; }
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  color: var(--dark-gray);
+  color: var(--primary-black);
   transition: color 0.3s ease;
 }
 
 .close-menu:hover {
-  color: var(--primary-orange);
+  color: var(--gold-accent);
 }
 
 .side-menu-content {
@@ -249,11 +244,11 @@ body { background: #0b0b0b; }
 .menu-section h4 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--dark-gray);
+  color: var(--primary-black);
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-bottom: 2px solid var(--primary-orange);
+  border-bottom: 2px solid var(--gold-accent);
   padding-bottom: 0.5rem;
 }
 
@@ -270,7 +265,7 @@ body { background: #0b0b0b; }
 .menu-list a {
   display: block;
   padding: 0.75rem 0;
-  color: var(--dark-gray);
+  color: var(--primary-black);
   text-decoration: none;
   font-weight: 400;
   font-size: 1rem;
@@ -281,7 +276,7 @@ body { background: #0b0b0b; }
 
 .menu-list a:hover {
   background: #f0f0f0;
-  color: var(--primary-orange);
+  color: var(--gold-accent);
   padding-left: 1.5rem;
 }
 
@@ -323,8 +318,8 @@ body { background: #0b0b0b; }
   min-height: calc(100vh - var(--navbar-height)); /* larger so hero fills viewport */
   background: linear-gradient(
     135deg,
-    var(--primary-green) 0%,
-    var(--secondary-green) 100%
+    var(--primary-black) 0%,
+    var(--secondary-black) 100%
   );
   position: relative;
   display: flex;
@@ -406,7 +401,7 @@ body { background: #0b0b0b; }
 .hero-subtitle {
   font-size: 1.1rem;
   font-weight: 300;
-  color: var(--primary-orange);
+  color: var(--gold-accent);
   margin-bottom: 1rem;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -439,7 +434,7 @@ body { background: #0b0b0b; }
 }
 
 .btn-primary-custom {
-  background: var(--gold-accent);
+  background: var(--padi-green);
   color: var(--primary-black);
   border: none;
   padding: 1rem 2.5rem;
@@ -454,7 +449,7 @@ body { background: #0b0b0b; }
 }
 
 .btn-primary-custom:hover {
-  background: var(--white);
+  background: var(--padi-green-dark);
   color: var(--primary-black);
   transform: translateY(-2px);
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.3);
@@ -477,7 +472,7 @@ body { background: #0b0b0b; }
 
 .btn-secondary-custom:hover {
   background: var(--white);
-  color: var(--white);
+  color: var(--primary-black);
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
 }
