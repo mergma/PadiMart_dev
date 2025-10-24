@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Sample products data (in a real app, this would come from a database)
-  let products = [
-    { id: 1, title: 'Beras Organik Premium', category: 'Beras', price: 120000, image: 'https://via.placeholder.com/600x420?text=Beras+Organik', popular: true, phone: '+628123456789' },
-    { id: 2, title: 'Pupuk Organik Cair', category: 'Pupuk', price: 45000, image: 'https://via.placeholder.com/600x420?text=Pupuk+Organik', popular: false, phone: '+628987654321' },
-    { id: 3, title: 'Benih Padi Unggul', category: 'Benih', price: 75000, image: 'https://via.placeholder.com/600x420?text=Benih+Padi', popular: true, phone: '+628112233445' },
-  ];
-
-  let nextId = 4;
+  // Use shared ProductsManager for data persistence
+  let products = ProductsManager.getProducts();
   let deleteTargetId = null;
 
   // DOM Elements
@@ -63,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const newProduct = {
-      id: nextId++,
       title: document.getElementById('productTitle').value,
       category: document.getElementById('productCategory').value,
       price: parseInt(document.getElementById('productPrice').value),
@@ -72,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
       phone: document.getElementById('productPhone').value,
     };
 
-    products.push(newProduct);
+    ProductsManager.addProduct(newProduct);
+    products = ProductsManager.getProducts();
     addProductForm.reset();
     renderProducts();
 
@@ -106,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   confirmDelete.addEventListener('click', () => {
-    products = products.filter((p) => p.id !== deleteTargetId);
+    ProductsManager.deleteProduct(deleteTargetId);
+    products = ProductsManager.getProducts();
     deleteModal.classList.remove('active');
     renderProducts();
     showNotification('Produk berhasil dihapus!', 'success');

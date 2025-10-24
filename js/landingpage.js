@@ -71,15 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', closeMenu);
   document.querySelectorAll('.side-menu a').forEach(a => a.addEventListener('click', closeMenu));
 
-  // Sample product dataset (prototype)
-  const products = [
-    { id:1, title:'Beras Organik Premium', category:'Beras', price:120000, img:'https://via.placeholder.com/600x420?text=Beras+Organik', popular:true, created:'2024-09-01', sellerPhone:'+628123456789' },
-    { id:2, title:'Pupuk Organik Cair', category:'Pupuk', price:45000, img:'https://via.placeholder.com/600x420?text=Pupuk+Organik', popular:false, created:'2024-08-15', sellerPhone:'+628987654321' },
-    { id:3, title:'Benih Padi Unggul', category:'Benih', price:75000, img:'https://via.placeholder.com/600x420?text=Benih+Padi', popular:true, created:'2024-10-10', sellerPhone:'+628112233445' },
-    { id:4, title:'Alat Pemipil Padi', category:'Alat', price:250000, img:'https://via.placeholder.com/600x420?text=Alat+Pemipil', popular:false, created:'2024-07-20', sellerPhone:'+628556677889' },
-    { id:5, title:'Paket Panduan Budidaya', category:'Edukasi', price:150000, img:'https://via.placeholder.com/600x420?text=Paket+Panduan', popular:true, created:'2024-06-05', sellerPhone:'+628667788990' },
-    { id:6, title:'Gandum Olahan', category:'Olahan', price:90000, img:'https://via.placeholder.com/600x420?text=Gandum+Olahan', popular:false, created:'2024-05-01', sellerPhone:'+628223344556' }
-  ];
+  // Get products from shared ProductsManager
+  let products = ProductsManager.getProducts().map(p => ({
+    ...p,
+    img: p.image,
+    sellerPhone: p.phone
+  }));
 
   // Controls
   const productGrid = document.getElementById('productGrid');
@@ -156,6 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
   searchInput?.addEventListener('input', applyFilters);
   categoryFilter?.addEventListener('change', applyFilters);
   sortSelect?.addEventListener('change', applyFilters);
+
+  // Listen for product updates from admin page
+  window.addEventListener('productsUpdated', (e) => {
+    products = e.detail.map(p => ({
+      ...p,
+      img: p.image,
+      sellerPhone: p.phone
+    }));
+    applyFilters();
+  });
 
   // initial
   applyFilters();
