@@ -166,6 +166,77 @@ body {
   margin-bottom: 0;
 }
 
+/* File input styling */
+.form-group input[type="file"] {
+  padding: 0.5rem;
+  cursor: pointer;
+  border: 2px dashed #ddd;
+  background: #fafafa;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+  background: var(--padi-green);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button:hover {
+  background: var(--padi-green-dark);
+}
+
+.form-help {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Image preview */
+.image-preview {
+  margin-top: 1rem;
+  position: relative;
+  display: inline-block;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.image-preview img {
+  max-width: 200px;
+  max-height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.btn-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.btn-remove:hover {
+  background: var(--danger);
+}
+
 /* Buttons */
 .btn-primary,
 .btn-secondary,

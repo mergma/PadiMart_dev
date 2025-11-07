@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Use shared ProductsManager for data persistence
   let products = ProductsManager.getProducts();
   let deleteTargetId = null;
+  let currentImageData = null; // Store current image data
 
   // DOM Elements
   const addProductForm = document.getElementById('addProductForm');
@@ -11,11 +12,83 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteModal = document.getElementById('deleteModal');
   const confirmDelete = document.getElementById('confirmDelete');
   const cancelDelete = document.getElementById('cancelDelete');
+  const productImageInput = document.getElementById('productImage');
+  const imagePreview = document.getElementById('imagePreview');
+  const previewImg = document.getElementById('previewImg');
+  const removeImageBtn = document.getElementById('removeImage');
 
   // Format price
   const formatPrice = (value) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
+
+  // Image handling functions
+  const handleImageUpload = (file) => {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        resolve(null);
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        reject(new Error('File harus berupa gambar'));
+        return;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        reject(new Error('Ukuran file maksimal 5MB'));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        resolve(e.target.result);
+      };
+      reader.onerror = () => {
+        reject(new Error('Gagal membaca file'));
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const showImagePreview = (imageSrc) => {
+    if (imageSrc) {
+      previewImg.src = imageSrc;
+      imagePreview.style.display = 'block';
+      currentImageData = imageSrc;
+    } else {
+      hideImagePreview();
+    }
+  };
+
+  const hideImagePreview = () => {
+    imagePreview.style.display = 'none';
+    previewImg.src = '';
+    currentImageData = null;
+  };
+
+  // Image input event listeners
+  productImageInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const imageData = await handleImageUpload(file);
+        showImagePreview(imageData);
+      } catch (error) {
+        showNotification(error.message, 'error');
+        productImageInput.value = '';
+      }
+    } else {
+      hideImagePreview();
+    }
+  });
+
+  removeImageBtn.addEventListener('click', () => {
+    productImageInput.value = '';
+    hideImagePreview();
+  });
 
   // Render products list
   function renderProducts(list = products) {
@@ -60,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: document.getElementById('productTitle').value,
       category: document.getElementById('productCategory').value,
       price: parseInt(document.getElementById('productPrice').value),
-      image: document.getElementById('productImage').value || 'https://via.placeholder.com/600x420?text=Produk',
+      image: currentImageData || 'https://via.placeholder.com/600x420?text=Produk',
       popular: document.getElementById('productPopular').checked,
       phone: document.getElementById('productPhone').value,
     };
@@ -68,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ProductsManager.addProduct(newProduct);
     products = ProductsManager.getProducts();
     addProductForm.reset();
+    hideImagePreview(); // Clear image preview
     renderProducts();
 
     // Show success message
@@ -126,9 +200,22 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('productTitle').value = product.title;
       document.getElementById('productCategory').value = product.category;
       document.getElementById('productPrice').value = product.price;
-      document.getElementById('productImage').value = product.image;
       document.getElementById('productPopular').checked = product.popular;
       document.getElementById('productPhone').value = product.phone;
+
+      // Handle image - if it's a data URL, show preview; otherwise clear
+      if (product.image && product.image.startsWith('data:')) {
+        showImagePreview(product.image);
+      } else if (product.image && !product.image.includes('placeholder')) {
+        // For existing URL images, show a note
+        showNotification('Produk ini menggunakan gambar URL. Upload gambar baru untuk menggantinya.', 'info');
+        hideImagePreview();
+      } else {
+        hideImagePreview();
+      }
+
+      // Clear file input
+      productImageInput.value = '';
 
       // Scroll to form
       document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
