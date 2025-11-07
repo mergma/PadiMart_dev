@@ -700,10 +700,16 @@ body {
 .navbar.scrolled .brand-text,
 .navbar .brand-text { color: var(--white) !important; }
 
-/* Slightly larger logo and nudge to the far left */
+/* Slightly larger logo and flush to the far left */
 .brand-logo { height: 44px !important; max-height: 48px !important; }
-.left-group { margin-left: 4px !important; }
-.navbar .container { padding-left: 10px !important; padding-right: 10px !important; }
+.left-group { margin-left: 0 !important; }
+.navbar .container { padding-left: 6px !important; padding-right: 10px !important; }
+
+/* Position left-group fixed so brand/logo sits flush to viewport left edge */
+.navbar { position: fixed; left: 0; right: 0; }
+/* keep container static so fixed left-group positions relative to viewport */
+.navbar .container { position: static; }
+.left-group { position: fixed; left: 40px; top: calc(var(--navbar-height) / 2); transform: translateY(-50%); z-index: 1002; }
 
 /* Hide any legacy floating WA button definitions left in the file */
 .whatsapp-float { display: none !important; opacity: 0 !important; pointer-events: none !important; }
