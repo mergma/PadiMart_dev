@@ -26,7 +26,8 @@
 body {
   font-family: "Inter", sans-serif;
   line-height: 1.6;
-  color: var(--white);
+  color: var(--site-text, var(--white));
+  background: var(--site-bg, transparent);
   overflow-x: hidden;
 }
 
@@ -836,7 +837,7 @@ body {
    Placed last so it overrides earlier `position: fixed` rules. Adjust `top` if you want it higher/lower. */
 nav.navbar, .navbar {
   position: absolute !important;
-  top: 4px !important; /* moved slightly upward per request */
+  top: 0 !important; /* sit at the very top so padding defines vertical placement */
   left: 0 !important;
   right: 0 !important;
   z-index: 2000 !important; /* keep below Uiverse whatsapp but above page content */
@@ -847,8 +848,175 @@ nav.navbar, .navbar {
   nav.navbar, .navbar { top: 8px !important; }
 }
 .navbar, .navbar * { background: transparent !important; }
-/* Give the navbar container equal top/bottom padding so items are vertically centered */
-.navbar .container { background: transparent !important; padding-top: 10px !important; padding-bottom: 10px !important; }
+/* Give the navbar container equal top/bottom padding so items are vertically centered
+   Reduced to 8px to raise logo/menu slightly */
+.navbar .container { background: transparent !important; padding-top: 8px !important; padding-bottom: 8px !important; }
+
+/* THEME VARIABLES + UIVERSE-STYLE TOGGLE (adapted) */
+:root {
+  --toggle-light-bg: #eaf6ff; /* per user: use #eaf6ff */
+  --toggle-light-icon: #038be6;
+  --toggle-dark-bg: #121212;
+  --toggle-dark-icon: #ffd86b;
+  --toggle-sun-color: #ffffff; /* sun icon color on light mode (white on blue background) */
+  --toggle-moon-color: #ffd86b; /* moon icon color on dark mode */
+}
+
+/* Default site theme variables (will be overridden by body[data-theme]) */
+body { --site-text: var(--white); --site-bg: transparent; }
+
+/* Light theme (default) */
+body[data-theme="light"] {
+  --site-text: #0b1220;
+  --site-bg: #ffffff;
+  --nav-text: #0b1220;
+  --nav-bg: rgba(255,255,255,0.95);
+  --brand-text: #0b1220;
+}
+
+/* Dark theme */
+body[data-theme="dark"] {
+  --site-text: var(--white);
+  --site-bg: #050505;
+  --nav-text: var(--white);
+  --nav-bg: rgba(0,0,0,0.18);
+  --brand-text: var(--white);
+}
+
+/* Make navbar colors respond to theme variables */
+.navbar, .navbar.scrolled { color: var(--nav-text, var(--white)) !important; background: var(--nav-bg, transparent) !important; }
+.navbar .brand-text { color: var(--brand-text, var(--white)) !important; }
+
+/* Uiverse-like toggle styles (adapted to use checkbox + :checked) */
+.toggle-cont {
+  /* colors available: --toggle-light-bg, --toggle-dark-bg, --toggle-light-icon, --toggle-dark-icon */
+  position: absolute;
+  right: 12px;
+  /* move slightly upward inside the navbar to match requested visual */
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 2100;
+  height: 32px; /* overall control height */
+  width: fit-content;
+  border-radius: 9999px;
+  /* default sparkle color (light mode) */
+  --sparkle-color: var(--toggle-light-icon);
+}
+.toggle-cont .toggle-input { display: none; }
+.toggle-cont .toggle-label {
+  --gap: 6px; /* space between knobs */
+  --width: 28px; /* diameter of the knob */
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding: 3px;
+  width: calc((var(--width) + var(--gap)) * 2);
+  height: 100%;
+  background-color: var(--toggle-light-bg);
+  border-radius: 9999px;
+  box-sizing: content-box;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+  /* colorful soft border to make the toggle pop */
+  box-shadow: 0 0 0 3px rgba(3,139,230,0.06), 0 0 0 6px rgba(88,194,52,0.03), 0 6px 18px rgba(3,139,230,0.04);
+}
+.toggle-cont .toggle-label::before {
+  /* subtle halo behind the control to give depth */
+  content: "";
+  position: absolute;
+  z-index: -10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 0.6rem);
+  height: calc(100% + 0.6rem);
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+.toggle-cont .cont-icon {
+  position: absolute;
+  left: 4px; /* small inset so knob can appear inset on the left */
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--width);
+  height: var(--width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--white);
+  transition: left 0.28s cubic-bezier(.22,.9,.31,1), transform 0.28s ease, background 0.28s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  overflow: visible;
+}
+.cont-icon .sparkle {
+  position: absolute;
+  left: calc(50% - 4px);
+  top: calc(50% - 4px);
+  width: calc(var(--width, 1) * 4px);
+  height: calc(var(--width, 1) * 4px);
+  border-radius: 50%;
+  background: var(--sparkle-color, var(--toggle-light-icon));
+  opacity: 0.95;
+  transform: rotate(var(--deg, 0deg)) translateX(0);
+  /* duration specified inline via --duration in HTML (unitless numbers in HTML will be multiplied by 1s) */
+  animation: sparkle calc(var(--duration, 12) * 1s) linear infinite;
+  pointer-events: none;
+}
+@keyframes sparkle {
+  0% { transform: rotate(var(--deg, 0deg)) translateX(0) scale(1); opacity: 1; }
+  60% { opacity: 0.9; }
+  100% { transform: rotate(var(--deg, 0deg)) translateX(56px) scale(0.45); opacity: 0; }
+}
+
+/* knob icons (use currentColor via SVG fill="currentColor") */
+.knob-sun, .knob-moon { display: block; width: 14px; height: 14px; transition: opacity 0.18s ease, transform 0.18s ease, color 0.18s ease; }
+/* Base visibility fallback: ensure only one icon shows by default */
+.knob-sun { opacity: 1; }
+.knob-moon { opacity: 0; }
+/* default (unchecked) = LIGHT mode: show sun icon */
+.toggle-cont .toggle-input:not(:checked) + .toggle-label .knob-sun { opacity: 1 !important; transform: scale(1); color: var(--toggle-sun-color); }
+.toggle-cont .toggle-input:not(:checked) + .toggle-label .knob-moon { opacity: 0 !important; transform: scale(0.9); color: var(--toggle-moon-color); }
+/* checked = DARK mode: show moon icon */
+.toggle-cont .toggle-input:checked + .toggle-label .knob-moon { opacity: 1 !important; transform: scale(1); color: var(--toggle-moon-color); }
+.toggle-cont .toggle-input:checked + .toggle-label .knob-sun { opacity: 0 !important; transform: scale(0.9); color: var(--toggle-sun-color); }
+
+/* checked -> dark: move knob to right and show moon */
+.toggle-cont .toggle-input:checked + .toggle-label { background-color: var(--toggle-dark-bg); border-color: rgba(255,255,255,0.06); --sparkle-color: var(--toggle-dark-icon); }
+.toggle-cont .toggle-input:checked + .toggle-label .cont-icon { left: calc(100% - var(--width) - 4px); transform: translateY(-50%) rotate(-10deg); background-image: linear-gradient(180deg, #045ab1 0%, var(--toggle-light-icon) 100%); }
+.toggle-cont .toggle-input:checked + .toggle-label .knob-moon { opacity: 1; transform: scale(1); }
+.toggle-cont .toggle-input:checked + .toggle-label .knob-sun { opacity: 0; transform: scale(0.9); }
+
+/* Light mode (unchecked): make knob blue with white sun, sparkles visible */
+.toggle-cont .toggle-input:not(:checked) + .toggle-label .cont-icon {
+  background: var(--toggle-light-icon);
+  color: var(--toggle-sun-color);
+  box-shadow: 0 10px 24px rgba(3,139,230,0.18), 0 2px 10px rgba(88,194,52,0.06), 0 0 0 3px rgba(3,139,230,0.06);
+}
+.toggle-cont .toggle-input:not(:checked) + .toggle-label { background-color: var(--toggle-light-bg) !important; box-shadow: 0 8px 22px rgba(3,139,230,0.12), 0 0 0 4px rgba(88,194,52,0.03); border-color: rgba(3,139,230,0.14); }
+
+/* When checked (dark) make knob darker and hide sparkles */
+.toggle-cont .toggle-input:checked + .toggle-label .cont-icon { background-image: linear-gradient(180deg, #1f2937 0%, #111827 100%); color: var(--toggle-moon-color); box-shadow: 0 8px 20px rgba(0,0,0,0.35); }
+.toggle-cont .toggle-input:checked + .toggle-label { box-shadow: 0 0 0 3px rgba(99,102,241,0.06), 0 0 0 6px rgba(236,72,153,0.03), 0 6px 24px rgba(0,0,0,0.22); border-color: rgba(255,255,255,0.04); }
+
+/* Sparkles: only active in light (unchecked) */
+.toggle-cont .toggle-input:not(:checked) + .toggle-label .sparkle { opacity: 0.95; animation-play-state: running; filter: drop-shadow(0 4px 8px rgba(3,139,230,0.18)); }
+.toggle-cont .toggle-input:checked + .toggle-label .sparkle { opacity: 0; animation-play-state: paused; filter: none; }
+
+/* Ensure hero title and brand-text/logo appear white in light mode per user request */
+body[data-theme="light"] .hero-title,
+body[data-theme="light"] .brand-text {
+  color: var(--white) !important;
+}
+/* Try to render image-based logo in light mode as white-ish via filter (best-effort) */
+/* Light mode: do not alter logo file colors (use original image) */
+body[data-theme="light"] .brand-logo { filter: none !important; }
+
+/* Dark mode: add subtle colored glow around logo to make it stand out */
+body[data-theme="dark"] .brand-logo { filter: drop-shadow(0 6px 18px rgba(3,139,230,0.16)) drop-shadow(0 2px 8px rgba(88,194,52,0.06)); }
+
+@media (max-width: 768px) { .toggle-cont { right: 8px; } }
 
 
 /* FINAL: ensure whatsapp icon is vertically centered in its sign container */

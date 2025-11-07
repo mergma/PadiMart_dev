@@ -59,6 +59,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Also call once immediately after DOM ready to set initial state
   setNavbarBg();
 
+  /* Theme toggle (light/dark) initialization and persistence
+     Default: light mode (unchecked). The toggle input was inserted into the navbar.
+  */
+  const themeToggle = document.getElementById('themeToggle');
+  const applyTheme = (t) => {
+    if(!t) t = 'light';
+    document.body.setAttribute('data-theme', t);
+    // ensure toggle input reflects state (checked = dark)
+    if(themeToggle) themeToggle.checked = (t === 'dark');
+    try { localStorage.setItem('padi-theme', t); } catch(e){}
+  };
+
+  // restore saved theme or default to 'light'
+  try {
+    const saved = localStorage.getItem('padi-theme') || 'light';
+    applyTheme(saved);
+  } catch(e){ applyTheme('light'); }
+
+  if(themeToggle){
+    themeToggle.addEventListener('change', (e)=>{
+      const t = e.target.checked ? 'dark' : 'light';
+      applyTheme(t);
+    });
+  }
+
   // Side menu handlers
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const sideMenu = document.getElementById('sideMenu');
