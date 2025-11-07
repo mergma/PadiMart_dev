@@ -795,7 +795,7 @@ body {
 .navbar .container { padding-left: 6px !important; padding-right: 10px !important; }
 
 /* Navbar forced to be fixed across viewport so brand centering works consistently */
-.navbar { position: fixed; left: 0; right: 0; }
+.navbar { position: fixed; left: 0; right: 0; }erti
 .navbar .container { position: static; }
 
 /* Centered brand / split navigation layout (left nav / brand / right nav) */
@@ -946,6 +946,26 @@ body[data-theme="light"] {
   --brand-text: #0b1220;
 }
 
+/* Light mode hero adjustments for black text visibility */
+body[data-theme="light"] .hero-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+  color: #0b1220;
+}
+
+body[data-theme="light"] .hero-title,
+body[data-theme="light"] .hero-description,
+body[data-theme="light"] .hero-subtitle {
+  color: #0b1220 !important;
+}
+
+body[data-theme="light"] .hero-title {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+body[data-theme="light"] .hero-overlay {
+  background: linear-gradient(45deg, rgba(88,194,52,0.1) 0%, rgba(237,160,36,0.1) 100%);
+}
+
 /* Dark theme */
 body[data-theme="dark"] {
   --site-text: var(--white);
@@ -955,9 +975,38 @@ body[data-theme="dark"] {
   --brand-text: var(--white);
 }
 
+/* Dark mode section backgrounds */
+body[data-theme="dark"] #about,
+body[data-theme="dark"] #products,
+body[data-theme="dark"] #testimonials,
+body[data-theme="dark"] .footer {
+  background: #0a0a0a;
+  color: var(--white);
+}
+
+body[data-theme="dark"] .testimonial {
+  background: #1a1a1a;
+  color: var(--white);
+}
+
+body[data-theme="dark"] .product-card {
+  background: #1a1a1a;
+  color: var(--white);
+}
+
+body[data-theme="dark"] .product-card .card__title,
+body[data-theme="dark"] .product-card .card__description,
+body[data-theme="dark"] .product-card .card__price {
+  color: var(--white);
+}
+
 /* Make navbar colors respond to theme variables */
 .navbar, .navbar.scrolled { color: var(--nav-text, var(--white)) !important; background: var(--nav-bg, transparent) !important; }
 .navbar .brand-text { color: var(--brand-text, var(--white)) !important; }
+.navbar .nav-link { color: var(--nav-text, var(--white)) !important; }
+.navbar.scrolled .nav-link { color: var(--nav-text, var(--white)) !important; }
+.navbar.scrolled .brand-text { color: var(--nav-text, var(--white)) !important; }
+.navbar.scrolled .hamburger-line { background: var(--nav-text, var(--white)) !important; }
 
 /* Uiverse-like toggle styles (adapted to use checkbox + :checked) */
 .toggle-cont {
@@ -1056,7 +1105,7 @@ body[data-theme="dark"] {
 
 /* checked -> dark: move knob to right and show moon */
 .toggle-cont .toggle-input:checked + .toggle-label { background-color: var(--toggle-dark-bg); border-color: rgba(255,255,255,0.06); --sparkle-color: var(--toggle-dark-icon); }
-.toggle-cont .toggle-input:checked + .toggle-label .cont-icon { left: calc(100% - var(--width) - 4px); transform: translateY(-50%) rotate(-10deg); background-image: linear-gradient(180deg, #045ab1 0%, var(--toggle-light-icon) 100%); }
+.toggle-cont .toggle-input:checked + .toggle-label .cont-icon { left: calc(100% - var(--width) - 4px); transform: translateY(-50%) rotate(-10deg); background-image: linear-gradient(180deg, #045ab1 0%, var(--toggle-light-icon) 100%); box-shadow: 0 0 20px #ffd86b, 0 0 40px #ffd86b, 0 0 60px #ffd86b; }
 .toggle-cont .toggle-input:checked + .toggle-label .knob-moon { opacity: 1; transform: scale(1); }
 .toggle-cont .toggle-input:checked + .toggle-label .knob-sun { opacity: 0; transform: scale(0.9); }
 
@@ -1072,16 +1121,89 @@ body[data-theme="dark"] {
 .toggle-cont .toggle-input:checked + .toggle-label .cont-icon { background-image: linear-gradient(180deg, #1f2937 0%, #111827 100%); color: var(--toggle-moon-color); box-shadow: 0 8px 20px rgba(0,0,0,0.35); }
 .toggle-cont .toggle-input:checked + .toggle-label { box-shadow: 0 0 0 3px rgba(99,102,241,0.06), 0 0 0 6px rgba(236,72,153,0.03), 0 6px 24px rgba(0,0,0,0.22); border-color: rgba(255,255,255,0.04); }
 
+/* Cloud elements: only visible in light mode */
+.toggle-cont .toggle-input:not(:checked) + .toggle-label .cloud-elements { opacity: 1; }
+.toggle-cont .toggle-input:checked + .toggle-label .cloud-elements { opacity: 0; }
+
+/* Cloud positioning and animation */
+.toggle-cont .cloud-elements {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.toggle-cont .cloud {
+  position: absolute;
+  color: #87ceeb; /* light blue */
+  opacity: 0.8;
+}
+.toggle-cont .cloud1 {
+  top: -20px;
+  left: -25px;
+  animation: floatCloud 4s ease-in-out infinite;
+}
+.toggle-cont .cloud2 {
+  top: -15px;
+  right: -25px;
+  animation: floatCloud 5s ease-in-out infinite reverse;
+}
+.toggle-cont .cloud3 {
+  display: none; /* hide third cloud to have only 2 */
+}
+
+@keyframes floatCloud {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(5deg); }
+}
+
+/* Star elements: only visible in dark mode */
+.toggle-cont .toggle-input:checked + .toggle-label .star-elements { opacity: 1; }
+.toggle-cont .toggle-input:not(:checked) + .toggle-label .star-elements { opacity: 0; }
+
+/* Star positioning and animation */
+.toggle-cont .star-elements {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.toggle-cont .star {
+  position: absolute;
+  color: #ffd86b; /* bright yellow */
+  opacity: 0.9;
+}
+.toggle-cont .star1 {
+  top: -20px;
+  left: -25px;
+  animation: twinkleStar 2s ease-in-out infinite;
+}
+.toggle-cont .star2 {
+  top: -15px;
+  right: -25px;
+  animation: twinkleStar 2.5s ease-in-out infinite reverse;
+}
+.toggle-cont .star3,
+.toggle-cont .star4,
+.toggle-cont .star5 {
+  display: none; /* hide extra stars to have only 2 */
+}
+
+@keyframes twinkleStar {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
 /* Sparkles: only active in light (unchecked) */
 .toggle-cont .toggle-input:not(:checked) + .toggle-label .sparkle { opacity: 0.95; animation-play-state: running; filter: drop-shadow(0 4px 8px rgba(3,139,230,0.18)); }
 .toggle-cont .toggle-input:checked + .toggle-label .sparkle { opacity: 0; animation-play-state: paused; filter: none; }
 
-/* Ensure hero title and brand-text/logo appear white in light mode per user request */
-body[data-theme="light"] .hero-title,
-body[data-theme="light"] .brand-text {
-  color: var(--white) !important;
-}
-/* Try to render image-based logo in light mode as white-ish via filter (best-effort) */
+/* Light mode: brand text and logo remain as is for visibility */
 /* Light mode: do not alter logo file colors (use original image) */
 body[data-theme="light"] .brand-logo { filter: none !important; }
 
