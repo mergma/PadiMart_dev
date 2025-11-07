@@ -5,6 +5,10 @@
   --light-gray: #f5f5f5;
   --white: #ffffff;
   --gold-accent: #d4af37;
+  /* spacing variables for hero and nav */
+  --hero-gap: 1.5rem; /* consistent vertical gap between title / description / buttons */
+  --nav-gap: 1.6rem; /* consistent gap between top menu items (increased slightly) */
+  --hero-offset: 3rem; /* push hero content down from top */
   /* Brand colors for PADI MART */
   /* Updated brand colors per request */
   --padi-green: rgb(88, 194, 52); /* hijau muda */
@@ -26,6 +30,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Hero typography: Playfair Display for title, Poppins for description */
+.hero-title { font-family: 'Playfair Display', 'Montserrat', 'Poppins', 'Inter', sans-serif; margin: 0 0 var(--hero-gap) 0; font-weight:800; }
+.hero-description { font-family: 'Poppins', 'Inter', sans-serif; margin: 0 0 var(--hero-gap) 0; max-width: 640px; font-weight:400; }
+.hero-buttons { margin: 0; margin-top: 1.25rem; }
+
+/* Stack hero children with consistent gap (restore previous behavior) */
+.hero-content > div { display: flex; flex-direction: column; gap: var(--hero-gap); }
+
 
 /* Do not add global top padding — hero should sit under the fixed navbar. */
 /* Add top padding only to non-hero sections so content isn't hidden behind navbar */
@@ -42,10 +54,8 @@ body {
 
 /* Navigation */
 .navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
+  /* make navbar participate in normal flow so it scrolls away with the page */
+  position: static;
   background: transparent; /* default transparent over hero */
   backdrop-filter: blur(6px);
   transition: all 0.25s ease;
@@ -76,7 +86,7 @@ body {
 
 .left-group { display:flex; align-items:center; gap:0.6rem; margin-left:0.2rem; }
 .right-group { display:flex; align-items:center; gap:0.8rem; }
-.main-nav { margin-left: 1.5rem; display:flex; gap:1rem; }
+.main-nav { margin-left: 1.5rem; display:flex; gap: var(--nav-gap); }
 
 /* Ensure nav sits on the right side and collapses gracefully */
 .right-group { margin-left: auto; display:flex; align-items:center; }
@@ -136,7 +146,7 @@ body {
 /* Main Navigation */
 .main-nav {
   display: flex;
-  gap: 2rem;
+  gap: var(--nav-gap);
   align-items: center;
 }
 
@@ -371,7 +381,8 @@ body {
   z-index: 2;
   text-align: left;
   max-width: 820px;
-  padding: 1rem 2rem 4rem 2rem;
+  /* push hero content a bit down for visual balance */
+  padding: calc(var(--hero-offset)) 2rem 4rem 2rem;
   margin-left: 3rem;
   animation: fadeInUp 1.2s ease-out;
 }
@@ -413,31 +424,31 @@ body {
 
 .hero-title {
   font-size: clamp(1.8rem, 6.2vw, 3.8rem); /* slightly larger to match shorter title */
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-weight: 800;
+  margin-bottom: var(--hero-gap);
   line-height: 1.02;
   animation: fadeInUp 1.2s ease-out 0.4s both;
 }
 
 .hero-description {
-    /* Reverted to white to be less conspicuous; improved typography */
-    font-size: 1.05rem;
-    font-weight: 400;
-    margin-bottom: 3rem;
-    color: var(--white);
-    line-height: 1.6;
-    letter-spacing: 0.2px;
-    max-width: 500px;
-    animation: fadeInUp 1.2s ease-out 0.6s both;
+  /* Reverted to white to be less conspicuous; improved typography */
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin-bottom: var(--hero-gap);
+  color: var(--white);
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  max-width: 500px;
+  animation: fadeInUp 1.2s ease-out 0.6s both;
 }
 
 .hero-buttons {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    animation: fadeInUp 1.2s ease-out 0.8s both;
-    margin-top: 1.25rem; /* move buttons a bit lower */
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  animation: fadeInUp 1.2s ease-out 0.8s both;
+  margin-top: 0; /* spacing is handled by --hero-gap via description margin */
 }
 
 .btn-primary-custom {
@@ -557,6 +568,7 @@ body {
   color: var(--white);
   border: none;
   padding: 1rem 2rem;
+
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -709,14 +721,19 @@ body {
 .left-group { margin-left: 0 !important; }
 .navbar .container { padding-left: 6px !important; padding-right: 10px !important; }
 
-/* Navbar is fixed across viewport but container will use a 3-column layout so brand can be centered */
+/* Navbar forced to be fixed across viewport so brand centering works consistently */
 .navbar { position: fixed; left: 0; right: 0; }
 .navbar .container { position: static; }
 
 /* Centered brand / split navigation layout (left nav / brand / right nav) */
 .navbar .container { display: grid !important; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; }
-.nav-left { display:flex; align-items:center; gap:0.6rem; }
-.nav-right { display:flex; align-items:center; gap:0.6rem; justify-content:flex-end; }
+/* place nav groups at equal distance from center brand */
+.nav-left { display:flex; align-items:center; gap: var(--nav-gap); justify-self: end; }
+.nav-right { display:flex; align-items:center; gap: var(--nav-gap); justify-self: start; }
+
+/* make nav links use uniform internal padding so spacing visually matches */
+.main-nav .nav-link { padding: 0.35rem 0.6rem; border-radius: 6px; }
+.main-nav .nav-link svg.icon { display:block; }
 .center-brand { justify-self: center; display:flex; align-items:center; }
 
 /* Make the brand anchor area larger and readable on desktop */
@@ -782,6 +799,12 @@ body {
 .navbar.hidden { transform: translateY(-120%); transition: transform 0.28s cubic-bezier(.22,.9,.31,1); }
 .navbar.hidden { transform: translateY(-120%); transition: transform 0.28s cubic-bezier(.22,.9,.31,1); }
 
+/* Ensure navbar always remains visible on top even if some JS toggles `hidden` */
+.navbar, .navbar.hidden { transform: none !important; }
+
+/* Make navbar topmost so it won't be behind other layers */
+.navbar { z-index: 99999 !important; }
+
 /* Final override: ensure only Uiverse button appears and legacy .whatsapp-float doesn't override it */
 .whatsapp-float { display: none !important; }
 .uiverse-whatsapp { display: inline-block !important; position: fixed !important; right: 20px !important; bottom: 20px !important; z-index: 2000 !important; }
@@ -808,8 +831,24 @@ body {
   box-shadow: none !important;
   border-bottom: none !important;
 }
+
+/* User-requested override: make navbar absolute and visually lower while keeping transparency
+   Placed last so it overrides earlier `position: fixed` rules. Adjust `top` if you want it higher/lower. */
+nav.navbar, .navbar {
+  position: absolute !important;
+  top: 4px !important; /* moved slightly upward per request */
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 2000 !important; /* keep below Uiverse whatsapp but above page content */
+}
+
+/* Slightly reduce offset on small screens so it doesn't look too low */
+@media (max-width: 768px) {
+  nav.navbar, .navbar { top: 8px !important; }
+}
 .navbar, .navbar * { background: transparent !important; }
-.navbar .container { background: transparent !important; padding-top: 6px !important; padding-bottom: 6px !important; }
+/* Give the navbar container equal top/bottom padding so items are vertically centered */
+.navbar .container { background: transparent !important; padding-top: 10px !important; padding-bottom: 10px !important; }
 
 
 /* FINAL: ensure whatsapp icon is vertically centered in its sign container */

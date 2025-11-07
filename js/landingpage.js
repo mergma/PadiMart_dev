@@ -184,6 +184,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.testimonial-slider .next').forEach(b => b.addEventListener('click', ()=>{ showTestimonial(tIndex+1); startTestimonials(); }));
   if(testimonialTrack){ testimonialTrack.addEventListener('mouseenter', stopTestimonials); testimonialTrack.addEventListener('mouseleave', startTestimonials); showTestimonial(0); startTestimonials(); }
 
+  // Scroll indicator: smooth-scroll to next section (#about)
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if(scrollIndicator){
+    scrollIndicator.style.cursor = 'pointer';
+    scrollIndicator.setAttribute('role','button');
+    scrollIndicator.addEventListener('click', (e) => {
+      const target = document.getElementById('about') || document.getElementById('products') || document.body;
+      if(target && target.scrollIntoView) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   // Accessibility: close menu with ESC
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 });
