@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewImg = document.getElementById('previewImg');
   const removeImageBtn = document.getElementById('removeImage');
 
+  // New field elements
+  const productOrigin = document.getElementById('productOrigin');
+  const productPhone = document.getElementById('productPhone');
+
   // Format price
   const formatPrice = (value) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -90,6 +94,38 @@ document.addEventListener('DOMContentLoaded', () => {
     hideImagePreview();
   });
 
+  // Auto-format phone number
+  productPhone.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+    if (value.startsWith('08')) {
+      value = '628' + value.substring(2); // Convert 08xx to 628xx
+    }
+    if (value && !value.startsWith('+')) {
+      value = '+' + value; // Add + prefix
+    }
+    e.target.value = value;
+  });
+
+  // Set default origin if empty
+  productOrigin.addEventListener('blur', (e) => {
+    if (!e.target.value.trim()) {
+      e.target.value = 'Tabalong, Kalimantan Selatan';
+    }
+  });
+
+  // Update statistics
+  function updateStatistics() {
+    const totalProducts = products.length;
+    const popularProducts = products.filter(p => p.popular).length;
+    const categories = [...new Set(products.map(p => p.category))].length;
+    const sellers = [...new Set(products.map(p => p.seller).filter(Boolean))].length;
+
+    document.getElementById('totalProducts').textContent = totalProducts;
+    document.getElementById('popularProducts').textContent = popularProducts;
+    document.getElementById('totalCategories').textContent = categories;
+    document.getElementById('totalSellers').textContent = sellers;
+  }
+
   // Render products list
   function renderProducts(list = products) {
     productsList.innerHTML = '';
@@ -110,9 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="product-image" style="background-image: url('${product.image}')"></div>
         <div class="product-info">
           <h3>${product.title}</h3>
-          <p><strong>Kategori:</strong> ${product.category}</p>
-          <p><strong>Harga:</strong> <span class="product-price">Rp ${formatPrice(product.price)}</span></p>
-          <p><strong>WhatsApp:</strong> ${product.phone}</p>
+          <div class="product-details">
+            <p><strong>Kategori:</strong> ${product.category}</p>
+            <p><strong>Harga:</strong> <span class="product-price">Rp ${formatPrice(product.price)}</span></p>
+            <p><strong>Berat:</strong> ${product.weight || 'Tidak diisi'}</p>
+            <p><strong>Penjual:</strong> ${product.seller || 'Tidak diisi'}</p>
+            <p><strong>Asal:</strong> ${product.origin || 'Tidak diisi'}</p>
+            <p><strong>Kondisi:</strong> ${product.condition || 'Baru'}</p>
+            <p><strong>WhatsApp:</strong> ${product.phone}</p>
+          </div>
           ${badge}
         </div>
         <div class="product-actions">
@@ -133,6 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
       title: document.getElementById('productTitle').value,
       category: document.getElementById('productCategory').value,
       price: parseInt(document.getElementById('productPrice').value),
+      weight: document.getElementById('productWeight').value,
+      seller: document.getElementById('productSeller').value,
+      origin: document.getElementById('productOrigin').value || 'Tabalong, Kalimantan Selatan',
+      condition: document.getElementById('productCondition').value || 'Baru',
       image: currentImageData || 'https://via.placeholder.com/600x420?text=Produk',
       popular: document.getElementById('productPopular').checked,
       phone: document.getElementById('productPhone').value,
@@ -143,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addProductForm.reset();
     hideImagePreview(); // Clear image preview
     renderProducts();
+    updateStatistics();
 
     // Show success message
     showNotification('Produk berhasil ditambahkan!', 'success');
@@ -154,7 +201,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedCategory = filterCategory.value;
 
     const filtered = products.filter((product) => {
-      const matchSearch = product.title.toLowerCase().includes(searchTerm) || product.category.toLowerCase().includes(searchTerm);
+      const matchSearch = product.title.toLowerCase().includes(searchTerm) ||
+                         product.category.toLowerCase().includes(searchTerm) ||
+                         (product.seller && product.seller.toLowerCase().includes(searchTerm)) ||
+                         (product.origin && product.origin.toLowerCase().includes(searchTerm)) ||
+                         (product.weight && product.weight.toLowerCase().includes(searchTerm));
       const matchCategory = !selectedCategory || product.category === selectedCategory;
       return matchSearch && matchCategory;
     });
@@ -178,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     products = ProductsManager.getProducts();
     deleteModal.classList.remove('active');
     renderProducts();
+    updateStatistics();
     showNotification('Produk berhasil dihapus!', 'success');
   });
 
@@ -200,6 +252,10 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('productTitle').value = product.title;
       document.getElementById('productCategory').value = product.category;
       document.getElementById('productPrice').value = product.price;
+      document.getElementById('productWeight').value = product.weight || '';
+      document.getElementById('productSeller').value = product.seller || '';
+      document.getElementById('productOrigin').value = product.origin || '';
+      document.getElementById('productCondition').value = product.condition || 'Baru';
       document.getElementById('productPopular').checked = product.popular;
       document.getElementById('productPhone').value = product.phone;
 
@@ -282,5 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial render
   renderProducts();
+  updateStatistics();
 });
 

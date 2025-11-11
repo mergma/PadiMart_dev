@@ -312,6 +312,51 @@ body {
   background: #c0392b;
 }
 
+/* Statistics Section */
+.stats-section {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, var(--padi-green), #27ae60);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /* Products Section */
 .products-section {
   background: var(--white);
@@ -379,13 +424,20 @@ body {
 .product-info h3 {
   font-size: 1.1rem;
   color: var(--primary-black);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 1rem;
 }
 
 .product-info p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: rgba(0, 0, 0, 0.6);
-  margin: 0.25rem 0;
+  margin: 0.2rem 0;
+  line-height: 1.4;
 }
 
 .product-price {
@@ -540,9 +592,22 @@ body {
   .admin-header .subtitle { font-size: 1rem; }
 
   /* Forms */
-  .form-section, .products-section {
+  .form-section, .products-section, .stats-section {
     padding: 1.5rem;
     margin-bottom: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
   }
 
   .form-row {
@@ -616,10 +681,27 @@ body {
   .admin-header .subtitle { font-size: 0.95rem; }
 
   /* Forms */
-  .form-section, .products-section {
+  .form-section, .products-section, .stats-section {
     padding: 1rem;
     margin-bottom: 1.5rem;
     border-radius: 8px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
   }
 
   .form-section h2, .products-section h2 {
@@ -794,6 +876,21 @@ body {
   .form-group input,
   .form-group select {
     min-height: 44px;
+  }
+
+  .product-details {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .product-item {
+    grid-template-columns: 80px 1fr auto;
+    gap: 1rem;
+  }
+
+  .product-image {
+    width: 80px;
+    height: 80px;
   }
 }
 

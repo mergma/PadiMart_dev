@@ -227,6 +227,113 @@
       <div class="copyright">© 2025 PadiMart. All rights reserved.</div>
     </footer>
 
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="product-modal" aria-hidden="true">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Tutup modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="modal-body">
+          <div class="modal-image-section">
+            <div class="modal-image" id="modalImage"></div>
+            <div class="modal-badge" id="modalBadge" style="display: none;">POPULER</div>
+          </div>
+
+          <div class="modal-info-section">
+            <div class="modal-header">
+              <h2 class="modal-title" id="modalTitle">Nama Produk</h2>
+              <div class="modal-category" id="modalCategory">Kategori</div>
+            </div>
+
+            <div class="modal-price-section">
+              <div class="modal-price" id="modalPrice">Rp 0</div>
+              <div class="modal-stock-status">
+                <span class="stock-indicator available"></span>
+                <span>Tersedia</span>
+              </div>
+            </div>
+
+            <div class="modal-description">
+              <h3>Deskripsi Produk</h3>
+              <p id="modalDescription">Deskripsi produk akan ditampilkan di sini. Informasi lengkap tentang kualitas, asal, dan keunggulan produk.</p>
+            </div>
+
+            <div class="modal-details">
+              <h3>Detail Produk</h3>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">Kategori:</span>
+                  <span class="detail-value" id="modalDetailCategory">-</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Berat:</span>
+                  <span class="detail-value" id="modalWeight">1 kg</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Asal:</span>
+                  <span class="detail-value" id="modalOrigin">Tabalong, Kalimantan Selatan</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Kondisi:</span>
+                  <span class="detail-value" id="modalCondition">Baru</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-seller">
+              <h3>Informasi Penjual</h3>
+              <div class="seller-info">
+                <div class="seller-avatar">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+                <div class="seller-details">
+                  <div class="seller-name" id="modalSellerName">Petani Lokal</div>
+                  <div class="seller-location">Tabalong, Kalimantan Selatan</div>
+                  <div class="seller-rating">
+                    <div class="stars">
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star">★</span>
+                    </div>
+                    <span class="rating-text">4.0 (25 ulasan)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn-whatsapp" id="modalWhatsappBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V5a2 2 0 0 1 2-2h14a4 4 0 0 1 4 4z"></path>
+                </svg>
+                Chat via WhatsApp
+              </button>
+              <button class="btn-secondary" id="modalShareBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                Bagikan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- WhatsApp Floating Button (Uiverse style) -->
     <a id="whatsappBtn" class="uiverse-whatsapp" href="https://wa.me/628123456789" target="_blank" rel="noopener" aria-label="Chat via WhatsApp">
       <div class="Btn" role="button" aria-hidden="false">

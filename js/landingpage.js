@@ -180,10 +180,18 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
+      // Card click handler -> Open modal
+      card.addEventListener('click', (e) => {
+        // Don't open modal if clicking the WhatsApp button
+        if (e.target.closest('.card__button')) return;
+        openProductModal(p);
+      });
+
       // button handler -> WhatsApp
       const btn = card.querySelector('.card__button');
       if(btn){
         btn.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent card click
           const phone = e.currentTarget.getAttribute('data-phone') || '';
           const cleaned = phone.replace(/\D/g, '');
           window.open(`https://wa.me/${cleaned}`, '_blank', 'noopener');
@@ -259,6 +267,153 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Accessibility: close menu with ESC
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+  // Product Modal Functionality
+  const productModal = document.getElementById('productModal');
+  const modalOverlay = productModal?.querySelector('.modal-overlay');
+  const modalClose = productModal?.querySelector('.modal-close');
+  const modalWhatsappBtn = document.getElementById('modalWhatsappBtn');
+  const modalShareBtn = document.getElementById('modalShareBtn');
+
+  // Modal elements
+  const modalImage = document.getElementById('modalImage');
+  const modalBadge = document.getElementById('modalBadge');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCategory = document.getElementById('modalCategory');
+  const modalPrice = document.getElementById('modalPrice');
+  const modalDescription = document.getElementById('modalDescription');
+  const modalDetailCategory = document.getElementById('modalDetailCategory');
+  const modalWeight = document.getElementById('modalWeight');
+  const modalOrigin = document.getElementById('modalOrigin');
+  const modalCondition = document.getElementById('modalCondition');
+  const modalSellerName = document.getElementById('modalSellerName');
+
+  let currentProduct = null;
+
+  // Open modal function
+  function openProductModal(product) {
+    if (!productModal) return;
+
+    currentProduct = product;
+
+    // Update modal content
+    if (modalImage) {
+      const imageUrl = product.img || product.image;
+      modalImage.style.backgroundImage = `url('${imageUrl}')`;
+
+      // Add fallback for broken images
+      const img = new Image();
+      img.onload = () => {
+        modalImage.style.backgroundImage = `url('${imageUrl}')`;
+      };
+      img.onerror = () => {
+        modalImage.style.backgroundImage = `url('https://via.placeholder.com/600x420?text=${encodeURIComponent(product.title || 'Produk')}')`;
+      };
+      img.src = imageUrl;
+    }
+
+    if (modalBadge) {
+      if (product.popular) {
+        modalBadge.style.display = 'block';
+      } else {
+        modalBadge.style.display = 'none';
+      }
+    }
+
+    if (modalTitle) modalTitle.textContent = product.title || 'Nama Produk';
+    if (modalCategory) modalCategory.textContent = product.category || 'Kategori';
+    if (modalPrice) modalPrice.textContent = `Rp ${formatPrice(product.price || 0)}`;
+    if (modalDetailCategory) modalDetailCategory.textContent = product.category || '-';
+
+    // Generate description based on product data
+    const description = generateProductDescription(product);
+    if (modalDescription) modalDescription.textContent = description;
+
+    // Set product details from data or defaults
+    if (modalWeight) modalWeight.textContent = product.weight || '1 kg';
+    if (modalOrigin) modalOrigin.textContent = product.origin || 'Tabalong, Kalimantan Selatan';
+    if (modalCondition) modalCondition.textContent = product.condition || 'Baru';
+    if (modalSellerName) modalSellerName.textContent = product.seller || 'Petani Lokal';
+
+    // Show modal
+    productModal.classList.add('active');
+    productModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close modal function
+  function closeProductModal() {
+    if (!productModal) return;
+
+    productModal.classList.remove('active');
+    productModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentProduct = null;
+  }
+
+  // Generate product description
+  function generateProductDescription(product) {
+    const categoryDescriptions = {
+      'Beras': 'Beras berkualitas tinggi dari petani lokal Tabalong. Diproduksi dengan metode tradisional yang terjaga kualitasnya, memberikan rasa dan aroma yang khas. Cocok untuk konsumsi sehari-hari keluarga.',
+      'Camilan & Olahan': 'Camilan tradisional yang dibuat dengan resep turun temurun. Menggunakan bahan-bahan alami pilihan dari daerah setempat, memberikan cita rasa autentik yang tak terlupakan.',
+      'Kerajinan & Oleh-oleh': 'Kerajinan tangan berkualitas tinggi yang dibuat oleh pengrajin lokal. Setiap produk memiliki keunikan tersendiri dan mencerminkan kearifan budaya lokal Kalimantan Selatan.',
+      'Pupuk': 'Pupuk organik berkualitas tinggi yang ramah lingkungan. Diolah dari bahan-bahan alami untuk mendukung pertanian berkelanjutan dan meningkatkan kesuburan tanah.',
+      'Benih': 'Benih unggul dengan kualitas terjamin. Telah melalui proses seleksi ketat untuk menghasilkan tanaman yang produktif dan tahan terhadap berbagai kondisi cuaca.',
+      'Alat': 'Peralatan pertanian berkualitas yang dirancang untuk memudahkan pekerjaan petani. Terbuat dari bahan yang tahan lama dan mudah digunakan.',
+      'Edukasi': 'Paket panduan lengkap untuk meningkatkan pengetahuan dan keterampilan dalam bidang pertanian. Disusun oleh ahli berpengalaman dengan bahasa yang mudah dipahami.',
+      'Olahan': 'Produk olahan berkualitas tinggi yang diproses dengan teknologi modern namun tetap mempertahankan cita rasa tradisional. Higienis dan bergizi tinggi.'
+    };
+
+    return categoryDescriptions[product.category] || 'Produk berkualitas tinggi dari petani dan pengrajin lokal Tabalong, Kalimantan Selatan. Diproduksi dengan standar kualitas terbaik untuk memenuhi kebutuhan Anda.';
+  }
+
+  // Event listeners for modal
+  if (modalClose) {
+    modalClose.addEventListener('click', closeProductModal);
+  }
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeProductModal);
+  }
+
+  if (modalWhatsappBtn) {
+    modalWhatsappBtn.addEventListener('click', () => {
+      if (currentProduct && currentProduct.sellerPhone) {
+        const phone = currentProduct.sellerPhone.replace(/\D/g, '');
+        const message = `Halo, saya tertarik dengan produk ${currentProduct.title}. Bisakah Anda memberikan informasi lebih lanjut?`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank', 'noopener');
+      }
+    });
+  }
+
+  if (modalShareBtn) {
+    modalShareBtn.addEventListener('click', () => {
+      if (currentProduct && navigator.share) {
+        navigator.share({
+          title: currentProduct.title,
+          text: `Lihat produk ${currentProduct.title} di PadiMart`,
+          url: window.location.href
+        }).catch(console.error);
+      } else if (currentProduct) {
+        // Fallback: copy to clipboard
+        const shareText = `Lihat produk ${currentProduct.title} di PadiMart: ${window.location.href}`;
+        navigator.clipboard.writeText(shareText).then(() => {
+          alert('Link produk telah disalin ke clipboard!');
+        }).catch(() => {
+          alert('Tidak dapat menyalin link. Silakan salin manual dari address bar.');
+        });
+      }
+    });
+  }
+
+  // Make openProductModal globally available
+  window.openProductModal = openProductModal;
+
+  // Accessibility: close modal with ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMenu();
+      closeProductModal();
+    }
+  });
 });

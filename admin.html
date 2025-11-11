@@ -47,10 +47,12 @@
                             <select id="productCategory" name="category" required>
                                 <option value="">Pilih Kategori</option>
                                 <option value="Beras">Beras</option>
+                                <option value="Camilan & Olahan">Camilan & Olahan</option>
+                                <option value="Kerajinan & Oleh-oleh">Kerajinan & Oleh-oleh</option>
                                 <option value="Pupuk">Pupuk</option>
                                 <option value="Benih">Benih</option>
-                                <option value="Camilan">Camilan & Olahan</option>
-                                <option value="Kerajinan">Kerajinan & Oleh-oleh</option>
+                                <option value="Alat">Alat</option>
+                                <option value="Edukasi">Edukasi</option>
                             </select>
                         </div>
                     </div>
@@ -61,8 +63,35 @@
                             <input type="number" id="productPrice" name="price" placeholder="Contoh: 120000" min="0" required />
                         </div>
                         <div class="form-group">
+                            <label for="productWeight">Berat/Volume *</label>
+                            <input type="text" id="productWeight" name="weight" placeholder="Contoh: 1 kg, 500 gram, 2 liter" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="productPhone">Nomor WhatsApp Penjual *</label>
                             <input type="tel" id="productPhone" name="phone" placeholder="Contoh: +628123456789" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="productSeller">Nama Penjual *</label>
+                            <input type="text" id="productSeller" name="seller" placeholder="Contoh: Petani Organik Sejahtera" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productOrigin">Asal Daerah</label>
+                            <input type="text" id="productOrigin" name="origin" placeholder="Contoh: Tabalong, Kalimantan Selatan" />
+                        </div>
+                        <div class="form-group">
+                            <label for="productCondition">Kondisi Produk</label>
+                            <select id="productCondition" name="condition">
+                                <option value="Baru">Baru</option>
+                                <option value="Bekas - Seperti Baru">Bekas - Seperti Baru</option>
+                                <option value="Bekas - Baik">Bekas - Baik</option>
+                                <option value="Refurbished">Refurbished</option>
+                            </select>
                         </div>
                     </div>
 
@@ -87,6 +116,29 @@
                 </form>
             </div>
 
+            <!-- Products Statistics -->
+            <div class="stats-section">
+                <h2>Statistik Produk</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalProducts">0</div>
+                        <div class="stat-label">Total Produk</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="popularProducts">0</div>
+                        <div class="stat-label">Produk Populer</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalCategories">0</div>
+                        <div class="stat-label">Kategori</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSellers">0</div>
+                        <div class="stat-label">Penjual</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Products List -->
             <div class="products-section">
                 <h2>Daftar Produk</h2>
@@ -96,10 +148,12 @@
                     <select id="filterCategory">
                         <option value="">Semua Kategori</option>
                         <option value="Beras">Beras</option>
+                        <option value="Camilan & Olahan">Camilan & Olahan</option>
+                        <option value="Kerajinan & Oleh-oleh">Kerajinan & Oleh-oleh</option>
                         <option value="Pupuk">Pupuk</option>
                         <option value="Benih">Benih</option>
-                        <option value="Camilan">Camilan & Olahan</option>
-                        <option value="Kerajinan">Kerajinan & Oleh-oleh</option>
+                        <option value="Alat">Alat</option>
+                        <option value="Edukasi">Edukasi</option>
                     </select>
                 </div>
 
