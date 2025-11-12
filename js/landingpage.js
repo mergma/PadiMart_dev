@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Utility: format price (IDR)
+  // format harga
   const formatPrice = v => v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-  // Responsive utilities
+  // Responsive
   const isMobile = () => window.innerWidth <= 768;
   const isTablet = () => window.innerWidth > 768 && window.innerWidth <= 1024;
   const isDesktop = () => window.innerWidth > 1024;
 
-  // Touch device detection
+  // klo device hp
   const isTouchDevice = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
   };
@@ -22,9 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar.classList.remove('scrolled');
     }
   };
-    // Navbar auto-hide on scroll (hide when scrolling down, show when scrolling up)
-  // initialize lastScroll reliably
-  // initialize lastScroll reliably
+    // navbar hide on scrol
   let lastScroll = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop || 0;
   let ticking = false;
   let lastHideTs = 0;
@@ -124,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if(hamburgerBtn) {
     hamburgerBtn.addEventListener('click', openMenu);
-    // Add touch event for better mobile response
+    // better mobile response ( i hope loll)
     hamburgerBtn.addEventListener('touchstart', (e) => {
       e.preventDefault();
       openMenu();
