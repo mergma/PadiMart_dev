@@ -190,9 +190,19 @@ const ProductsManager = {
     return products.find(p => p.id === id);
   },
 
-  // Reset to default products
+  // Reset to default products (with migration)
   resetToDefaults() {
-    this.saveProducts(this.defaultProducts);
+    localStorage.removeItem(this.storageKey);
+    const products = this.getProducts(); // This will return defaults with migration applied
+    this.saveProducts(products);
+    return products;
+  },
+
+  // Force refresh products (useful for debugging)
+  forceRefresh() {
+    const products = this.getProducts();
+    this.saveProducts(products);
+    return products;
   }
 };
 

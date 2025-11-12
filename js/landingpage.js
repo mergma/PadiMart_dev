@@ -140,6 +140,36 @@ document.addEventListener('DOMContentLoaded', () => {
     sellerPhone: p.phone
   }));
 
+  // Debug function - available in console
+  window.debugProducts = () => {
+    console.log('Current products:', products);
+    console.log('Raw products from ProductsManager:', ProductsManager.getProducts());
+    console.log('LocalStorage products:', JSON.parse(localStorage.getItem('padimart_products') || '[]'));
+  };
+
+  // Function to refresh products - available in console
+  window.refreshProducts = () => {
+    products = ProductsManager.getProducts().map(p => ({
+      ...p,
+      img: p.image,
+      sellerPhone: p.phone
+    }));
+    applyFilters();
+    console.log('Products refreshed:', products.length, 'products loaded');
+  };
+
+  // Function to reset to defaults - available in console
+  window.resetProductsToDefaults = () => {
+    const resetProducts = ProductsManager.resetToDefaults();
+    products = resetProducts.map(p => ({
+      ...p,
+      img: p.image,
+      sellerPhone: p.phone
+    }));
+    applyFilters();
+    console.log('Products reset to defaults:', products.length, 'products loaded');
+  };
+
   // Controls
   const productGrid = document.getElementById('productGrid');
   const searchInput = document.getElementById('searchInput');
