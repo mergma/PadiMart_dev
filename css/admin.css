@@ -390,9 +390,445 @@ body {
 }
 
 .products-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Admin Product Cards */
+.admin-product-card {
+  background: var(--white);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  color: var(--primary-black);
   display: flex;
   flex-direction: column;
+  position: relative;
+  width: 100%;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: adminCardIn 0.6s ease forwards;
+}
+
+@keyframes adminCardIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+}
+
+/* Card effects */
+.admin-product-card .admin-card__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.admin-product-card .admin-card__glow {
+  position: absolute;
+  inset: -10px;
+  background: radial-gradient(circle at 50% 0%, rgba(88,194,52,0.12) 0%, rgba(88,194,52,0) 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.admin-product-card .admin-card__content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.admin-product-card .admin-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--padi-green);
+  color: #fff;
+  padding: 0.25em 0.5em;
+  border-radius: 999px;
+  font-size: 0.7em;
+  font-weight: 600;
+  transform: scale(0.85);
+  opacity: 0;
+  transition: all 0.4s ease 0.1s;
+}
+
+.admin-product-card .admin-card__image {
+  width: 100%;
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-product-card .admin-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.admin-product-card .admin-card__title {
+  color: #111827;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.admin-product-card .admin-card__category {
+  color: #374151;
+  font-size: 0.85rem;
+  margin: 0;
+  opacity: 0.85;
+  transition: all 0.3s ease;
+}
+
+.admin-product-card .admin-card__price {
+  color: var(--padi-orange);
+  font-weight: 800;
+  font-size: 1rem;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.admin-product-card .admin-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.admin-product-card .admin-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-product-card .info-item {
+  font-size: 0.75rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.admin-product-card .admin-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-product-card .admin-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(0.95);
+  border: none;
+}
+
+.admin-product-card .admin-btn-edit {
+  background: var(--padi-orange);
+}
+
+.admin-product-card .admin-btn-delete {
+  background: var(--danger);
+}
+
+/* Hover effects */
+.admin-product-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 28px 60px rgba(16, 185, 129, 0.08), 0 10px 20px rgba(0,0,0,0.08);
+  border-color: rgba(88,194,52,0.12);
+}
+
+.admin-product-card:hover .admin-card__shine {
+  opacity: 1;
+  animation: adminShine 3s infinite;
+}
+
+.admin-product-card:hover .admin-card__glow {
+  opacity: 1;
+}
+
+.admin-product-card:hover .admin-card__badge {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.admin-product-card:hover .admin-card__image {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+}
+
+.admin-product-card:hover .admin-card__title {
+  color: var(--padi-green);
+  transform: translateX(2px);
+}
+
+.admin-product-card:hover .admin-card__category {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.admin-product-card:hover .admin-card__price {
+  transform: translateX(2px);
+}
+
+.admin-product-card:hover .admin-btn {
+  transform: scale(1);
+}
+
+.admin-product-card:hover .admin-btn-edit {
+  box-shadow: 0 0 0 6px rgba(237,160,36,0.12);
+}
+
+.admin-product-card:hover .admin-btn-delete {
+  box-shadow: 0 0 0 6px rgba(231,76,60,0.12);
+}
+
+@keyframes adminShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Expanded card state */
+.admin-product-card.expanded {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  z-index: 10;
+  position: relative;
+}
+
+/* Edit Form Styles */
+.admin-product-card .admin-card__edit-form {
+  background: var(--white);
+  border-top: 1px solid #e5e7eb;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.admin-product-card .admin-card__edit-form.active {
+  max-height: 1000px;
+  padding: 1.5rem;
+  opacity: 1;
+}
+
+.admin-edit-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-edit-form-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-black);
+}
+
+.admin-edit-form-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.admin-edit-form-close:hover {
+  background: #f3f4f6;
+  color: var(--primary-black);
+}
+
+.admin-edit-form .admin-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-edit-form .admin-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-edit-form .admin-form-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.admin-edit-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--primary-black);
+}
+
+.admin-edit-form input,
+.admin-edit-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+  background: var(--white);
+  color: var(--primary-black);
+}
+
+.admin-edit-form input:focus,
+.admin-edit-form select:focus {
+  outline: none;
+  border-color: var(--padi-green);
+  box-shadow: 0 0 0 3px rgba(88,194,52,0.1);
+}
+
+.admin-image-preview {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  text-align: center;
+  background: #f9fafb;
+}
+
+.admin-image-preview img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+.admin-edit-form input[type="file"] {
+  padding: 0.25rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.admin-edit-form input[type="file"]:hover {
+  border-color: var(--padi-green);
+}
+
+.admin-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.admin-btn-cancel,
+.admin-btn-save {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.admin-btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.admin-btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.admin-btn-save {
+  background: var(--padi-green);
+  color: white;
+}
+
+.admin-btn-save:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+/* Responsive styles for admin cards */
+@media (max-width: 768px) {
+  .products-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .admin-product-card {
+    margin: 0 0.5rem;
+  }
+
+  .admin-edit-form .admin-form-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .admin-card__edit-form.active {
+    padding: 1rem;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .admin-btn-cancel,
+  .admin-btn-save {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .product-item {

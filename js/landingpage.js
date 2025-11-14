@@ -147,6 +147,24 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('LocalStorage products:', JSON.parse(localStorage.getItem('padimart_products') || '[]'));
   };
 
+  // Debug edit system - available in console
+  window.debugEditSystem = () => {
+    const cards = document.querySelectorAll('.product-card');
+    console.log('Total product cards:', cards.length);
+
+    cards.forEach((card, index) => {
+      const editBtn = card.querySelector('.card__edit-btn');
+      const editForm = card.querySelector('.card__edit-form');
+      const title = card.querySelector('.card__title')?.textContent;
+
+      console.log(`Card ${index + 1} (${title}):`, {
+        hasEditBtn: !!editBtn,
+        hasEditForm: !!editForm,
+        isExpanded: card.classList.contains('expanded')
+      });
+    });
+  };
+
   // Function to refresh products - available in console
   window.refreshProducts = () => {
     products = ProductsManager.getProducts().map(p => ({
@@ -263,6 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     applyFilters();
   });
+
+
 
   // initial
   applyFilters();

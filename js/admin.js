@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('totalSellers').textContent = sellers;
   }
 
-  // Render products list
+  // Render products list with expandable edit cards
   function renderProducts(list = products) {
     productsList.innerHTML = '';
 
@@ -135,35 +135,130 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    list.forEach((product) => {
-      const productItem = document.createElement('div');
-      productItem.className = 'product-item';
-      productItem.dataset.id = product.id;
+    list.forEach((product, index) => {
+      const productCard = document.createElement('div');
+      productCard.className = 'admin-product-card';
+      productCard.dataset.id = product.id;
+      productCard.style.animationDelay = `${index * 60}ms`;
 
-      const badge = product.popular ? '<span class="product-badge">POPULER</span>' : '';
+      const badge = product.popular ? '<div class="admin-card__badge">POPULER</div>' : '';
 
-      productItem.innerHTML = `
-        <div class="product-image" style="background-image: url('${product.image}')"></div>
-        <div class="product-info">
-          <h3>${product.title}</h3>
-          <div class="product-details">
-            <p><strong>Kategori:</strong> ${product.category}</p>
-            <p><strong>Harga:</strong> <span class="product-price">Rp ${formatPrice(product.price)}</span></p>
-            <p><strong>Berat:</strong> ${product.weight || 'Tidak diisi'}</p>
-            <p><strong>Penjual:</strong> ${product.seller || 'Tidak diisi'}</p>
-            <p><strong>Asal:</strong> ${product.origin || 'Tidak diisi'}</p>
-            <p><strong>Kondisi:</strong> ${product.condition || 'Baru'}</p>
-            <p><strong>WhatsApp:</strong> ${product.phone}</p>
+      productCard.innerHTML = `
+        <div class="admin-card__shine"></div>
+        <div class="admin-card__glow"></div>
+        ${badge}
+        <div class="admin-card__content">
+          <div class="admin-card__image" style="background-image:url('${product.image}');"></div>
+          <div class="admin-card__text">
+            <h3 class="admin-card__title">${product.title}</h3>
+            <p class="admin-card__category">${product.category}</p>
+            <p class="admin-card__price">Rp ${formatPrice(product.price)}</p>
           </div>
-          ${badge}
+          <div class="admin-card__footer">
+            <div class="admin-card__info">
+              <span class="info-item">📦 ${product.weight || 'N/A'}</span>
+              <span class="info-item">👤 ${product.seller || 'N/A'}</span>
+            </div>
+            <div class="admin-card__actions">
+              <button class="admin-btn admin-btn-edit" data-product-id="${product.id}" aria-label="Edit ${product.title}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="admin-btn admin-btn-delete" data-product-id="${product.id}" aria-label="Hapus ${product.title}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3,6 5,6 21,6"></polyline>
+                  <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="product-actions">
-          <button class="btn-edit" onclick="editProduct(${product.id})">Edit</button>
-          <button class="btn-danger" onclick="openDeleteModal(${product.id})">Hapus</button>
+        <div class="admin-card__edit-form" style="display: none;">
+          <div class="admin-edit-form-header">
+            <h3>Edit Produk</h3>
+            <button class="admin-edit-form-close" aria-label="Tutup form edit">×</button>
+          </div>
+          <form class="admin-edit-form">
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="admin-edit-title-${product.id}">Nama Produk</label>
+                <input type="text" id="admin-edit-title-${product.id}" name="title" value="${product.title}" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="admin-edit-category-${product.id}">Kategori</label>
+                <select id="admin-edit-category-${product.id}" name="category" required>
+                  <option value="Beras" ${product.category === 'Beras' ? 'selected' : ''}>Beras</option>
+                  <option value="Camilan & Olahan" ${product.category === 'Camilan & Olahan' ? 'selected' : ''}>Camilan & Olahan</option>
+                  <option value="Kerajinan & Oleh-oleh" ${product.category === 'Kerajinan & Oleh-oleh' ? 'selected' : ''}>Kerajinan & Oleh-oleh</option>
+                  <option value="Pupuk" ${product.category === 'Pupuk' ? 'selected' : ''}>Pupuk</option>
+                  <option value="Benih" ${product.category === 'Benih' ? 'selected' : ''}>Benih</option>
+                  <option value="Alat" ${product.category === 'Alat' ? 'selected' : ''}>Alat</option>
+                  <option value="Edukasi" ${product.category === 'Edukasi' ? 'selected' : ''}>Edukasi</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="admin-edit-price-${product.id}">Harga (Rp)</label>
+                <input type="number" id="admin-edit-price-${product.id}" name="price" value="${product.price}" min="0" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="admin-edit-weight-${product.id}">Berat</label>
+                <input type="text" id="admin-edit-weight-${product.id}" name="weight" value="${product.weight || ''}">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="admin-edit-seller-${product.id}">Nama Penjual</label>
+                <input type="text" id="admin-edit-seller-${product.id}" name="seller" value="${product.seller || ''}">
+              </div>
+              <div class="admin-form-group">
+                <label for="admin-edit-phone-${product.id}">No. WhatsApp</label>
+                <input type="tel" id="admin-edit-phone-${product.id}" name="phone" value="${product.phone || ''}">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="admin-edit-origin-${product.id}">Asal Daerah</label>
+                <input type="text" id="admin-edit-origin-${product.id}" name="origin" value="${product.origin || ''}">
+              </div>
+              <div class="admin-form-group">
+                <label for="admin-edit-condition-${product.id}">Kondisi</label>
+                <select id="admin-edit-condition-${product.id}" name="condition">
+                  <option value="Baru" ${(product.condition || 'Baru') === 'Baru' ? 'selected' : ''}>Baru</option>
+                  <option value="Bekas - Seperti Baru" ${product.condition === 'Bekas - Seperti Baru' ? 'selected' : ''}>Bekas - Seperti Baru</option>
+                  <option value="Bekas - Baik" ${product.condition === 'Bekas - Baik' ? 'selected' : ''}>Bekas - Baik</option>
+                  <option value="Refurbished" ${product.condition === 'Refurbished' ? 'selected' : ''}>Refurbished</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label for="admin-edit-image-${product.id}">Gambar Produk</label>
+              <input type="file" id="admin-edit-image-${product.id}" name="image" accept="image/*">
+              <div class="admin-image-preview" id="admin-preview-${product.id}">
+                <img src="${product.image || ''}" alt="Preview" style="max-width: 100px; max-height: 100px; object-fit: cover; border-radius: 4px;">
+              </div>
+            </div>
+            <div class="admin-form-group admin-checkbox-group">
+              <label>
+                <input type="checkbox" name="popular" ${product.popular ? 'checked' : ''}> Produk Populer
+              </label>
+            </div>
+            <div class="admin-form-actions">
+              <button type="button" class="admin-btn-cancel">Batal</button>
+              <button type="submit" class="admin-btn-save">Simpan</button>
+            </div>
+          </form>
         </div>
       `;
 
-      productsList.appendChild(productItem);
+      // Add event handlers
+      setupCardEventHandlers(productCard, product);
+      productsList.appendChild(productCard);
     });
   }
 
@@ -216,6 +311,202 @@ document.addEventListener('DOMContentLoaded', () => {
   searchProducts.addEventListener('input', applyFilters);
   filterCategory.addEventListener('change', applyFilters);
 
+  // Setup event handlers for admin cards
+  function setupCardEventHandlers(card, product) {
+    const editBtn = card.querySelector('.admin-btn-edit');
+    const deleteBtn = card.querySelector('.admin-btn-delete');
+    const editForm = card.querySelector('.admin-edit-form');
+    const editFormClose = card.querySelector('.admin-edit-form-close');
+    const cancelBtn = card.querySelector('.admin-btn-cancel');
+
+    // Edit button handler
+    if (editBtn) {
+      editBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleAdminEditForm(card, product);
+      });
+    }
+
+    // Delete button handler
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const productId = parseInt(e.currentTarget.getAttribute('data-product-id'));
+        openDeleteModal(productId);
+      });
+    }
+
+    // Edit form close handlers
+    if (editFormClose) {
+      editFormClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeAdminEditForm(card);
+      });
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeAdminEditForm(card);
+      });
+    }
+
+    // Edit form submit handler
+    if (editForm) {
+      editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleAdminEditSubmit(card, product);
+      });
+    }
+
+    // Image file input handler
+    const imageInput = card.querySelector(`#admin-edit-image-${product.id}`);
+    if (imageInput) {
+      imageInput.addEventListener('change', (e) => {
+        handleImagePreview(e.target, product.id);
+      });
+    }
+  }
+
+  // Admin edit form functions
+  function toggleAdminEditForm(card, product) {
+    try {
+      const editForm = card.querySelector('.admin-card__edit-form');
+      const cardContent = card.querySelector('.admin-card__content');
+
+      if (!editForm || !cardContent) {
+        console.error('Edit form or card content not found');
+        return;
+      }
+
+      const isExpanded = card.classList.contains('expanded');
+
+      if (isExpanded) {
+        closeAdminEditForm(card);
+      } else {
+        openAdminEditForm(card);
+      }
+    } catch (error) {
+      console.error('Error toggling admin edit form:', error);
+    }
+  }
+
+  function openAdminEditForm(card) {
+    const editForm = card.querySelector('.admin-card__edit-form');
+    const cardContent = card.querySelector('.admin-card__content');
+
+    if (!editForm || !cardContent) return;
+
+    // Close any other open edit forms
+    document.querySelectorAll('.admin-product-card.expanded').forEach(otherCard => {
+      if (otherCard !== card) {
+        closeAdminEditForm(otherCard);
+      }
+    });
+
+    card.classList.add('expanded');
+    editForm.style.display = 'block';
+
+    // Animate the expansion
+    setTimeout(() => {
+      editForm.classList.add('active');
+    }, 10);
+
+    // Focus on first input
+    const firstInput = editForm.querySelector('input');
+    if (firstInput) {
+      setTimeout(() => firstInput.focus(), 300);
+    }
+  }
+
+  function closeAdminEditForm(card) {
+    const editForm = card.querySelector('.admin-card__edit-form');
+
+    if (!editForm) return;
+
+    editForm.classList.remove('active');
+
+    setTimeout(() => {
+      card.classList.remove('expanded');
+      editForm.style.display = 'none';
+    }, 300);
+  }
+
+  function handleAdminEditSubmit(card, product) {
+    const editForm = card.querySelector('.admin-edit-form');
+    if (!editForm) return;
+
+    const formData = new FormData(editForm);
+    const imageFile = formData.get('image');
+
+    // Handle image upload
+    if (imageFile && imageFile.size > 0) {
+      // Convert image file to base64 data URL
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imageDataUrl = e.target.result;
+        updateProductWithImage(product, formData, imageDataUrl, card);
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      // No new image uploaded, keep existing image
+      updateProductWithImage(product, formData, product.image, card);
+    }
+  }
+
+  function updateProductWithImage(product, formData, imageUrl, card) {
+    const updates = {
+      title: formData.get('title'),
+      category: formData.get('category'),
+      price: parseInt(formData.get('price')),
+      image: imageUrl,
+      weight: formData.get('weight'),
+      seller: formData.get('seller'),
+      phone: formData.get('phone'),
+      origin: formData.get('origin'),
+      condition: formData.get('condition'),
+      popular: formData.has('popular')
+    };
+
+    // Update the product using ProductsManager
+    const updatedProduct = ProductsManager.updateProduct(product.id, updates);
+
+    if (updatedProduct) {
+      // Update local products array
+      const productIndex = products.findIndex(p => p.id === product.id);
+      if (productIndex !== -1) {
+        products[productIndex] = updatedProduct;
+      }
+
+      // Close edit form and refresh display
+      closeAdminEditForm(card);
+      renderProducts();
+      updateStatistics();
+
+      // Show success message
+      showNotification('Produk berhasil diperbarui!', 'success');
+    } else {
+      showNotification('Gagal memperbarui produk!', 'error');
+    }
+  }
+
+  function handleImagePreview(input, productId) {
+    const file = input.files[0];
+    const previewContainer = document.getElementById(`admin-preview-${productId}`);
+
+    if (file && previewContainer) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = previewContainer.querySelector('img');
+        if (img) {
+          img.src = e.target.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   // Delete modal
   function openDeleteModal(id) {
     deleteTargetId = id;
@@ -245,41 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Edit product (placeholder - can be expanded)
-  window.editProduct = (id) => {
-    const product = products.find((p) => p.id === id);
-    if (product) {
-      document.getElementById('productTitle').value = product.title;
-      document.getElementById('productCategory').value = product.category;
-      document.getElementById('productPrice').value = product.price;
-      document.getElementById('productWeight').value = product.weight || '';
-      document.getElementById('productSeller').value = product.seller || '';
-      document.getElementById('productOrigin').value = product.origin || '';
-      document.getElementById('productCondition').value = product.condition || 'Baru';
-      document.getElementById('productPopular').checked = product.popular;
-      document.getElementById('productPhone').value = product.phone;
 
-      // Handle image - if it's a data URL, show preview; otherwise clear
-      if (product.image && product.image.startsWith('data:')) {
-        showImagePreview(product.image);
-      } else if (product.image && !product.image.includes('placeholder')) {
-        // For existing URL images, show a note
-        showNotification('Produk ini menggunakan gambar URL. Upload gambar baru untuk menggantinya.', 'info');
-        hideImagePreview();
-      } else {
-        hideImagePreview();
-      }
-
-      // Clear file input
-      productImageInput.value = '';
-
-      // Scroll to form
-      document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
-
-      // Show message
-      showNotification(`Editing: ${product.title}. Update dan submit untuk menyimpan perubahan.`, 'info');
-    }
-  };
 
   // Delete product (exposed to global scope)
   window.openDeleteModal = openDeleteModal;
