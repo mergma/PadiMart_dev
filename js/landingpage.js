@@ -133,12 +133,40 @@ document.addEventListener('DOMContentLoaded', () => {
   if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', closeMenu);
   document.querySelectorAll('.side-menu a').forEach(a => a.addEventListener('click', closeMenu));
 
-  // Get products from shared ProductsManager
-  let products = ProductsManager.getProducts().map(p => ({
-    ...p,
-    img: p.image,
-    sellerPhone: p.phone
-  }));
+  // Get products from PHP backend
+  let products = [];
+
+  // Load products from database via PHP
+  async function loadProductsFromDatabase() {
+    try {
+      const response = await fetch('/padi/api/get-products.php');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message || 'Failed to load products');
+
+      products = (result.data || []).map(p => ({
+        ...p,
+        img: p.image,
+        sellerPhone: p.phone
+      }));
+
+      console.log('Loaded', products.length, 'products from database');
+      applyFilters();
+    } catch (error) {
+      console.error('Error loading products from database:', error);
+      // Fallback to localStorage if database fails
+      products = ProductsManager.getProducts().map(p => ({
+        ...p,
+        img: p.image,
+        sellerPhone: p.phone
+      }));
+      applyFilters();
+    }
+  }
+
+  // Load products on page load
+  loadProductsFromDatabase();
 
   // Debug function - available in console
   window.debugProducts = () => {
@@ -166,25 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Function to refresh products - available in console
-  window.refreshProducts = () => {
-    products = ProductsManager.getProducts().map(p => ({
-      ...p,
-      img: p.image,
-      sellerPhone: p.phone
-    }));
-    applyFilters();
+  window.refreshProducts = async () => {
+    await loadProductsFromDatabase();
     console.log('Products refreshed:', products.length, 'products loaded');
   };
 
   // Function to reset to defaults - available in console
-  window.resetProductsToDefaults = () => {
-    const resetProducts = ProductsManager.resetToDefaults();
-    products = resetProducts.map(p => ({
-      ...p,
-      img: p.image,
-      sellerPhone: p.phone
-    }));
-    applyFilters();
+  window.resetProductsToDefaults = async () => {
+    await loadProductsFromDatabase();
     console.log('Products reset to defaults:', products.length, 'products loaded');
   };
 

@@ -19,7 +19,7 @@
                 <span class="brand-text">PadiMart Admin</span>
             </div>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">← Kembali ke Katalog</a>
+                <a href="index.php" class="nav-link">← Kembali ke Katalog</a>
             </div>
         </div>
     </nav>

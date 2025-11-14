@@ -1,8 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Use shared ProductsManager for data persistence
-  let products = ProductsManager.getProducts();
+  // Load products from database via PHP
+  let products = [];
   let deleteTargetId = null;
   let currentImageData = null; // Store current image data
+
+  // Load products from database
+  async function loadProductsFromDatabase() {
+    try {
+      const response = await fetch('/padi/api/get-products.php');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message || 'Failed to load products');
+
+      products = result.data || [];
+      console.log('Loaded', products.length, 'products from database');
+      renderProducts();
+      updateStatistics();
+    } catch (error) {
+      console.error('Error loading products from database:', error);
+      // Fallback to localStorage if database fails
+      products = ProductsManager.getProducts();
+      renderProducts();
+      updateStatistics();
+    }
+  }
 
   // DOM Elements
   const addProductForm = document.getElementById('addProductForm');
@@ -263,31 +285,47 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Add product
-  addProductForm.addEventListener('submit', (e) => {
+  addProductForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const newProduct = {
-      title: document.getElementById('productTitle').value,
-      category: document.getElementById('productCategory').value,
-      price: parseInt(document.getElementById('productPrice').value),
-      weight: document.getElementById('productWeight').value,
-      seller: document.getElementById('productSeller').value,
-      origin: document.getElementById('productOrigin').value || 'Tabalong, Kalimantan Selatan',
-      condition: document.getElementById('productCondition').value || 'Baru',
-      image: currentImageData || 'https://via.placeholder.com/600x420?text=Produk',
-      popular: document.getElementById('productPopular').checked,
-      phone: document.getElementById('productPhone').value,
-    };
+    const formData = new FormData();
+    formData.append('title', document.getElementById('productTitle').value);
+    formData.append('category', document.getElementById('productCategory').value);
+    formData.append('price', parseInt(document.getElementById('productPrice').value));
+    formData.append('weight', document.getElementById('productWeight').value);
+    formData.append('seller', document.getElementById('productSeller').value);
+    formData.append('origin', document.getElementById('productOrigin').value || 'Tabalong, Kalimantan Selatan');
+    formData.append('condition', document.getElementById('productCondition').value || 'Baru');
+    formData.append('phone', document.getElementById('productPhone').value);
+    if (document.getElementById('productPopular').checked) {
+      formData.append('popular', '1');
+    }
 
-    ProductsManager.addProduct(newProduct);
-    products = ProductsManager.getProducts();
-    addProductForm.reset();
-    hideImagePreview(); // Clear image preview
-    renderProducts();
-    updateStatistics();
+    // Add image file if selected
+    const imageInput = document.getElementById('productImage');
+    if (imageInput.files.length > 0) {
+      formData.append('image', imageInput.files[0]);
+    }
 
-    // Show success message
-    showNotification('Produk berhasil ditambahkan!', 'success');
+    try {
+      const response = await fetch('/padi/api/manage-products.php', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message || 'Failed to add product');
+
+      addProductForm.reset();
+      hideImagePreview();
+      await loadProductsFromDatabase();
+      showNotification('Produk berhasil ditambahkan!', 'success');
+    } catch (error) {
+      console.error('Error adding product:', error);
+      showNotification('Gagal menambahkan produk: ' + error.message, 'error');
+    }
   });
 
   // Search and filter
@@ -455,39 +493,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function updateProductWithImage(product, formData, imageUrl, card) {
-    const updates = {
-      title: formData.get('title'),
-      category: formData.get('category'),
-      price: parseInt(formData.get('price')),
-      image: imageUrl,
-      weight: formData.get('weight'),
-      seller: formData.get('seller'),
-      phone: formData.get('phone'),
-      origin: formData.get('origin'),
-      condition: formData.get('condition'),
-      popular: formData.has('popular')
-    };
-
-    // Update the product using ProductsManager
-    const updatedProduct = ProductsManager.updateProduct(product.id, updates);
-
-    if (updatedProduct) {
-      // Update local products array
-      const productIndex = products.findIndex(p => p.id === product.id);
-      if (productIndex !== -1) {
-        products[productIndex] = updatedProduct;
+  async function updateProductWithImage(product, formData, imageUrl, card) {
+    try {
+      const updateData = new FormData();
+      updateData.append('id', product.id);
+      updateData.append('title', formData.get('title'));
+      updateData.append('category', formData.get('category'));
+      updateData.append('price', parseInt(formData.get('price')));
+      updateData.append('weight', formData.get('weight'));
+      updateData.append('seller', formData.get('seller'));
+      updateData.append('phone', formData.get('phone'));
+      updateData.append('origin', formData.get('origin'));
+      updateData.append('condition', formData.get('condition'));
+      if (formData.has('popular')) {
+        updateData.append('popular', '1');
       }
+
+      const response = await fetch('/padi/api/manage-products.php', {
+        method: 'PUT',
+        body: updateData
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message || 'Failed to update product');
 
       // Close edit form and refresh display
       closeAdminEditForm(card);
-      renderProducts();
-      updateStatistics();
-
-      // Show success message
+      await loadProductsFromDatabase();
       showNotification('Produk berhasil diperbarui!', 'success');
-    } else {
-      showNotification('Gagal memperbarui produk!', 'error');
+    } catch (error) {
+      console.error('Error updating product:', error);
+      showNotification('Gagal memperbarui produk: ' + error.message, 'error');
     }
   }
 
@@ -515,13 +553,28 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteModal.classList.add('active');
   }
 
-  confirmDelete.addEventListener('click', () => {
-    ProductsManager.deleteProduct(deleteTargetId);
-    products = ProductsManager.getProducts();
-    deleteModal.classList.remove('active');
-    renderProducts();
-    updateStatistics();
-    showNotification('Produk berhasil dihapus!', 'success');
+  confirmDelete.addEventListener('click', async () => {
+    try {
+      const formData = new FormData();
+      formData.append('id', deleteTargetId);
+
+      const response = await fetch('/padi/api/manage-products.php', {
+        method: 'DELETE',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message || 'Failed to delete product');
+
+      deleteModal.classList.remove('active');
+      await loadProductsFromDatabase();
+      showNotification('Produk berhasil dihapus!', 'success');
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      showNotification('Gagal menghapus produk: ' + error.message, 'error');
+    }
   });
 
   cancelDelete.addEventListener('click', () => {
@@ -593,8 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(style);
 
-  // Initial render
-  renderProducts();
-  updateStatistics();
+  // Initial render - load from database
+  loadProductsFromDatabase();
 });
 
