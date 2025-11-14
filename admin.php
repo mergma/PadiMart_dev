@@ -176,6 +176,7 @@
         </div>
     </div>
 
+    <script src="js/config.js"></script>
     <script src="js/products-data.js"></script>
     <script src="js/admin.js"></script>
 </body>

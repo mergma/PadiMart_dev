@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load products from database
   async function loadProductsFromDatabase() {
     try {
-      const response = await fetch('/padi/api/get-products.php');
+      const apiUrl = window.CONFIG?.API_BASE_URL || '/padi/api';
+      const response = await fetch(apiUrl + '/get-products.php');
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
       const result = await response.json();
@@ -308,7 +309,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch('/padi/api/manage-products.php', {
+      const apiUrl = window.CONFIG?.API_BASE_URL || '/padi/api';
+      const response = await fetch(apiUrl + '/manage-products.php', {
         method: 'POST',
         body: formData
       });
@@ -495,6 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function updateProductWithImage(product, formData, imageUrl, card) {
     try {
+      const apiUrl = window.CONFIG?.API_BASE_URL || '/padi/api';
       const updateData = new FormData();
       updateData.append('id', product.id);
       updateData.append('title', formData.get('title'));
@@ -509,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateData.append('popular', '1');
       }
 
-      const response = await fetch('/padi/api/manage-products.php', {
+      const response = await fetch(apiUrl + '/manage-products.php', {
         method: 'PUT',
         body: updateData
       });
@@ -555,10 +558,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   confirmDelete.addEventListener('click', async () => {
     try {
+      const apiUrl = window.CONFIG?.API_BASE_URL || '/padi/api';
       const formData = new FormData();
       formData.append('id', deleteTargetId);
 
-      const response = await fetch('/padi/api/manage-products.php', {
+      const response = await fetch(apiUrl + '/manage-products.php', {
         method: 'DELETE',
         body: formData
       });

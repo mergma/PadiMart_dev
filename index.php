@@ -734,6 +734,7 @@
       </div>
     </a>
 
+    <script src="js/config.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/products-data.js"></script>
     <script src="js/landingpage.js"></script>

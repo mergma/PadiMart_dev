@@ -139,7 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load products from database via PHP
   async function loadProductsFromDatabase() {
     try {
-      const response = await fetch('/padi/api/get-products.php');
+      const apiUrl = window.CONFIG?.API_BASE_URL || '/padi/api';
+      const response = await fetch(apiUrl + '/get-products.php');
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
       const result = await response.json();
