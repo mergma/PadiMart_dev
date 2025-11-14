@@ -67,32 +67,38 @@ function addProduct() {
 
 function updateProduct() {
     global $conn;
-    
-    parse_str(file_get_contents("php://input"), $data);
-    
-    $id = intval($data['id'] ?? 0);
+
+    // Handle both FormData (multipart) and regular POST data
+    $id = intval($_POST['id'] ?? 0);
     if (!$id) throw new Exception("Product ID required");
-    
+
     $updates = [];
     $fields = ['title', 'category', 'price', 'weight', 'seller', 'phone', 'origin', 'condition', 'popular'];
-    
+
     foreach ($fields as $field) {
-        if (isset($data[$field])) {
+        if (isset($_POST[$field])) {
             $fieldName = ($field === 'condition') ? '`condition`' : $field;
             if ($field === 'price') {
-                $updates[] = "$fieldName = " . intval($data[$field]);
+                $updates[] = "$fieldName = " . intval($_POST[$field]);
             } elseif ($field === 'popular') {
-                $updates[] = "$fieldName = " . (isset($data[$field]) ? 1 : 0);
+                $updates[] = "$fieldName = " . (isset($_POST[$field]) ? 1 : 0);
             } else {
-                $updates[] = "$fieldName = '" . $conn->real_escape_string($data[$field]) . "'";
+                $updates[] = "$fieldName = '" . $conn->real_escape_string($_POST[$field]) . "'";
             }
         }
     }
-    
+
+    // Handle image upload if provided
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image = base64_encode(file_get_contents($_FILES['image']['tmp_name']));
+        $image = $conn->real_escape_string($image);
+        $updates[] = "image = '$image'";
+    }
+
     if (empty($updates)) throw new Exception("No fields to update");
-    
+
     $sql = "UPDATE products SET " . implode(", ", $updates) . " WHERE id = $id";
-    
+
     if ($conn->query($sql)) {
         echo json_encode(['success' => true, 'message' => 'Product updated successfully']);
     } else {

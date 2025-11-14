@@ -225,12 +225,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const badge = p.popular ? `<div class="card__badge">POPULER</div>` : '';
 
+      // Format image URL - if it's base64, add data URI prefix
+      let imageUrl = p.img || '';
+      if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http')) {
+        imageUrl = 'data:image/jpeg;base64,' + imageUrl;
+      }
+
       card.innerHTML = `
         <div class="card__shine"></div>
         <div class="card__glow"></div>
         ${badge}
         <div class="card__content">
-          <div class="card__image" style="background-image:url('${p.img}');"></div>
+          <div class="card__image" style="background-image:url('${imageUrl}');"></div>
           <div class="card__text">
             <p class="card__title">${p.title}</p>
             <p class="card__description">${p.category}</p>
@@ -363,7 +369,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update modal content
     if (modalImage) {
-      const imageUrl = product.img || product.image;
+      let imageUrl = product.img || product.image || '';
+      // Format image URL - if it's base64, add data URI prefix
+      if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http')) {
+        imageUrl = 'data:image/jpeg;base64,' + imageUrl;
+      }
       modalImage.style.backgroundImage = `url('${imageUrl}')`;
 
       // Add fallback for broken images

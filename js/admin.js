@@ -166,12 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const badge = product.popular ? '<div class="admin-card__badge">POPULER</div>' : '';
 
+      // Format image URL - if it's base64, add data URI prefix
+      let imageUrl = product.image || '';
+      if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http')) {
+        imageUrl = 'data:image/jpeg;base64,' + imageUrl;
+      }
+
       productCard.innerHTML = `
         <div class="admin-card__shine"></div>
         <div class="admin-card__glow"></div>
         ${badge}
         <div class="admin-card__content">
-          <div class="admin-card__image" style="background-image:url('${product.image}');"></div>
+          <div class="admin-card__image" style="background-image:url('${imageUrl}');"></div>
           <div class="admin-card__text">
             <h3 class="admin-card__title">${product.title}</h3>
             <p class="admin-card__category">${product.category}</p>
