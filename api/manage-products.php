@@ -68,22 +68,59 @@ function addProduct() {
 function updateProduct() {
     global $conn;
 
-    // Handle both FormData (multipart) and regular POST data
-    $id = intval($_POST['id'] ?? 0);
+    // For PUT requests with FormData, PHP doesn't populate $_POST
+    // We need to parse multipart/form-data manually
+    $data = [];
+
+    // Try to get data from $_POST first (if available)
+    if (!empty($_POST)) {
+        $data = $_POST;
+    } else {
+        // Parse multipart form data manually for PUT requests
+        $boundary = '';
+        if (isset($_SERVER['CONTENT_TYPE'])) {
+            preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches);
+            $boundary = $matches[1] ?? '';
+        }
+
+        if ($boundary) {
+            $input = file_get_contents('php://input');
+            $parts = explode('--' . $boundary, $input);
+
+            foreach ($parts as $part) {
+                if (empty($part) || $part === '--' || $part === "--\r\n") continue;
+
+                // Split headers from content
+                $split = explode("\r\n\r\n", $part, 2);
+                if (count($split) !== 2) continue;
+
+                $headers = $split[0];
+                $content = rtrim($split[1], "\r\n");
+
+                // Extract field name
+                if (preg_match('/name="([^"]+)"/', $headers, $matches)) {
+                    $fieldName = $matches[1];
+                    $data[$fieldName] = $content;
+                }
+            }
+        }
+    }
+
+    $id = intval($data['id'] ?? 0);
     if (!$id) throw new Exception("Product ID required");
 
     $updates = [];
     $fields = ['title', 'category', 'price', 'weight', 'seller', 'phone', 'origin', 'condition', 'popular'];
 
     foreach ($fields as $field) {
-        if (isset($_POST[$field])) {
+        if (isset($data[$field])) {
             $fieldName = ($field === 'condition') ? '`condition`' : $field;
             if ($field === 'price') {
-                $updates[] = "$fieldName = " . intval($_POST[$field]);
+                $updates[] = "$fieldName = " . intval($data[$field]);
             } elseif ($field === 'popular') {
-                $updates[] = "$fieldName = " . (isset($_POST[$field]) ? 1 : 0);
+                $updates[] = "$fieldName = " . (isset($data[$field]) ? 1 : 0);
             } else {
-                $updates[] = "$fieldName = '" . $conn->real_escape_string($_POST[$field]) . "'";
+                $updates[] = "$fieldName = '" . $conn->real_escape_string($data[$field]) . "'";
             }
         }
     }
