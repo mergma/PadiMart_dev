@@ -1,9 +1,22 @@
 <?php
+// ============================================
+// PADI MART - Database Configuration Template
+// ============================================
+// 
+// INSTRUCTIONS:
+// 1. Copy this file and rename it to "config.php"
+// 2. Update the database credentials below with your own
+// 3. Save the file
+//
+// NOTE: The real config.php file is ignored by Git for security
+// ============================================
+
 // Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'padi_mart');
+// Update these values with your database credentials
+define('DB_HOST', 'localhost');        // Usually 'localhost' for XAMPP
+define('DB_USER', 'root');             // Your MySQL username (default: 'root' for XAMPP)
+define('DB_PASS', '');                 // Your MySQL password (default: empty for XAMPP)
+define('DB_NAME', 'padi_mart');        // Database name
 
 // Create connection
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);

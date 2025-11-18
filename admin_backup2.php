@@ -1,12 +1,4 @@
 <?php
-session_start();
-
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: login.php');
-    exit();
-}
-
 require_once 'api/config.php';
 
 // Handle product operations
@@ -283,6 +275,7 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -316,35 +309,15 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
             background-color: #58c234;
             color: white;
         }
-        /* Fix modal z-index issues */
-        .modal {
-            z-index: 1055 !important;
-        }
-        .modal-backdrop {
-            z-index: 1050 !important;
-        }
-        .modal-dialog {
-            z-index: 1056 !important;
-        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-store"></i> PadiMart Admin
-            </a>
+            <a class="navbar-brand" href="#">PadiMart Admin</a>
             <div class="navbar-nav ms-auto">
-                <span class="nav-link text-white me-3">
-                    <i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($_SESSION['admin_name']); ?>
-                </span>
-                <a href="index.php" class="nav-link me-2">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Katalog
-                </a>
-                <a href="logout.php" class="nav-link text-warning" onclick="return confirm('Yakin ingin logout?')">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
+                <a href="index.php" class="nav-link"><i class="fas fa-arrow-left"></i> Kembali ke Katalog</a>
             </div>
         </div>
     </nav>

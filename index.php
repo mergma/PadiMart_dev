@@ -1,3 +1,9 @@
+<?php
+session_start();
+// Check if admin is logged in
+$isAdmin = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
+$adminName = $isAdmin ? $_SESSION['admin_name'] : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -118,6 +124,23 @@
                 /></svg
               >Kontak</a
             >
+            <?php if ($isAdmin): ?>
+            <a class="nav-link admin-link" href="admin.php" title="Admin Panel - <?php echo htmlspecialchars($adminName); ?>"
+              ><svg
+                class="icon"
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
+                  fill="currentColor"
+                /></svg
+              >Admin Panel</a
+            >
+            <?php endif; ?>
           </div>
 
           <div class="toggle-cont">
@@ -375,6 +398,60 @@
               </div>
             </label>
           </div>
+
+          <!-- User Dropdown -->
+          <div class="user-dropdown-container">
+            <button class="user-dropdown-btn" id="userDropdownBtn" aria-label="User menu">
+              <svg class="user-icon" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="currentColor"/>
+              </svg>
+            </button>
+
+            <div class="user-dropdown-menu" id="userDropdownMenu">
+              <?php if ($isAdmin): ?>
+                <!-- Logged in as admin -->
+                <div class="dropdown-header">
+                  <div class="dropdown-user-info">
+                    <svg class="dropdown-icon" viewBox="0 0 24 24" width="20" height="20">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="currentColor"/>
+                    </svg>
+                    <div>
+                      <div class="dropdown-username"><?php echo htmlspecialchars($adminName); ?></div>
+                      <div class="dropdown-role">Administrator</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a href="admin.php" class="dropdown-item">
+                  <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/>
+                  </svg>
+                  Admin Panel
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="logout.php" class="dropdown-item logout-item" onclick="return confirm('Yakin ingin logout?')">
+                  <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" fill="currentColor"/>
+                  </svg>
+                  Logout
+                </a>
+              <?php else: ?>
+                <!-- Not logged in -->
+                <a href="login.php" class="dropdown-item">
+                  <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z" fill="currentColor"/>
+                  </svg>
+                  Sign In
+                </a>
+                <a href="register.php" class="dropdown-item">
+                  <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
+                  </svg>
+                  Register
+                </a>
+              <?php endif; ?>
+            </div>
+          </div>
         </div>
         <!-- Theme toggle moved out of .nav-right so it remains visible on mobile -->
       </div>
@@ -394,6 +471,9 @@
           <li><a href="#products">Produk</a></li>
           <li><a href="#about">Tentang</a></li>
           <li><a href="#contact">Kontak</a></li>
+          <?php if ($isAdmin): ?>
+          <li><a href="admin.php" style="color: #667eea; font-weight: 600;">🔐 Admin Panel</a></li>
+          <?php endif; ?>
         </ul>
       </div>
     </div>
@@ -904,5 +984,38 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/products-data.js"></script>
     <script src="js/landingpage.js"></script>
+
+    <script>
+      // User Dropdown Toggle
+      document.addEventListener('DOMContentLoaded', function() {
+        const dropdownBtn = document.getElementById('userDropdownBtn');
+        const dropdownMenu = document.getElementById('userDropdownMenu');
+
+        if (dropdownBtn && dropdownMenu) {
+          // Toggle dropdown on button click
+          dropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+          });
+
+          // Close dropdown when clicking outside
+          document.addEventListener('click', function(e) {
+            if (!dropdownMenu.contains(e.target) && !dropdownBtn.contains(e.target)) {
+              dropdownMenu.classList.remove('show');
+            }
+          });
+
+          // Close dropdown when clicking a link inside (except for items that need confirmation)
+          dropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+              // Small delay to allow navigation
+              setTimeout(() => {
+                dropdownMenu.classList.remove('show');
+              }, 100);
+            });
+          });
+        }
+      });
+    </script>
   </body>
 </html>
