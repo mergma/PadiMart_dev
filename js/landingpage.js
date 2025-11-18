@@ -311,22 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // initial
   applyFilters();
 
-  // Testimonial slider (simple)
-  const testimonialTrack = document.getElementById('testimonialTrack');
-  let tIndex = 0, tInterval = null;
-  function showTestimonial(i){
-    if(!testimonialTrack) return;
-    const items = testimonialTrack.querySelectorAll('.testimonial');
-    if(!items.length) return;
-    tIndex = (i + items.length) % items.length;
-    const w = items[0].offsetWidth + (parseInt(getComputedStyle(items[0]).marginRight) || 16);
-    testimonialTrack.style.transform = `translateX(${-(w * tIndex)}px)`;
-  }
-  function startTestimonials(){ if(tInterval) clearInterval(tInterval); tInterval = setInterval(()=> showTestimonial(tIndex+1), 4000); }
-  function stopTestimonials(){ if(tInterval) clearInterval(tInterval); }
-  document.querySelectorAll('.testimonial-slider .prev').forEach(b => b.addEventListener('click', ()=>{ showTestimonial(tIndex-1); startTestimonials(); }));
-  document.querySelectorAll('.testimonial-slider .next').forEach(b => b.addEventListener('click', ()=>{ showTestimonial(tIndex+1); startTestimonials(); }));
-  if(testimonialTrack){ testimonialTrack.addEventListener('mouseenter', stopTestimonials); testimonialTrack.addEventListener('mouseleave', startTestimonials); showTestimonial(0); startTestimonials(); }
+  // Testimonials are now displayed as a grid - no slider functionality needed
 
   // Scroll indicator: smooth-scroll to next section (#about)
   const scrollIndicator = document.querySelector('.scroll-indicator');

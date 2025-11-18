@@ -506,50 +506,216 @@
     </section>
 
     <!-- Testimonials -->
-    <section id="testimonials" class="section container">
-      <h2>Testimoni Pelanggan</h2>
-      <div class="testimonial-slider">
-        <button class="slider-btn prev" aria-label="Sebelumnya">‹</button>
-        <div class="slider-track" id="testimonialTrack">
-          <blockquote class="testimonial">
-            "Produk berkualitas, pengiriman cepat!" — Siti
+    <section id="testimonials" class="section container" aria-label="Testimoni Pelanggan">
+      <div class="section-header">
+        <h2>Testimoni Pelanggan</h2>
+        <p class="muted">Dengarkan pengalaman pelanggan kami yang puas dengan produk dan layanan PADI MART</p>
+      </div>
+      <div class="testimonials-grid" role="list">
+        <article class="testimonial" role="listitem">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #58c234 0%, #58b530 100%);" aria-label="Avatar Siti Nurhaliza">
+              <span aria-hidden="true">S</span>
+            </div>
+            <div class="testimonial-meta">
+              <h4 class="testimonial-name">Siti Nurhaliza</h4>
+              <p class="testimonial-role">Pembeli Reguler</p>
+            </div>
+          </div>
+          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+          </div>
+          <blockquote class="testimonial-text">
+            <p>"Produk berkualitas, pengiriman cepat! Saya sangat puas dengan layanan PADI MART. Beras yang saya pesan selalu fresh dan dikemas dengan baik."</p>
           </blockquote>
-          <blockquote class="testimonial">
-            "Banyak pilihan lokal, harga bersaing." — Budi
+        </article>
+        <article class="testimonial" role="listitem">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #ed9f24 0%, #e8a535 100%);" aria-label="Avatar Budi Santoso">
+              <span aria-hidden="true">B</span>
+            </div>
+            <div class="testimonial-meta">
+              <h4 class="testimonial-name">Budi Santoso</h4>
+              <p class="testimonial-role">Pemilik Toko</p>
+            </div>
+          </div>
+          <div class="testimonial-rating" aria-label="Rating 4 dari 5 bintang">
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star" aria-hidden="true">★</span>
+          </div>
+          <blockquote class="testimonial-text">
+            <p>"Banyak pilihan lokal, harga bersaing. Platform ini memudahkan saya menemukan supplier berkualitas dengan harga yang kompetitif."</p>
           </blockquote>
-          <blockquote class="testimonial">
-            "Membantu pelaku usaha kami dikenal lebih luas." — Toko Makmur
+        </article>
+        <article class="testimonial" role="listitem">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #58c234 0%, #ed9f24 100%);" aria-label="Avatar Toko Makmur">
+              <span aria-hidden="true">T</span>
+            </div>
+            <div class="testimonial-meta">
+              <h4 class="testimonial-name">Toko Makmur</h4>
+              <p class="testimonial-role">Usaha Kecil Menengah</p>
+            </div>
+          </div>
+          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+          </div>
+          <blockquote class="testimonial-text">
+            <p>"Membantu pelaku usaha kami dikenal lebih luas. Berkat PADI MART, produk kami dapat menjangkau pasar yang lebih besar dan meningkatkan penjualan."</p>
           </blockquote>
-        </div>
-        <button class="slider-btn next" aria-label="Selanjutnya">›</button>
+        </article>
+        <article class="testimonial" role="listitem">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);" aria-label="Avatar Rina Wijaya">
+              <span aria-hidden="true">R</span>
+            </div>
+            <div class="testimonial-meta">
+              <h4 class="testimonial-name">Rina Wijaya</h4>
+              <p class="testimonial-role">Reseller Produk Organik</p>
+            </div>
+          </div>
+          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+          </div>
+          <blockquote class="testimonial-text">
+            <p>"Sistem pembayaran yang aman dan terpercaya. Saya sangat menghargai transparansi harga dan kualitas produk yang konsisten dari PADI MART setiap kali saya berbelanja."</p>
+          </blockquote>
+        </article>
+        <article class="testimonial" role="listitem">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);" aria-label="Avatar Ahmad Hidayat">
+              <span aria-hidden="true">A</span>
+            </div>
+            <div class="testimonial-meta">
+              <h4 class="testimonial-name">Ahmad Hidayat</h4>
+              <p class="testimonial-role">Distributor Beras Premium</p>
+            </div>
+          </div>
+          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+            <span class="star filled" aria-hidden="true">★</span>
+          </div>
+          <blockquote class="testimonial-text">
+            <p>"Layanan pelanggan yang responsif dan membantu. Tim PADI MART selalu siap menjawab pertanyaan saya dan memberikan solusi terbaik untuk kebutuhan bisnis saya."</p>
+          </blockquote>
+        </article>
       </div>
     </section>
 
     <!-- Contact / Footer -->
-    <footer id="contact" class="section footer container">
-      <div class="footer-grid">
-        <div>
-          <h3>PadiMart</h3>
-          <p>
-            Alamat: Tabalong, Kalimantan Selatan (detail lokasi akan diumumkan)
-          </p>
-          <p>Email: info@padimart.example</p>
-        </div>
-        <div>
-          <h4>Jam Operasional</h4>
-          <p>Senin - Jumat: 08:00 - 17:00</p>
-        </div>
-        <div>
-          <h4>Kontak Cepat</h4>
-          <p><a href="tel:+628123456789">+62 812-3456-789</a></p>
-          <p>
-            <a href="https://wa.me/628123456789" target="_blank" rel="noopener"
-              >Chat WhatsApp</a
-            >
-          </p>
+    <footer id="contact" class="section footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-grid">
+            <!-- Brand Section -->
+            <div class="footer-section footer-brand">
+              <div class="footer-logo">
+                <img src="img/PADI%20MART.png" alt="PADI MART" class="footer-brand-logo" />
+              </div>
+              <p class="footer-description">
+                Platform digital untuk memperkenalkan dan memasarkan produk lokal berkualitas dari petani dan pelaku usaha agribisnis.
+              </p>
+              <div class="footer-social">
+                <a href="https://wa.me/628123456789" target="_blank" rel="noopener" aria-label="WhatsApp" class="social-link">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.411-2.391-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.335 1.236-3.356 2.259-1.02 1.02-1.756 2.119-2.259 3.357-.606 1.605-.949 3.362-.949 5.209 0 1.551.203 3.087.6 4.571.793 2.901 2.478 5.41 4.744 7.224 1.7 1.372 3.71 2.301 5.942 2.712 1.52.288 3.11.288 4.63 0 2.232-.411 4.242-1.34 5.942-2.712 2.266-1.814 3.951-4.323 4.744-7.224.397-1.484.6-3.02.6-4.571 0-1.847-.343-3.604-.949-5.209-.503-1.238-1.239-2.337-2.259-3.357-1.02-1.023-2.118-1.756-3.357-2.259-1.605-.606-3.362-.949-5.209-.949z"/>
+                  </svg>
+                </a>
+                <a href="mailto:info@padimart.example" aria-label="Email" class="social-link">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+              <h4 class="footer-title">Navigasi</h4>
+              <ul class="footer-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#about">Tentang Kami</a></li>
+                <li><a href="#products">Katalog Produk</a></li>
+                <li><a href="#testimonials">Testimoni</a></li>
+              </ul>
+            </div>
+
+            <!-- Information -->
+            <div class="footer-section">
+              <h4 class="footer-title">Informasi</h4>
+              <ul class="footer-info">
+                <li>
+                  <strong>Lokasi:</strong>
+                  <span>Tabalong, Kalimantan Selatan</span>
+                </li>
+                <li>
+                  <strong>Email:</strong>
+                  <a href="mailto:info@padimart.example">info@padimart.example</a>
+                </li>
+                <li>
+                  <strong>Telepon:</strong>
+                  <a href="tel:+628123456789">+62 812-3456-789</a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Operating Hours -->
+            <div class="footer-section">
+              <h4 class="footer-title">Jam Operasional</h4>
+              <ul class="footer-hours">
+                <li>
+                  <span class="day">Senin - Jumat</span>
+                  <span class="time">08:00 - 17:00</span>
+                </li>
+                <li>
+                  <span class="day">Sabtu</span>
+                  <span class="time">09:00 - 14:00</span>
+                </li>
+                <li>
+                  <span class="day">Minggu</span>
+                  <span class="time">Tutup</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            <div class="footer-divider"></div>
+            <div class="footer-bottom-content">
+              <p class="copyright">
+                © 2025 PADI MART. Semua hak dilindungi. Platform digital untuk petani dan pelaku usaha lokal.
+              </p>
+              <div class="footer-bottom-links">
+                <a href="#" class="footer-link-small">Kebijakan Privasi</a>
+                <span class="divider">•</span>
+                <a href="#" class="footer-link-small">Syarat & Ketentuan</a>
+                <span class="divider">•</span>
+                <a href="#" class="footer-link-small">Hubungi Kami</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="copyright">© 2025 PadiMart. All rights reserved.</div>
     </footer>
 
     <!-- Product Detail Modal -->
