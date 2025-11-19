@@ -581,7 +581,6 @@ $adminName = $isAdmin ? $_SESSION['admin_name'] : '';
           <option value="price_desc">Harga: Tinggi ke Rendah</option>
         </select>
       </div>
-      <a href="admin.php" class="nav-link">← Kembali ke Katalog</a>
       <div id="productGrid" class="product-grid" aria-live="polite"></div>
     </section>
 
