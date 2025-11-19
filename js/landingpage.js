@@ -225,9 +225,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const badge = p.popular ? `<div class="card__badge">POPULER</div>` : '';
 
-      // Format image URL - if it's base64, add data URI prefix
-      let imageUrl = p.img || '';
-      if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http')) {
+      // Format image URL
+      let imageUrl = p.img || p.image || '';
+
+      // If no image, use placeholder
+      if (!imageUrl) {
+        imageUrl = 'img/placeholder-product.png';
+      }
+      // If it's a file path (starts with uploads/), use it directly
+      else if (imageUrl.startsWith('uploads/')) {
+        imageUrl = imageUrl; // Use as-is
+      }
+      // If it's base64 without data URI prefix, add it
+      else if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http') && !imageUrl.startsWith('uploads/')) {
         imageUrl = 'data:image/jpeg;base64,' + imageUrl;
       }
 
@@ -355,10 +365,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update modal content
     if (modalImage) {
       let imageUrl = product.img || product.image || '';
-      // Format image URL - if it's base64, add data URI prefix
-      if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http')) {
+
+      // If no image, use placeholder
+      if (!imageUrl) {
+        imageUrl = 'img/placeholder-product.png';
+      }
+      // If it's a file path (starts with uploads/), use it directly
+      else if (imageUrl.startsWith('uploads/')) {
+        imageUrl = imageUrl; // Use as-is
+      }
+      // If it's base64 without data URI prefix, add it
+      else if (imageUrl && !imageUrl.startsWith('data:') && !imageUrl.startsWith('http') && !imageUrl.startsWith('uploads/')) {
         imageUrl = 'data:image/jpeg;base64,' + imageUrl;
       }
+
       modalImage.style.backgroundImage = `url('${imageUrl}')`;
 
       // Add fallback for broken images
