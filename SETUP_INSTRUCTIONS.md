@@ -114,12 +114,18 @@ Open your browser and visit:
 
 ## 🔐 Default Login Credentials
 
+### Admin Account (Pre-created)
 ```
 Username: admin
 Password: admin123
 ```
 
 ⚠️ **IMPORTANT**: Change this password immediately after first login!
+
+### Regular User Accounts
+- Regular users can register via the registration page: `http://localhost/padi/register.php`
+- Regular users can view products but **cannot** access the admin panel
+- Only admins can access the admin panel and manage products/categories
 
 ---
 
@@ -137,6 +143,7 @@ padi/
 ├── js/                    # JavaScript files
 ├── database/              # Database setup files
 │   ├── complete_setup.sql # Complete database setup (USE THIS!)
+│   ├── add_users_table.sql # Add users table to existing database
 │   ├── create_admin_table.sql
 │   └── setup_admin.php
 ├── uploads/               # Product images (not tracked by Git)
@@ -150,6 +157,19 @@ padi/
 
 ---
 
+## 🔄 Upgrading Existing Database
+
+If you already have the database set up from a previous version and just need to add the users table:
+
+1. In phpMyAdmin, select the `padi_mart` database
+2. Click the **"Import"** tab
+3. Import: `database/add_users_table.sql`
+4. Click **"Go"**
+
+This will add the `users` table for regular user authentication without affecting your existing data.
+
+---
+
 ## ✅ Verification Checklist
 
 After setup, verify everything works:
@@ -157,11 +177,12 @@ After setup, verify everything works:
 - [ ] Homepage loads at `http://localhost/padi/`
 - [ ] Can see products on homepage
 - [ ] Can access login page
-- [ ] Can login with default credentials
-- [ ] Can access admin panel after login
+- [ ] Can login with admin credentials (admin/admin123)
+- [ ] Admin can access admin panel
 - [ ] Can add/edit/delete products in admin panel
 - [ ] Can add/edit/delete categories in admin panel
-- [ ] Can register new admin account
+- [ ] Can register new user account
+- [ ] Regular users can login but cannot access admin panel
 - [ ] Can logout successfully
 
 ---

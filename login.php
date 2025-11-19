@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// If already logged in, redirect to admin
-if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header('Location: admin.php');
+// If already logged in, redirect to homepage
+if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
+    header('Location: index.php');
     exit();
 }
 
@@ -19,31 +19,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     if (empty($username) || empty($password)) {
         $error = 'Username dan password harus diisi!';
     } else {
-        // Query admin from database
+        $userFound = false;
+        $isAdmin = false;
+
+        // First, try to find user in admins table
         $stmt = $conn->prepare("SELECT id, username, password, email, full_name FROM admins WHERE username = ? AND is_active = 1");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows === 1) {
-            $admin = $result->fetch_assoc();
-            
+            $user = $result->fetch_assoc();
+            $userFound = true;
+            $isAdmin = true;
+        }
+        $stmt->close();
+
+        // If not found in admins, try users table
+        if (!$userFound) {
+            $stmt = $conn->prepare("SELECT id, username, password, email FROM users WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows === 1) {
+                $user = $result->fetch_assoc();
+                $userFound = true;
+                $isAdmin = false;
+            }
+            $stmt->close();
+        }
+
+        if ($userFound) {
             // Verify password
-            if (password_verify($password, $admin['password'])) {
+            if (password_verify($password, $user['password'])) {
                 // Password correct, create session
-                $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
-                $_SESSION['admin_email'] = $admin['email'];
-                $_SESSION['admin_name'] = $admin['full_name'] ?? $admin['username'];
-                
-                // Update last login
-                $updateStmt = $conn->prepare("UPDATE admins SET last_login = NOW() WHERE id = ?");
-                $updateStmt->bind_param("i", $admin['id']);
-                $updateStmt->execute();
-                
-                // Redirect to admin panel
-                header('Location: admin.php');
+                $_SESSION['user_logged_in'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_username'] = $user['username'];
+                $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_name'] = isset($user['full_name']) ? $user['full_name'] : $user['username'];
+                $_SESSION['is_admin'] = $isAdmin;
+
+                // For backward compatibility
+                if ($isAdmin) {
+                    $_SESSION['admin_logged_in'] = true;
+                    $_SESSION['admin_id'] = $user['id'];
+                    $_SESSION['admin_username'] = $user['username'];
+                    $_SESSION['admin_email'] = $user['email'];
+                    $_SESSION['admin_name'] = isset($user['full_name']) ? $user['full_name'] : $user['username'];
+                }
+
+                // Update last login for admins only (users table doesn't have last_login column)
+                if ($isAdmin) {
+                    $updateStmt = $conn->prepare("UPDATE admins SET last_login = NOW() WHERE id = ?");
+                    if ($updateStmt) {
+                        $updateStmt->bind_param("i", $user['id']);
+                        $updateStmt->execute();
+                        $updateStmt->close();
+                    }
+                }
+
+                // Redirect to homepage
+                header('Location: index.php');
                 exit();
             } else {
                 $error = 'Username atau password salah!';
@@ -51,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         } else {
             $error = 'Username atau password salah!';
         }
-        $stmt->close();
     }
 }
 ?>

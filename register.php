@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// If already logged in, redirect to admin
-if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header('Location: admin.php');
+// If already logged in, redirect to homepage
+if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
+    header('Location: index.php');
     exit();
 }
 
@@ -32,44 +32,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     } elseif ($password !== $confirmPassword) {
         $error = 'Password dan konfirmasi password tidak cocok!';
     } else {
-        // Check if username already exists
+        // Check if username already exists in both tables
+        $usernameExists = false;
+
+        // Check admins table
         $stmt = $conn->prepare("SELECT id FROM admins WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        
         if ($result->num_rows > 0) {
+            $usernameExists = true;
+        }
+        $stmt->close();
+
+        // Check users table
+        if (!$usernameExists) {
+            $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $usernameExists = true;
+            }
+            $stmt->close();
+        }
+
+        if ($usernameExists) {
             $error = 'Username sudah digunakan!';
-            $stmt->close();
         } else {
-            $stmt->close();
-            
-            // Check if email already exists
+            // Check if email already exists in both tables
+            $emailExists = false;
+
+            // Check admins table
             $stmt = $conn->prepare("SELECT id FROM admins WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
-            
             if ($result->num_rows > 0) {
-                $error = 'Email sudah terdaftar!';
-                $stmt->close();
-            } else {
-                $stmt->close();
-                
-                // Hash password and insert new admin
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-                
-                $stmt = $conn->prepare("INSERT INTO admins (username, password, email, full_name) VALUES (?, ?, ?, ?)");
-                $stmt->bind_param("ssss", $username, $hashedPassword, $email, $fullName);
-                
-                if ($stmt->execute()) {
-                    $success = 'Registrasi berhasil! Silakan login.';
-                    // Clear form
-                    $username = $email = $fullName = '';
-                } else {
-                    $error = 'Terjadi kesalahan saat registrasi. Silakan coba lagi.';
+                $emailExists = true;
+            }
+            $stmt->close();
+
+            // Check users table
+            if (!$emailExists) {
+                $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    $emailExists = true;
                 }
                 $stmt->close();
+            }
+
+            if ($emailExists) {
+                $error = 'Email sudah terdaftar!';
+            } else {
+                
+                // Hash password and insert new user (regular user, not admin)
+                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+                $stmt = $conn->prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
+
+                if ($stmt === false) {
+                    $error = 'Database error: ' . $conn->error;
+                } else {
+                    $stmt->bind_param("sss", $username, $hashedPassword, $email);
+
+                    if ($stmt->execute()) {
+                        $success = 'Registrasi berhasil! Silakan login.';
+                        // Clear form
+                        $username = $email = $fullName = '';
+                    } else {
+                        $error = 'Terjadi kesalahan saat registrasi: ' . $stmt->error;
+                    }
+                    $stmt->close();
+                }
             }
         }
     }

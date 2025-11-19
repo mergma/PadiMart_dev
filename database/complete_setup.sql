@@ -73,12 +73,32 @@ INSERT INTO `admins` (`username`, `password`, `email`, `full_name`, `is_active`)
 ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@padimart.com', 'Administrator', 1);
 
 -- ============================================
+-- 4. USERS TABLE (Regular Users)
+-- ============================================
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','seller','user') DEFAULT 'user',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================
 -- SETUP COMPLETE!
 -- ============================================
--- Default login credentials:
+-- Default admin login credentials:
 -- Username: admin
 -- Password: admin123
--- 
+--
 -- IMPORTANT: Change the default password after first login!
+--
+-- Regular users can register via the registration page.
+-- Admins have access to the admin panel.
+-- Regular users can only view products and contact sellers.
 -- ============================================
 

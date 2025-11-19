@@ -1,8 +1,9 @@
 <?php
 session_start();
-// Check if admin is logged in
-$isAdmin = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
-$adminName = $isAdmin ? $_SESSION['admin_name'] : '';
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true;
+$isAdmin = $isLoggedIn && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+$userName = $isLoggedIn ? $_SESSION['user_name'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -408,26 +409,28 @@ $adminName = $isAdmin ? $_SESSION['admin_name'] : '';
             </button>
 
             <div class="user-dropdown-menu" id="userDropdownMenu">
-              <?php if ($isAdmin): ?>
-                <!-- Logged in as admin -->
+              <?php if ($isLoggedIn): ?>
+                <!-- Logged in user -->
                 <div class="dropdown-header">
                   <div class="dropdown-user-info">
                     <svg class="dropdown-icon" viewBox="0 0 24 24" width="20" height="20">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="currentColor"/>
                     </svg>
                     <div>
-                      <div class="dropdown-username"><?php echo htmlspecialchars($adminName); ?></div>
-                      <div class="dropdown-role">Administrator</div>
+                      <div class="dropdown-username"><?php echo htmlspecialchars($userName); ?></div>
+                      <div class="dropdown-role"><?php echo $isAdmin ? 'Administrator' : 'User'; ?></div>
                     </div>
                   </div>
                 </div>
-                <div class="dropdown-divider"></div>
-                <a href="admin.php" class="dropdown-item">
-                  <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/>
-                  </svg>
-                  Admin Panel
-                </a>
+                <?php if ($isAdmin): ?>
+                  <div class="dropdown-divider"></div>
+                  <a href="admin.php" class="dropdown-item">
+                    <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/>
+                    </svg>
+                    Admin Panel
+                  </a>
+                <?php endif; ?>
                 <div class="dropdown-divider"></div>
                 <a href="logout.php" class="dropdown-item logout-item" onclick="return confirm('Yakin ingin logout?')">
                   <svg class="dropdown-icon" viewBox="0 0 24 24" width="18" height="18">

@@ -1,9 +1,16 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+// Check if user is logged in AND is an admin
+if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
+    // Not logged in at all
     header('Location: login.php');
+    exit();
+}
+
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    // Logged in but not an admin
+    header('Location: index.php?error=access_denied');
     exit();
 }
 
@@ -337,7 +344,7 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
             </a>
             <div class="navbar-nav ms-auto">
                 <span class="nav-link text-white me-3">
-                    <i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($_SESSION['admin_name']); ?>
+                    <i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
                 </span>
                 <a href="index.php" class="nav-link me-2">
                     <i class="fas fa-arrow-left"></i> Kembali ke Katalog

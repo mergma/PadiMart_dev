@@ -25,7 +25,8 @@
 5. **Done!**
    - Visit: `http://localhost/padi/`
    - Login: `http://localhost/padi/login.php`
-   - Username: `admin` | Password: `admin123`
+   - Admin Login: `admin` / `admin123`
+   - Or register a new user account (regular users can't access admin panel)
 
 ---
 
@@ -47,7 +48,8 @@ The main steps are:
 - Copy api/config.example.php to api/config.php
 - Visit http://localhost/padi/
 
-Default login: admin / admin123
+Admin login: admin / admin123
+Regular users can register via the registration page.
 ```
 
 ---
