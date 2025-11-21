@@ -271,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             </div>
 
             <div style="margin-top:1rem;">
-                <button class="btn btn-wa" onclick="window.open('https://wa.me/628123456789')">Chat via WhatsApp</button>
+                <div class="panel-cta">Dukung petani lokal — masuk sekarang untuk dapatkan penawaran khusus!</div>
             </div>
         </aside>
 
