@@ -76,6 +76,40 @@ body::after {
   box-shadow: 0 4px 10px rgba(11,18,32,0.06);
 }
 
+/* CTA text style to replace WA button */
+.panel-cta {
+  background: linear-gradient(90deg, rgba(88,194,52,0.08), rgba(237,160,36,0.06));
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  color: #0b1220;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(11,18,32,0.04);
+  border: 1px solid rgba(88,194,52,0.06);
+  width: fit-content;
+}
+
+/* Emphasize logos */
+.panel-brand img {
+  height: 84px;
+  width: 84px;
+  object-fit: contain;
+  background: linear-gradient(180deg, #ffffff, rgba(255,255,255,0.85));
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(11,18,32,0.07);
+  border: 1px solid rgba(11,18,32,0.03);
+}
+
+/* Make header logo more visible on the right card */
+.login-header h1 img {
+  height: 36px;
+  width: auto;
+  background: rgba(255,255,255,0.9);
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(11,18,32,0.08);
+}
+
 /* Card tweaks */
 .login-card { border-radius: 18px !important; overflow: hidden; }
 .login-header { padding: 1.25rem 1.5rem !important; }
