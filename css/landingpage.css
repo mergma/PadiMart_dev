@@ -264,7 +264,7 @@ body {
 
 /* Hamburger Menu Button */
 .hamburger-menu {
-  background: none;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   cursor: pointer;
   padding: 0.5rem;
@@ -272,6 +272,9 @@ body {
   flex-direction: column;
   gap: 4px;
   z-index: 1001;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* hide hamburger on desktop */
@@ -1530,7 +1533,7 @@ nav.navbar, .navbar {
 @media (max-width: 768px) {
   nav.navbar, .navbar { top: 8px !important; }
 }
-.navbar, .navbar * { background: transparent !important; }
+/* .navbar, .navbar * { background: transparent !important; } */
 /* Give the navbar container equal top/bottom padding so items are vertically centered
    Reduced to 8px to raise logo/menu slightly */
 .navbar .container { background: transparent !important; padding-top: 8px !important; padding-bottom: 8px !important; }
