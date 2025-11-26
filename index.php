@@ -603,7 +603,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
         <article class="testimonial" role="listitem">
           <div class="testimonial-header">
             <div class="testimonial-avatar" style="background: linear-gradient(135deg, #58c234 0%, #58b530 100%);" aria-label="Avatar Siti Nurhaliza">
-              <span aria-hidden="true">S</span>
+              <span aria-hidden="true">A</span>
             </div>
             <div class="testimonial-meta">
               <h4 class="testimonial-name">A. Rezki firdaus</h4>
