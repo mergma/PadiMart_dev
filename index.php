@@ -542,7 +542,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             melalui optimalisasi produk turunan pertanian yang inovatif, higienis, dan bernilai jual tinggi.
           </p>
           <br>
-          
+
         </div>
 
         <div class="about-video">
@@ -606,7 +606,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
               <span aria-hidden="true">S</span>
             </div>
             <div class="testimonial-meta">
-              <h4 class="testimonial-name">Siti Nurhaliza</h4>
+              <h4 class="testimonial-name">A. Rezki firdaus</h4>
               <p class="testimonial-role">Pembeli Reguler</p>
             </div>
           </div>
@@ -618,91 +618,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             <span class="star filled" aria-hidden="true">★</span>
           </div>
           <blockquote class="testimonial-text">
-            <p>"Produk berkualitas, pengiriman cepat! Saya sangat puas dengan layanan PADI MART. Beras yang saya pesan selalu fresh dan dikemas dengan baik."</p>
-          </blockquote>
-        </article>
-        <article class="testimonial" role="listitem">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #ed9f24 0%, #e8a535 100%);" aria-label="Avatar Budi Santoso">
-              <span aria-hidden="true">B</span>
-            </div>
-            <div class="testimonial-meta">
-              <h4 class="testimonial-name">Budi Santoso</h4>
-              <p class="testimonial-role">Pemilik Toko</p>
-            </div>
-          </div>
-          <div class="testimonial-rating" aria-label="Rating 4 dari 5 bintang">
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star" aria-hidden="true">★</span>
-          </div>
-          <blockquote class="testimonial-text">
-            <p>"Banyak pilihan lokal, harga bersaing. Platform ini memudahkan saya menemukan supplier berkualitas dengan harga yang kompetitif."</p>
-          </blockquote>
-        </article>
-        <article class="testimonial" role="listitem">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #58c234 0%, #ed9f24 100%);" aria-label="Avatar Toko Makmur">
-              <span aria-hidden="true">T</span>
-            </div>
-            <div class="testimonial-meta">
-              <h4 class="testimonial-name">Toko Makmur</h4>
-              <p class="testimonial-role">Usaha Kecil Menengah</p>
-            </div>
-          </div>
-          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-          </div>
-          <blockquote class="testimonial-text">
-            <p>"Membantu pelaku usaha kami dikenal lebih luas. Berkat PADI MART, produk kami dapat menjangkau pasar yang lebih besar dan meningkatkan penjualan."</p>
-          </blockquote>
-        </article>
-        <article class="testimonial" role="listitem">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);" aria-label="Avatar Rina Wijaya">
-              <span aria-hidden="true">R</span>
-            </div>
-            <div class="testimonial-meta">
-              <h4 class="testimonial-name">Rina Wijaya</h4>
-              <p class="testimonial-role">Reseller Produk Organik</p>
-            </div>
-          </div>
-          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-          </div>
-          <blockquote class="testimonial-text">
-            <p>"Sistem pembayaran yang aman dan terpercaya. Saya sangat menghargai transparansi harga dan kualitas produk yang konsisten dari PADI MART setiap kali saya berbelanja."</p>
-          </blockquote>
-        </article>
-        <article class="testimonial" role="listitem">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);" aria-label="Avatar Ahmad Hidayat">
-              <span aria-hidden="true">A</span>
-            </div>
-            <div class="testimonial-meta">
-              <h4 class="testimonial-name">Ahmad Hidayat</h4>
-              <p class="testimonial-role">Distributor Beras Premium</p>
-            </div>
-          </div>
-          <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-            <span class="star filled" aria-hidden="true">★</span>
-          </div>
-          <blockquote class="testimonial-text">
-            <p>"Layanan pelanggan yang responsif dan membantu. Tim PADI MART selalu siap menjawab pertanyaan saya dan memberikan solusi terbaik untuk kebutuhan bisnis saya."</p>
+            <p>"Beras tersebut rasanya nyaman, pulen tetapi pulennya tuh beda dengan beras pulen biasanya, tidak terlalu pulen jadi sangat cocok dengan lidah saya"</p>
           </blockquote>
         </article>
       </div>
