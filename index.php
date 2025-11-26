@@ -542,11 +542,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             melalui optimalisasi produk turunan pertanian yang inovatif, higienis, dan bernilai jual tinggi.
           </p>
           <br>
-          <p>
-            Target pengunjung: masyarakat umum, toko, dan instansi. Sistem admin
-            untuk pengelolaan konten sedang dalam perencanaan dan akan
-            dikembangkan lebih lanjut.
-          </p>
+          
         </div>
 
         <div class="about-video">
