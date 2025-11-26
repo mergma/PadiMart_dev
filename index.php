@@ -882,7 +882,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     <a
       id="whatsappBtn"
       class="uiverse-whatsapp"
-      href="https://wa.me/628123456789"
+      href="https://wa.me/+6289647709998"
       target="_blank"
       rel="noopener"
       aria-label="Chat via WhatsApp"
