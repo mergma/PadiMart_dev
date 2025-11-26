@@ -530,18 +530,18 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             PADI MART (Pemasaran Digital untuk Produk Turunan Pertanian) adalah program pengembangan usaha berbasis teknologi yang bertujuan untuk meningkatkan nilai tambah dan daya jual produk turunan hasil pertanian. 
             Melalui program ini, para petani, pelaku UMKM, dan kelompok perempuan tani diberikan pendampingan dalam hal pengolahan produk, branding, serta strategi pemasaran digital agar mampu bersaing di pasar modern.
           </p>
-
+          <br>
           <p>
             Program ini tidak hanya fokus pada peningkatan keterampilan produksi, tetapi juga membuka akses pemasaran yang lebih luas melalui platform digital seperti marketplace, media sosial, dan katalog online. 
             Dengan memanfaatkan teknologi, PADI MART membantu pelaku usaha meningkatkan kualitas kemasan, membangun identitas brand, serta mempromosikan produk unggulan pertanian secara profesional.
           </p>
-
+          <br>
           <p>
             Melalui kegiatan pelatihan, pendampingan, dan praktik langsung, 
             PADI MART berkomitmen mendorong kemandirian ekonomi lokal, memperluas pasar, dan meningkatkan pendapatan masyarakat 
             melalui optimalisasi produk turunan pertanian yang inovatif, higienis, dan bernilai jual tinggi.
           </p>
-          
+          <br>
           <p>
             Target pengunjung: masyarakat umum, toko, dan instansi. Sistem admin
             untuk pengelolaan konten sedang dalam perencanaan dan akan
