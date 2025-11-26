@@ -311,11 +311,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
 
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <a href="#" class="text-decoration-none" style="color:rgba(11,18,32,0.7);">Lupa password?</a>
-                        <a href="register.php" class="text-decoration-none" style="color:var(--padi-green); font-weight:600;">Buat akun</a>
-                    </div>
-                </form>
+                    
 
                 <div class="register-link">
                     <div style="display:flex; gap:1rem; justify-content:center; align-items:center;">
