@@ -618,7 +618,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             <span class="star filled" aria-hidden="true">★</span>
           </div>
           <blockquote class="testimonial-text">
-            <p>"Beras tersebut rasanya nyaman, pulen tetapi pulennya tuh beda dengan beras pulen biasanya, tidak terlalu pulen jadi sangat cocok dengan lidah saya"</p>
+            <p>"Beras tersebut rasanya nyaman, pulen tetapi pulennya beda dengan beras pulen biasanya, tidak terlalu pulen jadi sangat cocok dengan lidah saya"</p>
           </blockquote>
         </article>
       </div>
