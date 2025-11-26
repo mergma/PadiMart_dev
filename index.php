@@ -673,7 +673,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
                 </li>
                 <li>
                   <strong>Email:</strong>
-                  <a href="mailto:info@padimart.example">info@padimart.example</a>
+                  <a href="mailto:Padimart2025@gmail.com">Padimart2025@gmail.com</a>
                 </li>
                 <li>
                   <strong>Telepon:</strong>
