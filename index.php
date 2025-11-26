@@ -677,8 +677,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
                 </li>
                 <li>
                   <strong>Telepon:</strong>
-                  <a href="tel:+628123456789">+62 823-5736-0603 Afrida</a>,
-                  <a href="tel:+6289647709998">+62 896-4770-9998 Yati</a>
+                  <a href="tel:+628123456789">+62 823-5736-0603 Afrida <br> +62 896-4770-9998 Yati</a>
                 </li>
               </ul>
             </div>
