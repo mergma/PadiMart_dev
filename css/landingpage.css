@@ -1409,7 +1409,7 @@ body[data-theme="light"] .divider {
 .navbar .container { padding-left: 6px !important; padding-right: 10px !important; }
 
 /* Navbar forced to be fixed across viewport so brand centering works consistently */
-.navbar { position: fixed; left: 0; right: 0; }erti
+.navbar { position: fixed; top: 0; left: 0; right: 0; }
 .navbar .container { position: static; }
 
 /* Centered brand / split navigation layout (left nav / brand / right nav) */
@@ -1519,14 +1519,14 @@ body[data-theme="light"] .divider {
   border-bottom: none !important;
 }
 
-/* User-requested override: make navbar absolute and visually lower while keeping transparency
-   Placed last so it overrides earlier `position: fixed` rules. Adjust `top` if you want it higher/lower. */
+/* User-requested override: keep navbar fixed and transparent while preserving layering.
+   This replaces older absolute positioning which caused inconsistent layout on small screens. */
 nav.navbar, .navbar {
-  position: absolute !important;
-  top: 0 !important; /* sit at the very top so padding defines vertical placement */
+  position: fixed !important;
+  top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  z-index: 2000 !important; /* keep below Uiverse whatsapp but above page content */
+  z-index: 2000 !important;
 }
 
 /* Slightly reduce offset on small screens so it doesn't look too low */

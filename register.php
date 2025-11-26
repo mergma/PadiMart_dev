@@ -210,6 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             text-decoration: underline;
         }
     </style>
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
     <div class="register-container">

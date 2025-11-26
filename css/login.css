@@ -1,0 +1,151 @@
+/* Login page enhancements (overrides) */
+:root{
+  --padi-green: rgb(88,194,52);
+  --padi-green-dark: #58b530;
+  --padi-orange: rgb(237,160,36);
+  --accent: rgba(11,18,32,0.06);
+}
+
+/* Soft page background and centering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fbfdf9;
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(88,194,52,0.045), transparent 8%),
+    radial-gradient(circle at 92% 82%, rgba(237,160,36,0.035), transparent 12%),
+    linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+  background-blend-mode: overlay, overlay, normal;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decorative soft shapes using pseudo-element so markup untouched */
+body::before {
+  content: '';
+  position: absolute;
+  left: -6%;
+  top: -8%;
+  width: 40vw;
+  height: 40vh;
+  background: radial-gradient(circle at 30% 30%, rgba(88,194,52,0.06), rgba(88,194,52,0.02) 40%, transparent 60%);
+  transform: rotate(-12deg);
+  filter: blur(36px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  right: -8%;
+  bottom: -6%;
+  width: 48vw;
+  height: 48vh;
+  background: radial-gradient(circle at 70% 70%, rgba(237,160,36,0.05), rgba(237,160,36,0.015) 45%, transparent 65%);
+  transform: rotate(8deg);
+  filter: blur(42px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content sits above decorative shapes */
+.login-wrapper, .login-card, .login-panel { position: relative; z-index: 1; }
+
+/* Slightly larger container padding on desktop */
+.login-wrapper { padding: 1.25rem !important; }
+
+/* Make left panel more card-like */
+.login-panel {
+  border-left: 6px solid rgba(88,194,52,0.12);
+  padding: 2.5rem !important;
+}
+
+.panel-brand .panel-title { font-size: 1.35rem; letter-spacing: 0.2px; }
+.panel-sub { font-size: 0.95rem; }
+
+/* Feature list: icons inside rounded chips */
+.feat i {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8));
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(11,18,32,0.06);
+}
+
+/* CTA text style to replace WA button */
+.panel-cta {
+  background: linear-gradient(90deg, rgba(88,194,52,0.08), rgba(237,160,36,0.06));
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  color: #0b1220;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(11,18,32,0.04);
+  border: 1px solid rgba(88,194,52,0.06);
+  width: fit-content;
+}
+
+/* Emphasize logos */
+.panel-brand img {
+  height: 84px;
+  width: 84px;
+  object-fit: contain;
+  background: linear-gradient(180deg, #ffffff, rgba(255,255,255,0.85));
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(11,18,32,0.07);
+  border: 1px solid rgba(11,18,32,0.03);
+}
+
+/* Make header logo more visible on the right card */
+.login-header h1 img {
+  height: 36px;
+  width: auto;
+  background: rgba(255,255,255,0.9);
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(11,18,32,0.08);
+}
+
+/* Card tweaks */
+.login-card { border-radius: 18px !important; overflow: hidden; }
+.login-header { padding: 1.25rem 1.5rem !important; }
+.login-header h1 img { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12)); }
+.login-body { padding: 1.5rem 1.6rem !important; }
+
+/* Inputs and buttons */
+.form-control {
+  height: 46px;
+  border-radius: 10px;
+  padding-left: 0.9rem;
+}
+.input-group-text { border-radius: 10px 0 0 10px; }
+
+.btn-login {
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+}
+
+.btn-login:active, .btn-login:focus { transform: translateY(0); box-shadow: 0 6px 18px rgba(88,194,52,0.16); }
+
+/* Register link style */
+.register-link { padding-top: 1rem !important; }
+.register-link a { color: var(--padi-green); font-weight: 700; }
+
+/* Make small screens tighter */
+@media (max-width: 768px) {
+  .login-panel { padding: 1rem !important; }
+  .login-body { padding: 1rem !important; }
+  .feat .fsub { font-size: 0.9rem; }
+}
+
+/* Improve focus states for accessibility */
+.form-control:focus { outline: none; box-shadow: 0 6px 18px rgba(88,194,52,0.12) !important; border-color: var(--padi-green) !important; }
+
+/* small visual polish for separators */
+.register-link span { color: rgba(11,18,32,0.12); }
