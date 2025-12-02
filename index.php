@@ -596,7 +596,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     <section id="testimonials" class="section container" aria-label="Testimoni Pelanggan">
       <div class="section-header">
         <h2 style="color:white">Testimoni Pelanggan</h2>
-        <p class="muted">Dengarkan pengalaman pelanggan kami yang puas dengan produk dan layanan PADI MART</p>
+        <p style="color:white" class="muted">Dengarkan pengalaman pelanggan kami yang puas dengan produk dan layanan PADI MART</p>
       </div>
       <div class="testimonials-grid" role="list">
         <article class="testimonial" role="listitem">
