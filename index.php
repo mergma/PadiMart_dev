@@ -10,12 +10,11 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PADI MART</title>
-    <link rel="stylesheet" href="css/bootstrap.css" />
+    <title>PADI MART</title>wwwww
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;5ww;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -596,7 +595,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     <!-- Testimonials -->
     <section id="testimonials" class="section container" aria-label="Testimoni Pelanggan">
       <div class="section-header">
-        <h2>Testimoni Pelanggan</h2>
+        <h2 style="color:white">Testimoni Pelanggan</h2>
         <p class="muted">Dengarkan pengalaman pelanggan kami yang puas dengan produk dan layanan PADI MART</p>
       </div>
       <div class="testimonials-grid" role="list">
@@ -606,8 +605,8 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
               <span aria-hidden="true">A</span>
             </div>
             <div class="testimonial-meta">
-              <h4 class="testimonial-name">A. Rezki firdaus</h4>
-              <p class="testimonial-role">Pembeli Reguler</p>
+              <h4 style="color: white" class="testimonial-name">A. Rezki firdaus</h4>
+              <p style="color:white" class="testimonial-role">Pembeli Reguler</p>
             </div>
           </div>
           <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
@@ -617,7 +616,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             <span class="star filled" aria-hidden="true">★</span>
             <span class="star filled" aria-hidden="true">★</span>
           </div>
-          <blockquote class="testimonial-text">
+          <blockquote style="color: white" class="testimonial-text">
             <p>"Beras tersebut rasanya nyaman, pulen tetapi pulennya beda dengan beras pulen biasanya, tidak terlalu pulen jadi sangat cocok dengan lidah saya"</p>
           </blockquote>
         </article>
