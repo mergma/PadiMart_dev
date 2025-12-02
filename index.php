@@ -595,8 +595,8 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     <!-- Testimonials -->
     <section id="testimonials" class="section container" aria-label="Testimoni Pelanggan">
       <div class="section-header">
-        <h2 style="color:white">Testimoni Pelanggan</h2>
-        <p style="color:white" class="muted">Dengarkan pengalaman pelanggan kami yang puas dengan produk dan layanan PADI MART</p>
+        <h2>Testimoni Pelanggan</h2>
+        <p class="muted">Dengarkan pengalaman pelanggan kami yang puas dengan produk dan layanan PADI MART</p>
       </div>
       <div class="testimonials-grid" role="list">
         <article class="testimonial" role="listitem">
@@ -605,8 +605,8 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
               <span aria-hidden="true">A</span>
             </div>
             <div class="testimonial-meta">
-              <h4 style="color: white" class="testimonial-name">A. Rezki firdaus</h4>
-              <p style="color:white" class="testimonial-role">Pembeli Reguler</p>
+              <h4 class="testimonial-name">A. Rezki firdaus</h4>
+              <p class="testimonial-role">Pembeli Reguler</p>
             </div>
           </div>
           <div class="testimonial-rating" aria-label="Rating 5 dari 5 bintang">
@@ -616,8 +616,8 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
             <span class="star filled" aria-hidden="true">★</span>
             <span class="star filled" aria-hidden="true">★</span>
           </div>
-          <blockquote style="color: white" class="testimonial-text">
-            <p>"Beras tersebut rasanya nyaman, pulen tetapi pulennya beda dengan beras pulen biasanya, tidak terlalu pulen jadi sangat cocok dengan lidah saya"</p>
+          <blockquote class="testimonial-text">
+            <p>"Beras tersebut rasanya nyaman, pulen tetapi pulennya beda dengan beras pulen biasanya, tidak terlalu pulen jadi sangat cocok dengan lidah saya"</p>
           </blockquote>
         </article>
       </div>
