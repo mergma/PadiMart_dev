@@ -32,17 +32,65 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     <link rel="stylesheet" href="css/landingpage.css" />
     <link rel="stylesheet" href="css/responsive-utilities.css" />
     <style>
-      /* Tambah jarak antara navbar dan judul hero.
-         Sesuaikan nilai padding-top bila navbar Anda lebih tinggi/lebih rendah. */
+      /* Jarak antara navbar dan judul hero */
       .hero-section {
-        padding-top: 70px; /* jarak default untuk layar kecil */
+        padding-top: 70px;
+      }
+      @media (min-width: 1024px) {
+        .hero-section { padding-top: 110px; }
       }
 
-      /* Lebih banyak jarak untuk layar desktop */
-      @media (min-width: 1024px) {
-        .hero-section {
-          padding-top: 110px;
-        }
+      /* NAVBAR: center layout */
+      .navbar .container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* pusatkan kelompok navigasi */
+        gap: 18px;
+        padding: 10px 20px;
+      }
+
+      /* Tetap letakkan logo di tengah (di atas layout yang dipusatkan) */
+      .center-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+      }
+
+      /* Biarkan grup nav kiri & kanan menjadi inline dan ikut terpusat */
+      .nav-left, .nav-right {
+        position: static;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-left .main-nav, .nav-right .main-nav {
+        display: flex;
+        gap: 14px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+      }
+
+      /* Pada layar kecil kembalikan agar tidak menumpuk logo */
+      @media (max-width: 900px) {
+        .center-brand { position: relative; left: auto; transform: none; }
+        .navbar .container { justify-content: space-between; }
+      }
+
+      /* Admin button: transparan dengan garis pinggir */
+      .admin-link {
+        background: transparent !important;
+        border: 1px solid rgba(0,0,0,0.12);
+        padding: 8px 14px;
+        border-radius: 999px;
+        color: inherit;
+        box-shadow: none;
+        transition: background .18s, border-color .18s;
+      }
+      .admin-link:hover {
+        background: rgba(0,0,0,0.04);
+        border-color: rgba(0,0,0,0.18);
       }
     </style>
   </head>
