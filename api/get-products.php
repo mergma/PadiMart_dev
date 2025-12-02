@@ -57,6 +57,8 @@ try {
 
     $products = [];
     while ($row = $result->fetch_assoc()) {
+        // Convert popular field to boolean
+        $row['popular'] = (bool)(int)$row['popular'];
         $products[] = $row;
     }
 

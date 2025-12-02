@@ -40,6 +40,9 @@ body {
 .hero-content > div { display: flex; flex-direction: column; gap: var(--hero-gap); }
 
 
+/* Hero section needs top padding since navbar is now fixed */
+.hero-section { padding-top: var(--navbar-height); }
+
 /* Do not add global top padding — hero should sit under the fixed navbar. */
 /* Add top padding only to non-hero sections so content isn't hidden behind navbar */
 .section:not(.hero-section) { padding-top: calc(4rem + var(--navbar-height)); }
@@ -191,12 +194,17 @@ body {
 
 /* Navigation */
 .navbar {
-  /* make navbar participate in normal flow so it scrolls away with the page */
-  position: static;
+  /* make navbar fixed so sidebar can overlay on top */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   background: transparent; /* default transparent over hero */
   backdrop-filter: blur(6px);
   transition: all 0.25s ease;
   padding: 0.6rem 1rem;
+  z-index: 1000;
 }
 
 .navbar .container {
