@@ -1,0 +1,80 @@
+# PADI MART - Git Ignore File
+# Files and folders that should NOT be committed to GitHub
+
+# ============================================
+# Database Configuration (contains passwords)
+# ============================================
+api/config.php
+
+# ============================================
+# Uploaded Files (product images, etc.)
+# ============================================
+uploads/*
+!uploads/.gitkeep
+
+# ============================================
+# System Files
+# ============================================
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# ============================================
+# IDE and Editor Files
+# ============================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PhpStorm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# Logs and Temporary Files
+# ============================================
+*.log
+*.tmp
+*.temp
+error_log
+debug.log
+
+# ============================================
+# Backup Files
+# ============================================
+*.bak
+*.backup
+*_backup.php
+*_old.php
+
+# ============================================
+# Environment Files
+# ============================================
+.env
+.env.local
+.env.production
+
+# ============================================
+# Composer (if using PHP dependencies)
+# ============================================
+vendor/
+composer.lock
+
+# ============================================
+# Node Modules (if using npm)
+# ============================================
+node_modules/
+package-lock.json
+
