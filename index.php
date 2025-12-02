@@ -32,73 +32,17 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     <link rel="stylesheet" href="css/landingpage.css" />
     <link rel="stylesheet" href="css/responsive-utilities.css" />
     <style>
-      /* Jarak antara navbar dan judul hero */
+      /* Tambah jarak antara navbar dan judul hero.
+         Sesuaikan nilai padding-top bila navbar Anda lebih tinggi/lebih rendah. */
       .hero-section {
-        padding-top: 70px;
+        padding-top: 70px; /* jarak default untuk layar kecil */
       }
+
+      /* Lebih banyak jarak untuk layar desktop */
       @media (min-width: 1024px) {
-        .hero-section { padding-top: 110px; }
-      }
-
-      /* NAVBAR: kiri - logo tengah absolut - kanan */
-      .navbar .container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        padding: 10px 28px; /* ruang horizontal untuk logo */
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      /* kiri/kanan mengisi ruang dan menempatkan item ke masing-masing sisi */
-      .nav-left, .nav-right {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex: 1;
-        min-width: 0;
-      }
-      .nav-left { justify-content: flex-start; }
-      .nav-right { justify-content: flex-end; }
-
-      /* logo berada di tengah (absolute) tanpa mempengaruhi flow nav */
-      .center-brand {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 3;
-      }
-      .brand-logo {
-        height: 44px;
-        display: block;
-      }
-
-      /* pada layar kecil, kembalikan logo ke flow agar responsif */
-      @media (max-width: 900px) {
-        .center-brand { position: relative; left: auto; transform: none; }
-        .navbar .container { justify-content: space-between; padding: 8px 16px; }
-        .nav-left, .nav-right { flex: 0 0 auto; }
-      }
-
-      /* Admin button: transparan dengan garis pinggir, tidak mengganggu align */
-      .admin-link {
-        background: transparent;
-        border: 1px solid rgba(0,0,0,0.12);
-        padding: 6px 12px;
-        border-radius: 999px;
-        color: inherit;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        transition: background .18s, border-color .18s;
-      }
-      .admin-link svg { height: 16px; width: 16px; }
-      .admin-link:hover {
-        background: rgba(0,0,0,0.04);
-        border-color: rgba(0,0,0,0.2);
+        .hero-section {
+          padding-top: 110px;
+        }
       }
     </style>
   </head>
