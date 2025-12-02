@@ -31,6 +31,20 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
     />
     <link rel="stylesheet" href="css/landingpage.css" />
     <link rel="stylesheet" href="css/responsive-utilities.css" />
+    <style>
+      /* Tambah jarak antara navbar dan judul hero.
+         Sesuaikan nilai padding-top bila navbar Anda lebih tinggi/lebih rendah. */
+      .hero-section {
+        padding-top: 70px; /* jarak default untuk layar kecil */
+      }
+
+      /* Lebih banyak jarak untuk layar desktop */
+      @media (min-width: 1024px) {
+        .hero-section {
+          padding-top: 110px;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Navigation -->
