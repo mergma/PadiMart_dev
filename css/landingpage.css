@@ -19,6 +19,34 @@
   --hero-nav-gap: 1.5rem;
 }
 
+/* === THEME-AWARE COLOR VARIABLES (added) ===
+   Define primary/muted/nav colors for light/dark and force commonly used
+   components to use these variables so font colors adapt to the selected theme.
+*/
+body[data-theme="light"] {
+  --text-primary: #0b1220;              /* main text color for light mode */
+  --text-muted: rgba(0,0,0,0.6);        /* secondary / muted text */
+  --nav-text: #0b1220;                  /* navbar link / brand color */
+  --brand-text: #0b1220;
+  --card-bg: #ffffff;
+}
+
+body[data-theme="dark"] {
+  --text-primary: #ffffff;              /* main text color for dark mode */
+  --text-muted: rgba(255,255,255,0.72); /* secondary / muted text */
+  --nav-text: #ffffff;                  /* navbar link / brand color */
+  --brand-text: #ffffff;
+  --card-bg: #0a0a0a;
+}
+
+/* General base fallback (if no data-theme set) */
+:root {
+  --text-primary: var(--primary-black, #0a0a0a);
+  --text-muted: rgba(0,0,0,0.6);
+  --nav-text: var(--white);
+  --card-bg: var(--white);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -1733,3 +1761,73 @@ body[data-theme="dark"] .product-controls input[type="search"]::placeholder {
   .toggle-cont { right: 8px !important; }
   .uiverse-whatsapp { right: 10px !important; bottom: 10px !important; }
 }
+
+/* === APPLY THEME COLORS: override previously hard-coded colors === */
+/* Use !important sparingly here to ensure these replace legacy fixed colors */
+body,
+.hero-title,
+.hero-description,
+.section,
+.footer,
+.modal-title,
+.modal-description,
+.product-title,
+.product-meta,
+.product-body,
+.product-footer,
+.detail-value,
+.detail-label,
+.seller-name,
+.seller-location,
+.testimonial-name,
+.testimonial-role,
+.menu-list a,
+.dropdown-item {
+  color: var(--text-primary) !important;
+}
+
+/* Muted / secondary text */
+.muted,
+.rating-text,
+.testimonial-role,
+.product-meta,
+.dropdown-role,
+.footer-link-small,
+.footer-info span {
+  color: var(--text-muted) !important;
+}
+
+/* Navbar colors */
+.navbar .nav-link,
+.navbar .brand-text,
+.navbar.scrolled .nav-link,
+.navbar.scrolled .brand-text {
+  color: var(--nav-text) !important;
+}
+.hamburger-line {
+  background: var(--nav-text) !important;
+}
+
+/* Card / container backgrounds should also respond to theme where applicable */
+.product-card,
+.testimonial,
+.modal-content,
+.side-menu,
+.footer {
+  background-color: var(--card-bg) !important;
+}
+
+/* Ensure hero retains intended contrast but follows theme text color */
+.hero-title,
+.hero-description {
+  color: var(--text-primary) !important;
+}
+
+/* Inputs / selects (text color) */
+.product-controls input[type="search"],
+.product-controls select {
+  color: var(--text-primary) !important;
+}
+
+/* Small helper — keep rating stars color consistent */
+.testimonial-rating .star { color: #ffc107; }
