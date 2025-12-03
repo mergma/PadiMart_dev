@@ -1025,5 +1025,5 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
         }
       });
     </script>
-  </body>
+</body>
 </html>
