@@ -452,6 +452,76 @@ body {
   padding-left: 1.5rem;
 }
 
+/* Side Menu User Container */
+.side-menu-user-container {
+  position: relative;
+  margin-top: 2rem;
+  display: block;
+}
+
+.side-menu-user-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.side-menu-user-btn:hover {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+  transform: translateY(-2px);
+}
+
+.side-menu-user-btn .user-icon {
+  color: white;
+  width: 24px;
+  height: 24px;
+}
+
+.side-menu-user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  margin-top: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 100000;
+  overflow: hidden;
+}
+
+.side-menu-user-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Responsive adjustments for sidebar user section */
+@media (max-width: 768px) {
+  .side-menu-user-container {
+    margin-top: 1.5rem;
+  }
+
+  .side-menu-user-btn {
+    padding: 0.75rem 1rem;
+  }
+
+  .side-menu-user-dropdown {
+    min-width: 200px;
+  }
+}
+
 /* responsivny navibar */
 @media (max-width: 768px) {
   .main-nav {
