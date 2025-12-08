@@ -89,6 +89,26 @@
             // Column likely already exists, ignore error
         }
         
+        // Create default admin user if none exists
+        $adminCheck = $con->query("SELECT COUNT(*) as count FROM admins");
+        if ($adminCheck) {
+            $adminRow = $adminCheck->fetch(PDO::FETCH_ASSOC);
+            if ($adminRow['count'] == 0) {
+                // No admin exists, create default admin
+                $defaultUsername = 'admin';
+                $defaultPassword = password_hash('admin', PASSWORD_BCRYPT);
+                $defaultEmail = 'admin@padimart.com';
+                $defaultName = 'Administrator';
+                
+                try {
+                    $con->exec("INSERT INTO admins (username, password, email, full_name, is_active) 
+                               VALUES ('$defaultUsername', '$defaultPassword', '$defaultEmail', '$defaultName', 1)");
+                } catch (Exception $e) {
+                    // Ignore if admin creation fails
+                }
+            }
+        }
+        
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
         exit();
