@@ -1,0 +1,257 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.base {
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Navigation Bar */
+.mainnavv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 70px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.menu-icon {
+    font-size: 1.5rem;
+    color: #333;
+    transition: color 0.3s ease;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.menu-icon:hover {
+    color: #ff4444;
+}
+
+.nav-logo {
+    height: 40px;
+}
+
+/* Search Results */
+.search-container {
+    max-width: 1200px;
+    margin: 100px auto 40px;
+    padding: 0 20px;
+}
+
+.search-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.search-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.search-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Search Form */
+.formcontainer {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 90%;
+    margin: 2rem auto;
+}
+
+.formcontainer h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.h2 {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.h2 input[type="text"] {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.h2 input[type="text"]:focus {
+    border-color: #ff4444;
+    outline: none;
+}
+
+.btndesign {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.btndesign:hover {
+    background: #ff6666;
+}
+
+/* Product Grid */
+.prod {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.prodsimg {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.desc {
+    padding: 1.5rem;
+}
+
+.desc h1 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.desc h3 {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.desc h2 {
+    font-size: 1.6rem;
+    color: #ff4444;
+    margin-bottom: 1.5rem;
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.no-results h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.no-results p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mainnavv {
+        padding: 0.8rem 1rem;
+    }
+
+    .search-header h1 {
+        font-size: 2rem;
+    }
+
+    .prod {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .formcontainer {
+        width: 95%;
+    }
+
+    .h2 {
+        flex-direction: column;
+    }
+
+    .h2 input[type="text"] {
+        width: 100%;
+    }
+} 

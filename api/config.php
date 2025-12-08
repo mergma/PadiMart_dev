@@ -1,4 +1,7 @@
 <?php
+// Initialize database and create tables if needed
+require_once __DIR__ . '/../connect.php';
+
 // Database Configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');

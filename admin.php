@@ -1,4 +1,7 @@
 <?php
+// Initialize database tables if needed
+require_once 'connect.php';
+
 session_start();
 
 // Check if user is logged in AND is an admin
@@ -29,9 +32,11 @@ if (isset($_POST['add_product'])) {
     $seller = $conn->real_escape_string($_POST['seller'] ?? '');
     $phone = $conn->real_escape_string($_POST['phone'] ?? '');
     $origin = $conn->real_escape_string($_POST['origin'] ?? '');
+    $seller_location = $conn->real_escape_string($_POST['seller_location'] ?? '');
     $condition = $conn->real_escape_string($_POST['condition'] ?? 'Baru');
     $popular = isset($_POST['popular']) ? 1 : 0;
     $stock = intval($_POST['stock'] ?? 0);
+    $description = $conn->real_escape_string($_POST['description'] ?? '');
     
     // Get category name
     $category = '';
@@ -67,10 +72,19 @@ if (isset($_POST['add_product'])) {
     }
     
     $categoryIdSql = $category_id ? $category_id : 'NULL';
-    $sql = "INSERT INTO products (product_code, title, category, category_id, price, weight, seller, phone, origin, `condition`, image, popular, stock) 
-            VALUES ('$productCode', '$title', '$category', $categoryIdSql, $price, '$weight', '$seller', '$phone', '$origin', '$condition', '$imagePath', $popular, $stock)";
+    $sql = "INSERT INTO products (product_code, title, category, category_id, price, weight, seller, phone, origin, seller_location, `condition`, image, popular, stock) 
+            VALUES ('$productCode', '$title', '$category', $categoryIdSql, $price, '$weight', '$seller', '$phone', '$origin', '$seller_location', '$condition', '$imagePath', $popular, $stock)";
     
     if ($conn->query($sql)) {
+        // Get the ID of the newly inserted product
+        $productId = $conn->insert_id;
+        
+        // Insert product description if provided
+        if (!empty($description)) {
+            $descSql = "INSERT INTO product_descriptions (product_id, description) VALUES ($productId, '$description')";
+            $conn->query($descSql);
+        }
+        
         $message = 'Produk berhasil ditambahkan';
         $messageType = 'success';
     } else {
@@ -89,9 +103,11 @@ if (isset($_POST['edit_product'])) {
     $seller = $conn->real_escape_string($_POST['seller'] ?? '');
     $phone = $conn->real_escape_string($_POST['phone'] ?? '');
     $origin = $conn->real_escape_string($_POST['origin'] ?? '');
+    $seller_location = $conn->real_escape_string($_POST['seller_location'] ?? '');
     $condition = $conn->real_escape_string($_POST['condition'] ?? 'Baru');
     $popular = isset($_POST['popular']) ? 1 : 0;
     $stock = intval($_POST['stock'] ?? 0);
+    $description = $conn->real_escape_string($_POST['description'] ?? '');
     
     // Get category name
     $category = '';
@@ -128,10 +144,28 @@ if (isset($_POST['edit_product'])) {
     
     $categoryIdSql = $category_id ? $category_id : 'NULL';
     $sql = "UPDATE products SET title = '$title', category = '$category', category_id = $categoryIdSql, price = $price, 
-            weight = '$weight', seller = '$seller', phone = '$phone', origin = '$origin', `condition` = '$condition', 
+            weight = '$weight', seller = '$seller', phone = '$phone', origin = '$origin', seller_location = '$seller_location', `condition` = '$condition', 
             image = '$imagePath', popular = $popular, stock = $stock WHERE id = $id";
     
     if ($conn->query($sql)) {
+        // Update or insert product description
+        $descCheckSql = "SELECT id FROM product_descriptions WHERE product_id = $id";
+        $descCheckResult = $conn->query($descCheckSql);
+        
+        if ($descCheckResult && $descCheckResult->num_rows > 0) {
+            // Update existing description
+            if (!empty($description)) {
+                $descUpdateSql = "UPDATE product_descriptions SET description = '$description' WHERE product_id = $id";
+                $conn->query($descUpdateSql);
+            }
+        } else {
+            // Insert new description if provided
+            if (!empty($description)) {
+                $descInsertSql = "INSERT INTO product_descriptions (product_id, description) VALUES ($id, '$description')";
+                $conn->query($descInsertSql);
+            }
+        }
+        
         $message = 'Produk berhasil diupdate';
         $messageType = 'success';
     } else {
@@ -254,10 +288,11 @@ if ($categoriesResult) {
     }
 }
 
-// Fetch products with category information
-$productsSql = "SELECT p.*, c.name as category_name
+// Fetch products with category information and descriptions
+$productsSql = "SELECT p.*, c.name as category_name, pd.description
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
+                LEFT JOIN product_descriptions pd ON p.id = pd.product_id
                 ORDER BY p.created_at DESC";
 $productsResult = $conn->query($productsSql);
 $products = [];
@@ -490,9 +525,11 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                                                 data-seller="<?php echo htmlspecialchars($product['seller']); ?>"
                                                 data-phone="<?php echo htmlspecialchars($product['phone']); ?>"
                                                 data-origin="<?php echo htmlspecialchars($product['origin']); ?>"
+                                                data-seller-location="<?php echo htmlspecialchars($product['seller_location'] ?? ''); ?>"
                                                 data-condition="<?php echo htmlspecialchars($product['condition']); ?>"
                                                 data-stock="<?php echo $product['stock']; ?>"
                                                 data-popular="<?php echo $product['popular']; ?>"
+                                                data-description="<?php echo htmlspecialchars($product['description'] ?? ''); ?>"
                                                 data-bs-toggle="modal" data-bs-target="#editProductModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
@@ -630,9 +667,15 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Asal Daerah</label>
+                                <label class="form-label">Asal Daerah (Produk)</label>
                                 <input type="text" class="form-control" name="origin" placeholder="Tabalong, Kalimantan Selatan">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Lokasi Penjual</label>
+                                <input type="text" class="form-control" name="seller_location" placeholder="Kosongkan untuk menggunakan asal daerah produk">
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kondisi</label>
                                 <select class="form-select" name="condition">
@@ -646,6 +689,10 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                         <div class="mb-3">
                             <label class="form-label">Gambar Produk</label>
                             <input type="file" class="form-control" name="product_image" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi Produk</label>
+                            <textarea class="form-control" name="description" rows="4" placeholder="Masukkan deskripsi produk..."></textarea>
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
@@ -721,9 +768,15 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Asal Daerah</label>
+                                <label class="form-label">Asal Daerah (Produk)</label>
                                 <input type="text" class="form-control" id="edit_origin" name="origin">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Lokasi Penjual</label>
+                                <input type="text" class="form-control" id="edit_seller_location" name="seller_location" placeholder="Kosongkan untuk menggunakan asal daerah produk">
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kondisi</label>
                                 <select class="form-select" id="edit_condition" name="condition">
@@ -738,6 +791,10 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                             <label class="form-label">Gambar Produk</label>
                             <input type="file" class="form-control" name="product_image" accept="image/*">
                             <small class="text-muted">Biarkan kosong jika tidak ingin mengubah gambar</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi Produk</label>
+                            <textarea class="form-control" id="edit_description" name="description" rows="4" placeholder="Masukkan deskripsi produk..."></textarea>
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
@@ -789,8 +846,10 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                 document.getElementById('edit_seller').value = this.dataset.seller;
                 document.getElementById('edit_phone').value = this.dataset.phone;
                 document.getElementById('edit_origin').value = this.dataset.origin;
+                document.getElementById('edit_seller_location').value = this.dataset.sellerLocation || '';
                 document.getElementById('edit_condition').value = this.dataset.condition;
                 document.getElementById('edit_stock').value = this.dataset.stock;
+                document.getElementById('edit_description').value = this.dataset.description;
                 document.getElementById('edit_popular').checked = this.dataset.popular == '1';
             });
         });

@@ -1,4 +1,7 @@
 <?php
+// Initialize database tables if needed
+require_once 'connect.php';
+
 session_start();
 // Check if user is logged in
 $isLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true;
@@ -657,7 +660,7 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
                                 <div class="seller-name" id="modalSellerName">
                                     Petani Lokal
                                 </div>
-                                <div class="seller-location">
+                                <div class="seller-location" id="modalSellerLocation">
                                     Tabalong, Kalimantan Selatan
                                 </div>
                             </div>
