@@ -660,16 +660,6 @@ $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
                                 <div class="seller-location">
                                     Tabalong, Kalimantan Selatan
                                 </div>
-                                <div class="seller-rating">
-                                    <div class="stars">
-                                        <span class="star filled">★</span>
-                                        <span class="star filled">★</span>
-                                        <span class="star filled">★</span>
-                                        <span class="star filled">★</span>
-                                        <span class="star">★</span>
-                                    </div>
-                                    <span class="rating-text">4.0 (25 ulasan)</span>
-                                </div>
                             </div>
                         </div>
                     </div>
