@@ -14,10 +14,11 @@ try {
     $search = isset($_GET['search']) ? trim($_GET['search']) : '';
     $sort = isset($_GET['sort']) ? trim($_GET['sort']) : 'popular';
 
-    // Build SQL query with category join
-    $sql = "SELECT p.*, c.name as category_name, c.description as category_description
+    // Build SQL query with category and description joins
+    $sql = "SELECT p.*, c.name as category_name, c.description as category_description, pd.description as product_description
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
+            LEFT JOIN product_descriptions pd ON p.id = pd.product_id
             WHERE 1=1";
 
     // Add category filter

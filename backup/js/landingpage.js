@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="card__image" style="background-image:url('${imageUrl}');"></div>
           <div class="card__text">
             <p class="card__title">${p.title}</p>
-            <p class="card__description">${p.category}</p>
+            <p class="card__description">${p.product_description || p.category || ''}</p>
           </div>
           <div class="card__footer">
             <div class="card__price">Rp ${formatPrice(p.price)}</div>
@@ -353,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalOrigin = document.getElementById('modalOrigin');
   const modalCondition = document.getElementById('modalCondition');
   const modalSellerName = document.getElementById('modalSellerName');
+  const modalSellerLocation = document.getElementById('modalSellerLocation');
 
   let currentProduct = null;
 
@@ -414,6 +415,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalOrigin) modalOrigin.textContent = product.origin || 'Tabalong, Kalimantan Selatan';
     if (modalCondition) modalCondition.textContent = product.condition || 'Baru';
     if (modalSellerName) modalSellerName.textContent = product.seller || 'Petani Lokal';
+    
+    // Set seller location - use seller_location if available, otherwise use product origin
+    if (modalSellerLocation) {
+      modalSellerLocation.textContent = product.seller_location || product.origin || 'Tabalong, Kalimantan Selatan';
+    }
 
     // Show modal
     productModal.classList.add('active');
@@ -433,6 +439,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate product description
   function generateProductDescription(product) {
+    // If product has a description from database, use it
+    if (product.product_description) {
+      return product.product_description;
+    }
+
+    // Otherwise, fall back to category-based descriptions
     const categoryDescriptions = {
       'Beras': 'Beras berkualitas tinggi dari petani lokal Tabalong. Diproduksi dengan metode tradisional yang terjaga kualitasnya, memberikan rasa dan aroma yang khas. Cocok untuk konsumsi sehari-hari keluarga.',
       'Camilan & Olahan': 'Camilan tradisional yang dibuat dengan resep turun temurun. Menggunakan bahan-bahan alami pilihan dari daerah setempat, memberikan cita rasa autentik yang tak terlupakan.',

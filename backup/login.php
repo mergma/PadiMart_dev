@@ -1,4 +1,7 @@
 <?php
+// Initialize database tables if needed
+require_once 'connect.php';
+
 session_start();
 
 // If already logged in, redirect to homepage

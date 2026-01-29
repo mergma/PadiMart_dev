@@ -23,6 +23,13 @@ require_once 'api/config.php';
 $message = '';
 $messageType = '';
 
+// Upload configuration (used by add/edit/delete product)
+$uploadsDir = __DIR__ . DIRECTORY_SEPARATOR . 'uploads';
+$defaultImagePath = 'uploads/default.jpg';
+$maxImageSize = 5 * 1024 * 1024; // 5MB
+$allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+$allowedImageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
 // Add new product
 if (isset($_POST['add_product'])) {
     $title = $conn->real_escape_string($_POST['title'] ?? '');
@@ -37,7 +44,7 @@ if (isset($_POST['add_product'])) {
     $popular = isset($_POST['popular']) ? 1 : 0;
     $stock = intval($_POST['stock'] ?? 0);
     $description = $conn->real_escape_string($_POST['description'] ?? '');
-    
+
     // Get category name
     $category = '';
     if ($category_id) {
@@ -47,7 +54,7 @@ if (isset($_POST['add_product'])) {
             $category = $catRow['name'];
         }
     }
-    
+
     // Generate product code
     $codeSql = "SELECT product_code FROM products WHERE product_code LIKE 'KD_%' ORDER BY product_code DESC LIMIT 1";
     $codeResult = $conn->query($codeSql);
@@ -59,35 +66,69 @@ if (isset($_POST['add_product'])) {
         $newNumber = 1;
     }
     $productCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
-    
+
     // Handle image upload
-    $imagePath = 'uploads/default.jpg';
+    $imagePath = $defaultImagePath;
+    $uploadError = '';
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
-        $extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
-        $filename = 'product_' . time() . '_' . uniqid() . '.' . $extension;
-        $filepath = 'uploads/' . $filename;
-        if (move_uploaded_file($_FILES['product_image']['tmp_name'], $filepath)) {
-            $imagePath = $filepath;
+        if (!is_dir($uploadsDir)) {
+            @mkdir($uploadsDir, 0777, true);
+        }
+
+        if (($_FILES['product_image']['size'] ?? 0) > $maxImageSize) {
+            $uploadError = 'Ukuran file terlalu besar. Maksimal 5MB.';
+        } else {
+            $tmpName = $_FILES['product_image']['tmp_name'] ?? '';
+            $detectedType = '';
+            if (!empty($tmpName) && file_exists($tmpName)) {
+                $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : null;
+                if ($finfo) {
+                    $detectedType = finfo_file($finfo, $tmpName) ?: '';
+                    finfo_close($finfo);
+                }
+            }
+            if (empty($detectedType)) {
+                $detectedType = $_FILES['product_image']['type'] ?? '';
+            }
+
+            $extension = strtolower(pathinfo($_FILES['product_image']['name'] ?? '', PATHINFO_EXTENSION));
+            if (!in_array($detectedType, $allowedImageTypes, true) || !in_array($extension, $allowedImageExtensions, true)) {
+                $uploadError = 'Tipe file tidak valid. Hanya JPG, PNG, GIF, dan WebP yang diperbolehkan.';
+            } else {
+                $filename = 'product_' . time() . '_' . uniqid() . '.' . $extension;
+                $targetFile = $uploadsDir . DIRECTORY_SEPARATOR . $filename;
+                $webPath = 'uploads/' . $filename;
+                if (move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFile)) {
+                    $imagePath = $webPath;
+                } else {
+                    $uploadError = 'Gagal mengunggah gambar. Silakan coba lagi.';
+                }
+            }
         }
     }
-    
+
+    if (!empty($uploadError)) {
+        $message = $uploadError;
+        $messageType = 'danger';
+    }
+
     $categoryIdSql = $category_id ? $category_id : 'NULL';
     $sql = "INSERT INTO products (product_code, title, category, category_id, price, weight, seller, phone, origin, seller_location, `condition`, image, popular, stock) 
-            VALUES ('$productCode', '$title', '$category', $categoryIdSql, $price, '$weight', '$seller', '$phone', '$origin', '$seller_location', '$condition', '$imagePath', $popular, $stock)";
-    
-    if ($conn->query($sql)) {
+	            VALUES ('$productCode', '$title', '$category', $categoryIdSql, $price, '$weight', '$seller', '$phone', '$origin', '$seller_location', '$condition', '$imagePath', $popular, $stock)";
+
+    if (empty($uploadError) && $conn->query($sql)) {
         // Get the ID of the newly inserted product
         $productId = $conn->insert_id;
-        
+
         // Insert product description if provided
         if (!empty($description)) {
             $descSql = "INSERT INTO product_descriptions (product_id, description) VALUES ($productId, '$description')";
             $conn->query($descSql);
         }
-        
+
         $message = 'Produk berhasil ditambahkan';
         $messageType = 'success';
-    } else {
+    } elseif (empty($uploadError)) {
         $message = 'Error: ' . $conn->error;
         $messageType = 'danger';
     }
@@ -108,7 +149,7 @@ if (isset($_POST['edit_product'])) {
     $popular = isset($_POST['popular']) ? 1 : 0;
     $stock = intval($_POST['stock'] ?? 0);
     $description = $conn->real_escape_string($_POST['description'] ?? '');
-    
+
     // Get category name
     $category = '';
     if ($category_id) {
@@ -118,40 +159,75 @@ if (isset($_POST['edit_product'])) {
             $category = $catRow['name'];
         }
     }
-    
+
     // Get existing image
     $imageSql = "SELECT image FROM products WHERE id = $id";
     $imageResult = $conn->query($imageSql);
-    $imagePath = 'uploads/default.jpg';
+    $imagePath = $defaultImagePath;
     if ($imageResult && $imageRow = $imageResult->fetch_assoc()) {
         $imagePath = $imageRow['image'];
     }
-    
+
     // Handle image upload
+    $uploadError = '';
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
-        // Delete old image if not default
-        if ($imagePath !== 'uploads/default.jpg' && file_exists($imagePath)) {
-            unlink($imagePath);
+        if (!is_dir($uploadsDir)) {
+            @mkdir($uploadsDir, 0777, true);
         }
-        
-        $extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
-        $filename = 'product_' . time() . '_' . uniqid() . '.' . $extension;
-        $filepath = 'uploads/' . $filename;
-        if (move_uploaded_file($_FILES['product_image']['tmp_name'], $filepath)) {
-            $imagePath = $filepath;
+
+        if (($_FILES['product_image']['size'] ?? 0) > $maxImageSize) {
+            $uploadError = 'Ukuran file terlalu besar. Maksimal 5MB.';
+        } else {
+            $tmpName = $_FILES['product_image']['tmp_name'] ?? '';
+            $detectedType = '';
+            if (!empty($tmpName) && file_exists($tmpName)) {
+                $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : null;
+                if ($finfo) {
+                    $detectedType = finfo_file($finfo, $tmpName) ?: '';
+                    finfo_close($finfo);
+                }
+            }
+            if (empty($detectedType)) {
+                $detectedType = $_FILES['product_image']['type'] ?? '';
+            }
+
+            $extension = strtolower(pathinfo($_FILES['product_image']['name'] ?? '', PATHINFO_EXTENSION));
+            if (!in_array($detectedType, $allowedImageTypes, true) || !in_array($extension, $allowedImageExtensions, true)) {
+                $uploadError = 'Tipe file tidak valid. Hanya JPG, PNG, GIF, dan WebP yang diperbolehkan.';
+            } else {
+                $filename = 'product_' . time() . '_' . uniqid() . '.' . $extension;
+                $targetFile = $uploadsDir . DIRECTORY_SEPARATOR . $filename;
+                $webPath = 'uploads/' . $filename;
+
+                if (move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFile)) {
+                    // Delete old image only after the new one is successfully saved
+                    if (!empty($imagePath) && $imagePath !== $defaultImagePath) {
+                        $oldFile = __DIR__ . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $imagePath);
+                        if (file_exists($oldFile)) {
+                            @unlink($oldFile);
+                        }
+                    }
+                    $imagePath = $webPath;
+                } else {
+                    $uploadError = 'Gagal mengunggah gambar. Silakan coba lagi.';
+                }
+            }
         }
     }
-    
+
     $categoryIdSql = $category_id ? $category_id : 'NULL';
     $sql = "UPDATE products SET title = '$title', category = '$category', category_id = $categoryIdSql, price = $price, 
             weight = '$weight', seller = '$seller', phone = '$phone', origin = '$origin', seller_location = '$seller_location', `condition` = '$condition', 
             image = '$imagePath', popular = $popular, stock = $stock WHERE id = $id";
-    
-    if ($conn->query($sql)) {
+
+    if (!empty($uploadError)) {
+        $message = $uploadError;
+        $messageType = 'danger';
+    } elseif ($conn->query($sql)) {
         // Update or insert product description
         $descCheckSql = "SELECT id FROM product_descriptions WHERE product_id = $id";
         $descCheckResult = $conn->query($descCheckSql);
-        
+
         if ($descCheckResult && $descCheckResult->num_rows > 0) {
             // Update existing description
             if (!empty($description)) {
@@ -165,7 +241,7 @@ if (isset($_POST['edit_product'])) {
                 $conn->query($descInsertSql);
             }
         }
-        
+
         $message = 'Produk berhasil diupdate';
         $messageType = 'success';
     } else {
@@ -183,8 +259,11 @@ if (isset($_GET['delete'])) {
     $imageResult = $conn->query($imageSql);
     if ($imageResult && $imageRow = $imageResult->fetch_assoc()) {
         $imagePath = $imageRow['image'];
-        if ($imagePath !== 'uploads/default.jpg' && file_exists($imagePath)) {
-            unlink($imagePath);
+        if (!empty($imagePath) && $imagePath !== $defaultImagePath) {
+            $fullImagePath = __DIR__ . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $imagePath);
+            if (file_exists($fullImagePath)) {
+                @unlink($fullImagePath);
+            }
         }
     }
 
@@ -316,6 +395,7 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -330,46 +410,56 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
             font-family: 'Inter', sans-serif;
             background-color: #f5f5f5;
         }
+
         .navbar {
             background: rgba(0, 0, 0, 0.18);
             backdrop-filter: blur(8px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         .navbar-brand {
             color: white !important;
             font-weight: 700;
             font-size: 1.5rem;
         }
+
         .nav-link {
             color: white !important;
         }
+
         .table-responsive {
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
+
         .product-image {
             width: 50px;
             height: 50px;
             object-fit: cover;
             border-radius: 4px;
         }
+
         .badge-popular {
             background-color: #58c234;
             color: white;
         }
+
         /* Fix modal z-index issues */
         .modal {
             z-index: 1055 !important;
         }
+
         .modal-backdrop {
             z-index: 1050 !important;
         }
+
         .modal-dialog {
             z-index: 1056 !important;
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
@@ -411,10 +501,10 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 
         <!-- Alert Messages -->
         <?php if (!empty($message)): ?>
-        <div class="alert alert-<?php echo $messageType; ?> alert-dismissible fade show" role="alert">
-            <?php echo $message; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+            <div class="alert alert-<?php echo $messageType; ?> alert-dismissible fade show" role="alert">
+                <?php echo $message; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         <?php endif; ?>
 
         <!-- Categories Section -->
@@ -436,25 +526,25 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                         <tbody>
                             <?php if (count($categories) > 0): ?>
                                 <?php foreach ($categories as $category): ?>
-                                <tr>
-                                    <td><?php echo $category['id']; ?></td>
-                                    <td><?php echo htmlspecialchars($category['name']); ?></td>
-                                    <td><?php echo htmlspecialchars($category['description']); ?></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info edit-category"
+                                    <tr>
+                                        <td><?php echo $category['id']; ?></td>
+                                        <td><?php echo htmlspecialchars($category['name']); ?></td>
+                                        <td><?php echo htmlspecialchars($category['description']); ?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info edit-category"
                                                 data-id="<?php echo $category['id']; ?>"
                                                 data-name="<?php echo htmlspecialchars($category['name']); ?>"
                                                 data-description="<?php echo htmlspecialchars($category['description']); ?>"
                                                 data-bs-toggle="modal" data-bs-target="#editCategoryModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <a href="?delete_category=<?php echo $category['id']; ?>"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Yakin ingin menghapus kategori ini?')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <a href="?delete_category=<?php echo $category['id']; ?>"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Yakin ingin menghapus kategori ini?')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
@@ -497,25 +587,25 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                         <tbody>
                             <?php if (count($products) > 0): ?>
                                 <?php foreach ($products as $product): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($product['product_code']); ?></td>
-                                    <td>
-                                        <img src="<?php echo htmlspecialchars($product['image']); ?>"
-                                             alt="<?php echo htmlspecialchars($product['title']); ?>"
-                                             class="product-image">
-                                    </td>
-                                    <td><?php echo htmlspecialchars($product['title']); ?></td>
-                                    <td><?php echo htmlspecialchars($product['category_name'] ?? $product['category'] ?? 'N/A'); ?></td>
-                                    <td>Rp <?php echo number_format($product['price'], 0, ',', '.'); ?></td>
-                                    <td><?php echo $product['stock']; ?></td>
-                                    <td><?php echo htmlspecialchars($product['seller'] ?? 'N/A'); ?></td>
-                                    <td>
-                                        <?php if ($product['popular']): ?>
-                                            <span class="badge badge-popular">Populer</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info edit-product"
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($product['product_code']); ?></td>
+                                        <td>
+                                            <img src="<?php echo htmlspecialchars($product['image']); ?>"
+                                                alt="<?php echo htmlspecialchars($product['title']); ?>"
+                                                class="product-image">
+                                        </td>
+                                        <td><?php echo htmlspecialchars($product['title']); ?></td>
+                                        <td><?php echo htmlspecialchars($product['category_name'] ?? $product['category'] ?? 'N/A'); ?></td>
+                                        <td>Rp <?php echo number_format($product['price'], 0, ',', '.'); ?></td>
+                                        <td><?php echo $product['stock']; ?></td>
+                                        <td><?php echo htmlspecialchars($product['seller'] ?? 'N/A'); ?></td>
+                                        <td>
+                                            <?php if ($product['popular']): ?>
+                                                <span class="badge badge-popular">Populer</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info edit-product"
                                                 data-id="<?php echo $product['id']; ?>"
                                                 data-code="<?php echo htmlspecialchars($product['product_code']); ?>"
                                                 data-title="<?php echo htmlspecialchars($product['title']); ?>"
@@ -531,15 +621,15 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                                                 data-popular="<?php echo $product['popular']; ?>"
                                                 data-description="<?php echo htmlspecialchars($product['description'] ?? ''); ?>"
                                                 data-bs-toggle="modal" data-bs-target="#editProductModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <a href="?delete=<?php echo $product['id']; ?>"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Yakin ingin menghapus produk ini?')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <a href="?delete=<?php echo $product['id']; ?>"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Yakin ingin menghapus produk ini?')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
@@ -591,14 +681,14 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
                 </div>
                 <form method="post">
                     <div class="modal-body">
-                        <input type="hidden" id="edit_category_id" name="category_id">
+                        <input type="hidden" id="edit_cat_id" name="category_id">
                         <div class="mb-3">
                             <label class="form-label">Nama Kategori <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="edit_category_name" name="category_name" required>
+                            <input type="text" class="form-control" id="edit_cat_name" name="category_name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Deskripsi</label>
-                            <textarea class="form-control" id="edit_category_description" name="category_description" rows="3"></textarea>
+                            <textarea class="form-control" id="edit_cat_description" name="category_description" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -828,9 +918,9 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         // Edit category - populate modal
         document.querySelectorAll('.edit-category').forEach(button => {
             button.addEventListener('click', function() {
-                document.getElementById('edit_category_id').value = this.dataset.id;
-                document.getElementById('edit_category_name').value = this.dataset.name;
-                document.getElementById('edit_category_description').value = this.dataset.description;
+                document.getElementById('edit_cat_id').value = this.dataset.id;
+                document.getElementById('edit_cat_name').value = this.dataset.name;
+                document.getElementById('edit_cat_description').value = this.dataset.description;
             });
         });
 
@@ -855,5 +945,5 @@ $nextProductCode = 'KD_' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         });
     </script>
 </body>
-</html>
 
+</html>

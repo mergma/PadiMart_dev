@@ -1,2 +1,2 @@
 # TODO
-fix mobile UI
+fix cards
